@@ -3,6 +3,7 @@
 ## Install Studio
 
 Configure Credentials to pull images from secure registry
+
 ```bash
 $ kubectl create secret docker-registry iterativeai \
     --docker-server=docker.iterative.ai \
@@ -18,8 +19,46 @@ imagePullSecrets:
 ```
 
  Deploy Studio
- ```bash
+
+```bash
+$ helm dependency update
 $ helm install studio studio/ -n <namespace> -f override.yaml
+```
+
+## Update Studio
+
+Studio's `values.yaml` file points to the `latest` image tag, instructing HELM to always pull down the latest image from the registry. 
+
+**Optional Step** 
+
+If the requirement is to install/update Studio to a specific version, update the `override.yaml` file with the following:
+
+```yaml
+imagePullSecrets:
+  - name: iterativeai
+
+studioUi:
+  image:
+    tag: "<version>"
+
+studioBackend:
+  image:
+    tag: "<version>"
+```
+
+To update the existing Studio deployment, run the following commands
+
+```bash
+$ helm dependency update
+$ helm upgrade --install --atomic studio studio/ -n <namespace> -f override.yaml
+```
+
+## Uninstall Studio
+
+Execute the following command to uninstall Studio from your environment:
+
+```bash
+$ helm uninstall studio -n <namespace>
 ```
 
 ## Parameters
