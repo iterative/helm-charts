@@ -33,6 +33,7 @@ spec:
             {{- toYaml .Values.studioBeat.securityContext | nindent 12 }}
           image: "{{ .Values.studioBackend.image.repository }}:{{ .Values.studioBackend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.studioBackend.image.pullPolicy }}
+          args: ["/app/bin/run_celery_beat.sh"]
           ports:
             - name: http
               containerPort: 8000
