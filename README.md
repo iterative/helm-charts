@@ -79,7 +79,7 @@ $ helm uninstall studio -n <namespace>
 | `global.secrets.postgresDatabasePassword` | PostgreSQL Database Password | `""` | True |
 | `global.secrets.blobVaultAccessKeyId` | Blob Vault (Minio) Access Key ID | `""` | True |
 | `global.secrets.blobVaultSecretAccessId` | Blob Vault (Minio) Secret Access ID | `""` | True |
-| `global.secrets.secretKey` | Secret Key | `""` | True |
+| `global.secrets.secretKey` | Secret Key | `""` | False |
 | `global.configurations.githubUrl` | Github URL | `""` | False |
 | `global.configurations.githubWebhookUrl` | Github Webhook URL | `""` | False |
 | `global.configurations.gitlabUrl` | Gitlab URL | `""` | False |
