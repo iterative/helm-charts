@@ -38,14 +38,13 @@ spec:
             - name: http
               containerPort: 8000
               protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
+          readinessProbe:
+            httpGet:
+              path: /health?format=json
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 25
+            timeoutSeconds: 60
           resources:
             {{- toYaml .Values.studioBackend.resources | nindent 12 }}
           env:
