@@ -261,15 +261,13 @@ global:
     githubWebhookSecret: ""
     bitbucketSecretKey: ""
     bitbucketClientId: ""
+    secretKey: ""
     # Mandatory Values
     postgresDatabaseUser: "postgres"
     postgresDatabasePassword: "postgres"
     blobVaultAccessKeyId: "admin"
     blobVaultSecretAccessId: "password"
-    # YOU MUST REGENERATE THE VALUE, https://djecrety.ir/
-    secretKey: "e12s36!=^3$#j$*-3=d=hcb)lbd6)mu($dd%(ql8jq-8a8n=&7"
-
-
+    
   configurations:
     githubUrl: ""
     githubWebhookUrl: ""
