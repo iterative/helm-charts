@@ -134,14 +134,10 @@
   value: "psql://{{ .Values.global.secrets.postgresDatabaseUser}}:{{ .Values.global.secrets.postgresDatabasePassword }}@{{ .Values.global.configurations.postgresDatabaseUrl }}"
 
 - name: SECRET_KEY
-{{- if .Values.global.secrets.secretKey }}
   valueFrom:
     secretKeyRef:
       name: studio
       key: secretKey
-{{- else }}
-  value: ""
-{{- end }}
 
 - name: GITHUB_APP_ID
 {{- if .Values.global.secrets.githubAppId }}
