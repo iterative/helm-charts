@@ -11,7 +11,7 @@ studioUi:
     repository: docker.iterative.ai/viewer_ui
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "latest"
+    # tag: "v1.34.0"
 
   service:
     type: ClusterIP
@@ -83,7 +83,7 @@ studioBackend:
     repository: docker.iterative.ai/viewer_backend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "latest"
+    # tag: "v1.34.0"
 
   service:
     type: ClusterIP
