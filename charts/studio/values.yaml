@@ -287,6 +287,10 @@ global:
     maxViews: "100"
     maxTeams: "10"
 
+#  customCaCert: |
+#    -----BEGIN CERTIFICATE-----
+#    ....
+#    -----END CERTIFICATE-----
 
 
 # dependencies

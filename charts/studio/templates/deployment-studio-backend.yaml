@@ -13,8 +13,9 @@ spec:
       {{- include "studio-backend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.studioBackend.podAnnotations }}
       annotations:
+        checksum/studio: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      {{- with .Values.studioBackend.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -33,7 +34,7 @@ spec:
             {{- toYaml .Values.studioBackend.securityContext | nindent 12 }}
           image: "{{ .Values.studioBackend.image.repository }}:{{ .Values.studioBackend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.studioBackend.image.pullPolicy }}
-          args: ["uwsgi", "--ini", "uwsgi.ini"]
+          args: [ "uwsgi", "--ini", "uwsgi.ini" ]
           ports:
             - name: http
               containerPort: 8000
@@ -45,10 +46,21 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 25
             timeoutSeconds: 60
+          {{- if .Values.global.customCaCert }}
+          volumeMounts:
+            - name: studio
+              mountPath: /usr/local/share/ca-certificates
+          {{- end }}
           resources:
             {{- toYaml .Values.studioBackend.resources | nindent 12 }}
           env:
             {{ include "studio.envvars" . | indent 12 }}
+      {{- if .Values.global.customCaCert }}
+      volumes:
+        - name: studio
+          configMap:
+            name: studio
+      {{- end }}
       {{- with .Values.studioBackend.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

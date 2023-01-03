@@ -13,8 +13,9 @@ spec:
       {{- include "studio-beat.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.studioBeat.podAnnotations }}
       annotations:
+        checksum/studio: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      {{- with .Values.studioBeat.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -46,6 +47,17 @@ spec:
               value: "1"
             - name: "WAIT_FOR_MIGRATIONS"
               value: "1"
+          {{- if .Values.global.customCaCert }}
+          volumeMounts:
+            - name: studio
+              mountPath: /usr/local/share/ca-certificates
+          {{- end }}
+      {{- if .Values.global.customCaCert }}
+      volumes:
+        - name: studio
+          configMap:
+            name: studio
+      {{- end }}
       {{- with .Values.studioBeat.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

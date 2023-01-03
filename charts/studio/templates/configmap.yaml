@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: studio
+data:
+  {{- if .Values.global.customCaCert }}
+  self_signed_ca.crt: |
+{{ .Values.global.customCaCert | indent 4}}
+  {{- end }}
