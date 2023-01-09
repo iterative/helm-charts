@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: studio
+  name: studio-ca-certificates
 data:
   {{- if .Values.global.customCaCert }}
   self_signed_ca.crt: |

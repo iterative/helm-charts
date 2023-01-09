@@ -49,14 +49,14 @@ spec:
               value: "1"
           {{- if .Values.global.customCaCert }}
           volumeMounts:
-            - name: studio
+            - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
           {{- end }}
       {{- if .Values.global.customCaCert }}
       volumes:
-        - name: studio
+        - name: studio-ca-certificates
           configMap:
-            name: studio
+            name: studio-ca-certificates
       {{- end }}
       {{- with .Values.studioBeat.nodeSelector }}
       nodeSelector:

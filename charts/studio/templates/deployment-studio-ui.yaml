@@ -54,16 +54,16 @@ spec:
             {{ include "studio.envvars" . | indent 12 }}
           {{- if .Values.global.customCaCert }}
           volumeMounts:
-            - name: studio
+            - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
           {{- end }}
           resources:
             {{- toYaml .Values.studioUi.resources | nindent 12 }}
       {{- if .Values.global.customCaCert }}
       volumes:
-        - name: studio
+        - name: studio-ca-certificates
           configMap:
-            name: studio
+            name: studio-ca-certificates
       {{- end }}
       {{- with .Values.studioUi.nodeSelector }}
       nodeSelector:

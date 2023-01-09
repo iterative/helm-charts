@@ -48,7 +48,7 @@ spec:
             timeoutSeconds: 60
           {{- if .Values.global.customCaCert }}
           volumeMounts:
-            - name: studio
+            - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
           {{- end }}
           resources:
@@ -57,9 +57,9 @@ spec:
             {{ include "studio.envvars" . | indent 12 }}
       {{- if .Values.global.customCaCert }}
       volumes:
-        - name: studio
+        - name: studio-ca-certificates
           configMap:
-            name: studio
+            name: studio-ca-certificates
       {{- end }}
       {{- with .Values.studioBackend.nodeSelector }}
       nodeSelector:
