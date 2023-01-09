@@ -13,8 +13,9 @@ spec:
       {{- include "studio-ui.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.studioUi.podAnnotations }}
       annotations:
+        checksum/studio: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      {{- with .Values.studioUi.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -49,10 +50,21 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 25
             timeoutSeconds: 10
-          resources:
-            {{- toYaml .Values.studioUi.resources | nindent 12 }}
           env:
             {{ include "studio.envvars" . | indent 12 }}
+          {{- if .Values.global.customCaCert }}
+          volumeMounts:
+            - name: studio-ca-certificates
+              mountPath: /usr/local/share/ca-certificates
+          {{- end }}
+          resources:
+            {{- toYaml .Values.studioUi.resources | nindent 12 }}
+      {{- if .Values.global.customCaCert }}
+      volumes:
+        - name: studio-ca-certificates
+          configMap:
+            name: studio-ca-certificates
+      {{- end }}
       {{- with .Values.studioUi.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
