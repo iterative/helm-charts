@@ -78,7 +78,7 @@ $ helm uninstall studio -n <namespace>
 | `global.secrets.postgresDatabaseUser` | PostgreSQL Database Username | `""` | True |
 | `global.secrets.postgresDatabasePassword` | PostgreSQL Database Password | `""` | True |
 | `global.secrets.blobVaultAccessKeyId` | Blob Vault (Minio) Access Key ID | `""` | True |
-| `global.secrets.blobVaultSecretAccessId` | Blob Vault (Minio) Secret Access ID | `""` | True |
+| `global.secrets.blobVaultSecretAccessKeyId` | Blob Vault (Minio) Secret Access ID | `""` | True |
 | `global.secrets.secretKey` | Secret Key | `""` | False |
 | `global.configurations.githubUrl` | Github URL | `""` | False |
 | `global.configurations.githubWebhookUrl` | Github Webhook URL | `""` | False |
@@ -93,9 +93,8 @@ $ helm uninstall studio -n <namespace>
 | `global.configurations.celeryBrokerUrl` | Redis Endpoint | `""` | False |
 | `global.configurations.celeryResultBackend` | Redis Endpoint | `""` | False |
 | `global.configurations.postgresDatabaseUrl` | PostgreSQL Database URL | `""` | True |
-| `global.configurations.scmProviders` | Enable List of SCMs | `""` | True |
-| `global.configurations.maxViews` | Maximum Views  | `""` | True |
-| `global.configurations.maxTeams` | Maximum Teams  | `""` | True |
+| `global.maxViews` | Maximum Views  | `""` | True |
+| `global.maxTeams` | Maximum Teams  | `""` | True |
 | `redis.enabled` | Install in-cluster Redis  | `true` | False |
 | `postgresql.enabled` | Install in-cluster PostgreSQL  | `true` | False |
 | `postgresql.global.postgresql.auth.postgresPassword` | Password for the "postgres" admin user | `true` | True |
