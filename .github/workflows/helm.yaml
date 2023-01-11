@@ -71,5 +71,6 @@ jobs:
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.5.0
         env:
+          config: .github/chart-releaser-config.yaml
           CR_SKIP_EXISTING: "false"
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
