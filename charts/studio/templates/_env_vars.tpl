@@ -10,7 +10,7 @@
   {{- end }}
 {{- end }}
 {{- else }}
-  value: "studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }}"
+  value: "http://studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }}"
 {{- end }}
 
 - name: UI_URL
@@ -21,7 +21,7 @@
   {{- end }}
 {{- end }}
 {{- else }}
-  value: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }}"
+  value: "http://studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }}"
 {{- end }}
 
 - name: BITBUCKET_URL
