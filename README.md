@@ -2,13 +2,23 @@
 
 ## Install Studio
 
-Configure Credentials to pull images from secure registry
+We'll install studio and related components in a dedicated `studio`namespace. 
+Let's create it now:
+```bash
+$ kubectl create namespace studio
+```
+
+> Note: If you want to install studio in any other namespace, modify the
+> `--namespace` flag in the commands below accordingly
+
+Configure Credentials to pull images from our secure registry:
 
 ```bash
 $ kubectl create secret docker-registry iterativeai \
+    --namespace studio \
     --docker-server=docker.iterative.ai \
-    --docker-username=username \
-    --docker-password=password
+    --docker-username=<username> \
+    --docker-password=<password>
 ```
 
 Create a file `override.yaml` with the following content or edit `values.yaml`
@@ -22,7 +32,7 @@ Deploy Studio
 
 ```bash
 $ helm repo add iterative https://helm.iterative.ai
-$ helm install studio iterative/studio --create-namespace --namespace studio -f override.yaml
+$ helm install studio iterative/studio --namespace studio -f override.yaml
 ```
 
 ## Update Studio
