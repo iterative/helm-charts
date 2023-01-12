@@ -18,11 +18,11 @@ imagePullSecrets:
   - name: iterativeai
 ```
 
- Deploy Studio
+Deploy Studio
 
 ```bash
-$ helm dependency update
-$ helm install studio studio/ -n <namespace> -f override.yaml
+$ helm repo add iterative https://helm.iterative.ai
+$ helm install studio iterative/studio -f override.yaml
 ```
 
 ## Update Studio
