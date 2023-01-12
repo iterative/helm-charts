@@ -261,6 +261,21 @@
   value: ""
 {{- end }}
 
+
+{{- $scmProviders := list }}
+{{- if .Values.global.scmProviders.gitlab.url }}
+{{- $scmProviders = append $scmProviders "gitlab" }}
+{{- end }}
+{{- if .Values.global.scmProviders.github.url }}
+{{- $scmProviders = append $scmProviders "github" }}
+{{- end }}
+{{- if .Values.global.scmProviders.bitbucket.url }}
+{{- $scmProviders = append $scmProviders "bitbucket" }}
+{{- end }}
+
+- name: SCM_PROVIDERS
+  value: {{ $scmProviders | join "," }}
+
 - name: SOCIAL_AUTH_REDIRECT_IS_HTTPS
   value: "False"
 
