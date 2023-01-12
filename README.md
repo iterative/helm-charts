@@ -65,37 +65,38 @@ $ helm uninstall studio -n <namespace>
 
 | Name | Description | Value | Required |
 |------|-------------|-------|----------|
-| `global.secrets.gitlabClientId` | Gitlab Client ID | `""` | False |
-| `global.secrets.gitlabSecretKey` | Gitlab Secret Key | `""` | False |
-| `global.secrets.gitlabWebhookSecret` | Gitlab WebHook Secret | `""` | False |
-| `global.secrets.githubClientId` | Github Client ID | `""` | False |
-| `global.secrets.githubAppId` | Github Application ID | `""` | False |
-| `global.secrets.githubAppSecret` | Github Application Secret | `""` | False |
-| `global.secrets.githubPrivateKey` | Github Private Key | `""` | False |
-| `global.secrets.githubWebhookSecret` | Github Webhook Secret | `""` | False |
-| `global.secrets.bitbucketSecretKey` | Bitbucket Secret Key | `""` | False |
-| `global.secrets.bitbucketClientId` | Bitbucket Client ID | `""` | False |
-| `global.secrets.postgresDatabaseUser` | PostgreSQL Database Username | `""` | True |
-| `global.secrets.postgresDatabasePassword` | PostgreSQL Database Password | `""` | True |
-| `global.secrets.blobVaultAccessKeyId` | Blob Vault (Minio) Access Key ID | `""` | True |
-| `global.secrets.blobVaultSecretAccessKeyId` | Blob Vault (Minio) Secret Access ID | `""` | True |
-| `global.secrets.secretKey` | Secret Key | `""` | False |
-| `global.configurations.githubUrl` | Github URL | `""` | False |
-| `global.configurations.githubWebhookUrl` | Github Webhook URL | `""` | False |
-| `global.configurations.gitlabUrl` | Gitlab URL | `""` | False |
-| `global.configurations.gitlabWebhookUrl` | Gitlab Webhook URL | `""` | False |
-| `global.configurations.bitbucketUrl` | Bitbucket URL | `""` | False |
-| `global.configurations.bitbucketApiUrl` | Bitbucket API URL | `""` | False |
-| `global.configurations.bitbucketWebhookUrl` | Bitbucket Webhook URL | `""` | False |
-| `global.configurations.blobvaultEndpointUrl` | Blob Vault (Minio) Endpoint URL | `""` | False |
-| `global.configurations.blobvaultEndpointUrlFe` | Blob Vault (Minio) Endpoint URL | `""` | False |
-| `global.configurations.blobvaultBucket` | Blob Vault (Minio) Bucket Name | `""` | False |
-| `global.configurations.celeryBrokerUrl` | Redis Endpoint | `""` | False |
-| `global.configurations.celeryResultBackend` | Redis Endpoint | `""` | False |
-| `global.configurations.postgresDatabaseUrl` | PostgreSQL Database URL | `""` | True |
-| `global.maxViews` | Maximum Views  | `""` | True |
+| `global.bitbucket.apiUrl` | Bitbucket API URL | `""` | False |
+| `global.bitbucket.clientId` | Bitbucket Client ID | `""` | False |
+| `global.bitbucket.secretKey` | Bitbucket Secret Key | `""` | False |
+| `global.bitbucket.url` | Bitbucket URL | `""` | False |
+| `global.bitbucket.webhookUrl` | Bitbucket Webhook URL | `""` | False |
+| `global.blobvault.accessKeyId` | Blobvault (Minio) Access Key ID | `""` | True |
+| `global.blobvault.bucket` | Blobvault (Minio) Bucket Name | `""` | False |
+| `global.blobvault.endpointUrl` | Blobvault (Minio) Endpoint URL | `""` | False |
+| `global.blobvault.endpointUrlFe` | Blobvault (Minio) Endpoint URL | `""` | False |
+| `global.blobvault.secretAccessId` | Blobvault (Minio) Secret Access ID | `""` | True |
+| `global.celery.brokerUrl` | Redis Endpoint | `""` | False |
+| `global.celery.resultBackend` | Redis Endpoint | `""` | False |
+| `global.customCaCert` | Custom CA certificate in PEM format | `""` | False |
+| `global.github.appId` | Github Application ID | `""` | False |
+| `global.github.appSecret` | Github Application Secret | `""` | False |
+| `global.github.clientId` | Github Client ID | `""` | False |
+| `global.github.privateKey` | Github Private Key | `""` | False |
+| `global.github.url` | Github URL | `""` | False |
+| `global.github.webhookSecret` | Github Webhook Secret | `""` | False |
+| `global.github.webhookUrl` | Github Webhook URL | `""` | False |
+| `global.gitlab.clientId` | Gitlab Client ID | `""` | False |
+| `global.gitlab.secretKey` | Gitlab Secret Key | `""` | False |
+| `global.gitlab.url` | Gitlab URL | `""` | False |
+| `global.gitlab.webhookSecret` | Gitlab WebHook Secret | `""` | False |
+| `global.gitlab.webhookUrl` | Gitlab Webhook URL | `""` | False |
 | `global.maxTeams` | Maximum Teams  | `""` | True |
-| `redis.enabled` | Install in-cluster Redis  | `true` | False |
+| `global.maxViews` | Maximum Views  | `""` | True |
+| `global.postgres.databasePassword` | PostgreSQL Database Password | `""` | True |
+| `global.postgres.databaseUrl` | PostgreSQL Database URL | `""` | True |
+| `global.postgres.databaseUser` | PostgreSQL Database Username | `""` | True |
+| `global.secretKey` | Secret Key | `""` | False |
 | `postgresql.enabled` | Install in-cluster PostgreSQL  | `true` | False |
-| `postgresql.global.postgresql.auth.postgresPassword` | Password for the "postgres" admin user | `true` | True |
 | `postgresql.global.postgresql.auth.database` | Name for a custom database to create | `true` | True |
+| `postgresql.global.postgresql.auth.postgresPassword` | Password for the "postgres" admin user | `true` | True |
+| `redis.enabled` | Install in-cluster Redis  | `true` | False |
