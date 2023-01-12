@@ -21,18 +21,13 @@ $ kubectl create secret docker-registry iterativeai \
     --docker-password=<password>
 ```
 
-Create a file `override.yaml` with the following content or edit `values.yaml`
-
-```yaml
-imagePullSecrets:
-  - name: iterativeai
-```
-
-Deploy Studio
+Deploy Studio using the helm chart:
 
 ```bash
 $ helm repo add iterative https://helm.iterative.ai
-$ helm install studio iterative/studio --namespace studio -f override.yaml
+$ helm install studio iterative/studio \
+    --namespace studio \
+    --set-json='imagePullSecrets=[{"name": "iterativeai"}]'
 ```
 
 ## Update Studio
@@ -71,7 +66,13 @@ Execute the following command to uninstall Studio from your environment:
 $ helm uninstall studio --namespace studio
 ```
 
-## Parameters
+## Chart Configuration
+
+To further configure the chart values, you might want to create a `values.yaml` 
+file with all the desired configuration, and use `-f values.yaml` in the installation command
+to feed the values override to the chart installation.
+
+### Available parameters
 
 | Name | Description | Value | Required |
 |------|-------------|-------|----------|
@@ -110,3 +111,13 @@ $ helm uninstall studio --namespace studio
 | `postgresql.global.postgresql.auth.database` | Name for a custom database to create | `true` | True |
 | `postgresql.global.postgresql.auth.postgresPassword` | Password for the "postgres" admin user | `true` | True |
 | `redis.enabled` | Install in-cluster Redis  | `true` | False |
+
+See [values file](charts/studio/values.yaml) with all available configuration flags.
+
+### Example
+As a simple example, this simple `values.yaml` corresponds to the above `--set-json` 
+flag in the installation command:
+```yaml
+imagePullSecrets:
+  name: iterativeai
+```
