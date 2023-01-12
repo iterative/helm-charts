@@ -22,7 +22,7 @@ Deploy Studio
 
 ```bash
 $ helm repo add iterative https://helm.iterative.ai
-$ helm install studio iterative/studio -f override.yaml
+$ helm install studio iterative/studio --create-namespace --namespace studio -f override.yaml
 ```
 
 ## Update Studio
@@ -50,7 +50,7 @@ To update the existing Studio deployment, run the following commands
 
 ```bash
 $ helm dependency update
-$ helm upgrade --install --atomic studio studio/ -n <namespace> -f override.yaml
+$ helm upgrade --install --atomic studio studio/ --namespace studio -f override.yaml
 ```
 
 ## Uninstall Studio
@@ -58,7 +58,7 @@ $ helm upgrade --install --atomic studio studio/ -n <namespace> -f override.yaml
 Execute the following command to uninstall Studio from your environment:
 
 ```bash
-$ helm uninstall studio -n <namespace>
+$ helm uninstall studio --namespace studio
 ```
 
 ## Parameters
