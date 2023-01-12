@@ -41,7 +41,7 @@ global:
 
   postgres:
     # -- Postgres database URL
-    databaseUrl: "studio-postgresql.default.svc.cluster.local:5432/iterativeai"
+    databaseUrl: "studio-postgresql.studio.svc.cluster.local:5432/iterativeai"
     # -- Postgres database user
     databaseUser: "postgres"
     # -- Postgres database password    
