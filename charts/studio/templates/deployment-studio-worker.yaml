@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/studio: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- include "studio.checkSum" . | indent 8 }}
       {{- with .Values.studioWorker.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -42,11 +42,15 @@ spec:
           resources:
             {{- toYaml .Values.studioWorker.resources | nindent 12 }}
           env:
-            {{ include "studio.envvars" . | indent 12 }}
             - name: "NO_MIGRATE_DB"
               value: "1"
             - name: "WAIT_FOR_MIGRATIONS"
               value: "1"
+          envFrom:
+            - configMapRef:
+                name: studio
+            - secretRef:
+                name: studio
           {{- if .Values.global.customCaCert }}
           volumeMounts:
             - name: studio-ca-certificates

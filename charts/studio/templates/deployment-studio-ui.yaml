@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/studio: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- include "studio.checkSum" . | indent 8 }}
       {{- with .Values.studioUi.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -50,8 +50,11 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 25
             timeoutSeconds: 10
-          env:
-            {{ include "studio.envvars" . | indent 12 }}
+          envFrom:
+            - configMapRef:
+                name: studio
+            - secretRef:
+                name: studio
           {{- if .Values.global.customCaCert }}
           volumeMounts:
             - name: studio-ca-certificates
