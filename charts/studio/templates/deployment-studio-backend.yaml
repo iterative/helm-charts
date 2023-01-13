@@ -14,10 +14,10 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/studio: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-      {{- with .Values.studioBackend.podAnnotations }}
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- include "studio.checkSum" . | indent 8 }}
+{{/*        {{- with .Values.studioBackend.podAnnotations }}*/}}
+{{/*        {{- toYaml . | nindent 8 }}*/}}
+{{/*        {{- end }}*/}}
       labels:
         {{- include "studio-backend.selectorLabels" . | nindent 8 }}
     spec:
@@ -53,8 +53,11 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.studioBackend.resources | nindent 12 }}
-          env:
-            {{ include "studio.envvars" . | indent 12 }}
+          envFrom:
+            - configMapRef:
+                name: studio
+            - secretRef:
+                name: studio
       {{- if .Values.global.customCaCert }}
       volumes:
         - name: studio-ca-certificates

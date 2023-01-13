@@ -118,3 +118,9 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "studio.checkSum" }}
+checksum/configmap-studio: {{ include (print $.Template.BasePath "/configmap-studio.yaml") . | sha256sum }}
+checksum/configmap-ca-cert: {{ include (print $.Template.BasePath "/configmap-ca-cert.yaml") . | sha256sum }}
+checksum/secret-studio: {{ include (print $.Template.BasePath "/secret-studio.yaml") . | sha256sum }}
+{{- end }}
