@@ -29,15 +29,15 @@ global:
   # -- Studio: Additional environment variables for all pods
   envVars: {}
   # Example:
-  # envVars: 
+  # envVars:
   #   DEBUG: "True"
 
   blobvault:
     # -- Blobvault local backing store size
     persistentVolume:
-      accessModes: 
+      accessModes:
         - ReadWriteOnce
-      storageClassName: local-path
+      # storageClassName: local-path
       size: 30Gi
 
     # -- Blobvault S3 bucket name
@@ -50,7 +50,7 @@ global:
     secretAccessKeyId: ""
     # -- Blobvault S3 region
     regionName: ""
-      
+
   celery:
     # -- Celery broker URL
     brokerUrl: ""
@@ -151,7 +151,7 @@ nginx:
     persistentVolumeClaim:
       claimName: blobvault
 
-  extraVolumeMounts: 
+  extraVolumeMounts:
   - name: blobvault
     mountPath: /blobvault
 
@@ -254,7 +254,7 @@ studioUi:
   # -- Studio: Additional environment variables for ui pods
   envVars: {}
   # Example:
-  # envVars: 
+  # envVars:
   #   DEBUG: "True"
 
   replicaCount: 1
@@ -311,7 +311,7 @@ studioBackend:
   # -- Studio: Additional environment variables for backend pods
   envVars: {}
   # Example:
-  # envVars: 
+  # envVars:
   #   DEBUG: "True"
 
   replicaCount: 1
@@ -368,7 +368,7 @@ studioBeat:
   # -- Studio: Additional environment variables for beat pods
   envVars: {}
   # Example:
-  # envVars: 
+  # envVars:
   #   DEBUG: "True"
 
   replicaCount: 1
@@ -415,7 +415,7 @@ studioWorker:
   # -- Studio: Additional environment variables for worker pods
   envVars: {}
   # Example:
-  # envVars: 
+  # envVars:
   #   DEBUG: "True"
 
   replicaCount: 1
