@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: studio-database-migration
+  labels:
+    {{- include "studio-backend.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-rollback,pre-upgrade,post-install
+    "helm.sh/hook-weight": "10"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      annotations:
+      {{- with .Values.studioBackend.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "studio-backend.selectorLabels" . | nindent 8 }}
+    spec:
+      restartPolicy: OnFailure
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "studio.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.studioBackend.podSecurityContext | nindent 8 }}
+      containers:
+        - name: studio-backend
+          securityContext:
+            {{- toYaml .Values.studioBackend.securityContext | nindent 12 }}
+          image: "{{ .Values.studioBackend.image.repository }}:{{ .Values.studioBackend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.studioBackend.image.pullPolicy }}
+          command: [ "/usr/local/bin/python" ]
+          args: [ "manage.py", "migrate", "--noinput" ]
+          resources:
+            {{- toYaml .Values.studioBackend.resources | nindent 12 }}
+          envFrom:
+            - secretRef:
+                name: studio-migration-job
+      {{- with .Values.studioBackend.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studioBackend.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studioBackend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+

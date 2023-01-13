@@ -3,6 +3,8 @@ kind: ConfigMap
 metadata:
   name: studio
 data:
+  NO_MIGRATE_DB: "1"
+  WAIT_FOR_MIGRATIONS: "1"
   ALLOWED_HOSTS: "*"
   API_URL:  "http{{ if $.Values.studioBackend.ingress.tlsEnabled }}s{{ end }}://{{ .Values.studioBackend.ingress.host }}/"
   UI_URL: "http{{ if $.Values.studioUi.ingress.tlsEnabled }}s{{ end }}://{{ .Values.studioUi.ingress.host }}/"
