@@ -2,13 +2,13 @@
 
 ## Install Studio
 
-We'll install studio and related components in a dedicated `studio`namespace. 
+We'll install Studio and related components in a dedicated `studio` namespace. 
 Let's create it now:
 ```bash
 $ kubectl create namespace studio
 ```
 
-> Note: If you want to install studio in any other namespace, modify the
+> Note: If you want to install Studio in any other namespace, modify the
 > `--namespace` flag in the commands below accordingly
 
 Configure Credentials to pull images from our secure registry:
