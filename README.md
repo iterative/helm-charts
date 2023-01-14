@@ -1,6 +1,11 @@
 ## Studio Helm Chart
 
-## Install Studio
+## Installation
+
+## Pre-installation steps
+
+
+### Create namespace
 
 We'll install Studio and related components in a dedicated `studio` namespace. 
 Let's create it now:
@@ -11,7 +16,10 @@ $ kubectl create namespace studio
 > Note: If you want to install Studio in any other namespace, modify the
 > `--namespace` flag in the commands below accordingly
 
-Configure Credentials to pull images from our secure registry:
+
+### Create a docker registry secret
+
+Configure Credentials to pull images from our secured registry:
 
 ```bash
 $ kubectl create secret docker-registry iterativeai \
@@ -21,13 +29,106 @@ $ kubectl create secret docker-registry iterativeai \
     --docker-password=<password>
 ```
 
-Deploy Studio using the Helm chart:
+### Prepare a TLS secret
+
+It is desired to enable Studio access via the `https` protocol
+(as opposed to `http`). This requires setting up
+a TLS secret for access (whether self-signed or "real").
+First, we'll need to generate a TLS/SSL certificate,
+and then, load it into a kubernetes secret in the namespace studio
+will be installed in.
+To create an SSL cert, you will need to know the domain (FQDN) that Studio
+will be accessible from (e.g. `studio.iterative.ai` for the official SaaS
+installation). 
+
+As an example, we'll assume your Studio installation will be available
+via: `https://my-studio.private.com`. We'll also use a self-signed
+certificate for the sake of simplicity. Of course, for a production
+installation we recommend using a certificate signed by a trusted CA.
+
+Let's create a self-signed SSL cert using `openssl` (you may need to install it):
+```bash
+openssl req \
+-x509 -newkey rsa:4096 -sha256 -nodes \
+-keyout tls.key -out tls.crt \
+-subj "/CN=my-studio.private.com" -days 365
+```
+
+This will create the files `tls.crt` & `tls.key` in your current dir.
+
+Now, let's create a TLS secret containing the contents from this cert:
 
 ```bash
+kubectl create secret tls studio-ingress-tls \
+  --namespace studio \
+  --cert=tls.crt \
+  --key=tls.key
+```
+
+We will refer to this secret in the below installation instructions.
+
+### Install Studio
+
+Now, we are ready to deploy Studio using the Helm chart.
+
+Add the iterative helm repo:
+```bash
 $ helm repo add iterative https://helm.iterative.ai
+```
+
+### Minimal Installation:
+
+To install studio with all default values (for sanity, testing), 
+Run the following command:
+```bash
 $ helm install studio iterative/studio \
     --namespace studio \
     --set-json='imagePullSecrets=[{"name": "iterativeai"}]'
+```
+
+### Functional Installation:
+
+Realistically, for a functional Studio app instance, you'll
+need to configure multiple values. In this example we'll prepare a
+more realistic and functional installation.
+
+Assumptions:
+- We have an ingress controller (nginx) installed on the cluster.
+- Studio will be available from the domain: `my-studio.private.com`
+  (we've registered this domain and made sure to redirect to our cluster).
+- We refer to the TLS secret `studio-ingress-tls` we've created in [a previous step](#prepare-tls-secret).
+
+Create a file named `studio-values.yaml`, with the following contents:
+
+```yaml
+imagePullSecrets:
+  - name: iterativeai
+studioUi:
+  ingress:
+    className: nginx
+    enabled: true
+    hosts:
+      - host: "my-studio.private.com"
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: studio-ingress-tls
+        hosts:
+          - "my-studio.private.com"
+studioBackend:
+  ingress:
+    className: nginx
+    enabled: true
+    hosts:
+      - host: "my-studio.private.com"
+        paths:
+          - path: /api
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: studio-ingress-tls
+        hosts:
+          - "my-studio.private.com"
 ```
 
 ## Update Studio
@@ -113,11 +214,3 @@ to feed the values override to the chart installation.
 | `redis.enabled` | Install in-cluster Redis  | `true` | False |
 
 See [values file](charts/studio/values.yaml) with all available configuration flags.
-
-### Example
-As a simple example, this simple `values.yaml` corresponds to the above `--set-json` 
-flag in the installation command:
-```yaml
-imagePullSecrets:
-  name: iterativeai
-```
