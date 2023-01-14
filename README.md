@@ -21,7 +21,7 @@ $ kubectl create secret docker-registry iterativeai \
     --docker-password=<password>
 ```
 
-Deploy Studio using the helm chart:
+Deploy Studio using the Helm chart:
 
 ```bash
 $ helm repo add iterative https://helm.iterative.ai
