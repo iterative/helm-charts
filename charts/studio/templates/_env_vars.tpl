@@ -290,7 +290,7 @@
 {{- if .Values.studioUi.ingress.enabled }}
 {{- range $host := .Values.studioUi.ingress.hosts }}
   {{- range .paths }}
-  value: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }},http{{ if $.Values.studioUi.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}"
+  value: "studio-ui.{{ $.Release.Namespace }}.svc.cluster.local:{{ $.Values.studioUi.service.port }},studio-backend.{{ $.Release.Namespace }}.svc.cluster.local:{{ $.Values.studioBackend.service.port }},http{{ if $.Values.studioUi.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}"
   {{- end }}
 {{- end }}
 {{- else }}
