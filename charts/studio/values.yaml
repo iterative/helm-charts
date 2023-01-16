@@ -52,9 +52,11 @@ global:
       # -- GitHub enabled
       enabled: false
 
-      # -- GitHub URL
+      # -- GitHub Enterprise URL
+      # Set this if you're using the selfhosted version
       url: ""
-      # -- GitHub API URL
+      # -- GitHub Enterprise API URL
+      # Set this if you're using the selfhosted version
       apiUrl: ""
 
       # -- GitHub OAuth App Client ID
@@ -75,7 +77,8 @@ global:
       # -- GitLab enabled
       enabled: false
 
-      # -- GitLab URL
+      # -- GitLab Enterprise Edition URL
+      # Set this if you're using the selfhosted version
       url: ""
 
       # -- GitLab OAuth App Client ID
@@ -92,9 +95,11 @@ global:
       # -- Bitbucket enabled
       enabled: false
 
-      # -- Bitbucket URL
+      # -- Bitbucket Server URL
+      # Set this if you're using the selfhosted version
       url: ""
-      # -- Bitbucket API URL
+      # -- Bitbucket Server API URL
+      # Set this if you're using the selfhosted version
       apiUrl: ""
 
       # -- Bitbucket OAuth App Client ID
