@@ -196,6 +196,13 @@
   value: ""
 {{- end }}
 
+- name: GITHUB_API_URL
+{{- if .Values.global.scmProviders.github.apiUrl }}
+  value: {{ .Values.global.scmProviders.github.apiUrl }}
+{{- else }}
+  value: ""
+{{- end }}
+
 - name: GITHUB_WEBHOOK_URL
 {{- if .Values.global.scmProviders.github.webhookUrl }}
   value: {{ .Values.global.scmProviders.github.webhookUrl }}
