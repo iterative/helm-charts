@@ -49,26 +49,32 @@ global:
 
   scmProviders:
     github:
-      # -- GitHub Enterprise URL
+      # -- GitHub enabled
+      enabled: false
+
+      # -- GitHub URL
       url: ""
-      # -- GitHub Enterprise API URL
+      # -- GitHub API URL
       apiUrl: ""
 
-      # -- GitHub Enterprise OAuth App Client ID
+      # -- GitHub OAuth App Client ID
       clientId: ""
-      # -- GitHub Enterprise OAuth App ID
+      # -- GitHub OAuth App ID
       appId: ""
-      # -- GitHub Enterprise OAuth App Secret
+      # -- GitHub OAuth App Secret
       appSecret: ""
-      # -- GitHub Enterprise OAuth App Private Key
+      # -- GitHub OAuth App Private Key
       privateKey: ""
 
-      # -- GitHub Enterprise Webhook URL  
+      # -- GitHub Webhook URL  
       webhookUrl: ""
-      # -- GitHub Enterprise Webhook secret
+      # -- GitHub Webhook secret
       webhookSecret: ""
 
     gitlab:
+      # -- GitLab enabled
+      enabled: false
+
       # -- GitLab URL
       url: ""
 
@@ -83,6 +89,9 @@ global:
       webhookSecret: ""
 
     bitbucket:
+      # -- Bitbucket enabled
+      enabled: false
+
       # -- Bitbucket URL
       url: ""
       # -- Bitbucket API URL
