@@ -51,6 +51,9 @@ global:
     github:
       # -- GitHub Enterprise URL
       url: ""
+      # -- GitHub Enterprise API URL
+      apiUrl: ""
+
       # -- GitHub Enterprise OAuth App Client ID
       clientId: ""
       # -- GitHub Enterprise OAuth App ID
