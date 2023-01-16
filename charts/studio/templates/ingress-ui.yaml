@@ -26,25 +26,19 @@ spec:
   {{- if and .Values.studioUi.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
   ingressClassName: {{ .Values.studioUi.ingress.className }}
   {{- end }}
-  {{- if .Values.studioUi.ingress.tls }}
+  {{- if .Values.studioUi.ingress.tlsEnabled }}
   tls:
-    {{- range .Values.studioUi.ingress.tls }}
     - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ .secretName }}
-    {{- end }}
+        - {{ .Values.studioUi.ingress.host | quote }}
+      secretName: {{ .Values.studioUi.ingress.tlsSecretName }}
   {{- end }}
   rules:
-    {{- range .Values.studioUi.ingress.hosts }}
-    - host: {{ .host | quote }}
+    - host: {{ .Values.studioUi.ingress.host | quote }}
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ .path }}
+          - path: /
             {{- if and .pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
-            pathType: {{ .pathType }}
+            pathType: ImplementationSpecific
             {{- end }}
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
@@ -56,6 +50,4 @@ spec:
               serviceName: studio-ui
               servicePort: {{ $svcPort }}
               {{- end }}
-          {{- end }}
-    {{- end }}
 {{- end }}
