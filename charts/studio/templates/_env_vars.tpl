@@ -4,22 +4,14 @@
 
 - name: API_URL
 {{- if .Values.studioBackend.ingress.enabled }}
-{{- range $host := .Values.studioBackend.ingress.hosts }}
-  {{- range .paths }}
-  value: "http{{ if $.Values.studioBackend.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}"
-  {{- end }}
-{{- end }}
+  value: "http{{ if $.Values.studioBackend.ingress.tlsEnabled }}s{{ end }}://{{ .Values.studioBackend.ingress.host }}/"
 {{- else }}
   value: "http://studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }}"
 {{- end }}
 
 - name: UI_URL
 {{- if .Values.studioUi.ingress.enabled }}
-{{- range $host := .Values.studioUi.ingress.hosts }}
-  {{- range .paths }}
-  value: "http{{ if $.Values.studioUi.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}"
-  {{- end }}
-{{- end }}
+  value: "http{{ if $.Values.studioUi.ingress.tlsEnabled }}s{{ end }}://{{ .Values.studioUi.ingress.host }}/"
 {{- else }}
   value: "http://studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }}"
 {{- end }}
@@ -281,11 +273,7 @@
 
 - name: SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS
 {{- if .Values.studioUi.ingress.enabled }}
-{{- range $host := .Values.studioUi.ingress.hosts }}
-  {{- range .paths }}
-  value: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }},http{{ if $.Values.studioUi.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}"
-  {{- end }}
-{{- end }}
+  value: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }},http{{ if $.Values.studioUi.ingress.tlsEnabled }}s{{ end }}://{{ .Values.studioUi.ingress.host }}/"
 {{- else }}
   value: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }}"
 {{- end }}
