@@ -262,13 +262,13 @@
 
 
 {{- $scmProviders := list }}
-{{- if .Values.global.scmProviders.gitlab.url }}
+{{- if .Values.global.scmProviders.gitlab.enabled }}
 {{- $scmProviders = append $scmProviders "gitlab" }}
 {{- end }}
-{{- if .Values.global.scmProviders.github.url }}
+{{- if .Values.global.scmProviders.github.enabled }}
 {{- $scmProviders = append $scmProviders "github" }}
 {{- end }}
-{{- if .Values.global.scmProviders.bitbucket.url }}
+{{- if .Values.global.scmProviders.bitbucket.enabled }}
 {{- $scmProviders = append $scmProviders "bitbucket" }}
 {{- end }}
 

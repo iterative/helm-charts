@@ -49,27 +49,36 @@ global:
 
   scmProviders:
     github:
+      # -- GitHub enabled
+      enabled: false
+
       # -- GitHub Enterprise URL
+      # Set this if you're using the selfhosted version
       url: ""
       # -- GitHub Enterprise API URL
+      # Set this if you're using the selfhosted version
       apiUrl: ""
 
-      # -- GitHub Enterprise OAuth App Client ID
+      # -- GitHub OAuth App Client ID
       clientId: ""
-      # -- GitHub Enterprise OAuth App ID
+      # -- GitHub OAuth App ID
       appId: ""
-      # -- GitHub Enterprise OAuth App Secret
+      # -- GitHub OAuth App Secret
       appSecret: ""
-      # -- GitHub Enterprise OAuth App Private Key
+      # -- GitHub OAuth App Private Key
       privateKey: ""
 
-      # -- GitHub Enterprise Webhook URL  
+      # -- GitHub Webhook URL  
       webhookUrl: ""
-      # -- GitHub Enterprise Webhook secret
+      # -- GitHub Webhook secret
       webhookSecret: ""
 
     gitlab:
-      # -- GitLab URL
+      # -- GitLab enabled
+      enabled: false
+
+      # -- GitLab Enterprise Edition URL
+      # Set this if you're using the selfhosted version
       url: ""
 
       # -- GitLab OAuth App Client ID
@@ -83,9 +92,14 @@ global:
       webhookSecret: ""
 
     bitbucket:
-      # -- Bitbucket URL
+      # -- Bitbucket enabled
+      enabled: false
+
+      # -- Bitbucket Server URL
+      # Set this if you're using the selfhosted version
       url: ""
-      # -- Bitbucket API URL
+      # -- Bitbucket Server API URL
+      # Set this if you're using the selfhosted version
       apiUrl: ""
 
       # -- Bitbucket OAuth App Client ID
