@@ -131,6 +131,13 @@
       name: studio
       key: secretKey
 
+- name: ENABLE_SSL_FOR_WEBHOOK
+{{- if .Values.global.scmProviders.enableWebhookSSL }}
+  value: "True"
+{{- else }}
+  value: "False"
+{{- end }}
+
 - name: GITHUB_APP_ID
 {{- if .Values.global.scmProviders.github.appId }}
   valueFrom:
