@@ -48,6 +48,9 @@ global:
     databasePassword: "postgres"
 
   scmProviders:
+    # Enable SSL for webhooks
+    enableWebhookSSL: true
+
     github:
       # -- GitHub enabled
       enabled: false
