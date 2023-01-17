@@ -7,6 +7,8 @@ data:
   API_URL:  "http{{ if $.Values.studioBackend.ingress.tlsEnabled }}s{{ end }}://{{ .Values.studioBackend.ingress.host }}/"
   UI_URL: "http{{ if $.Values.studioUi.ingress.tlsEnabled }}s{{ end }}://{{ .Values.studioUi.ingress.host }}/"
 
+  ENABLE_SSL_FOR_WEBHOOK: {{ .Values.global.scmProviders.enableWebhookSSL | default "False" | title | quote }}
+
   BITBUCKET_URL: {{.Values.global.scmProviders.bitbucket.url  | default "" | quote }}
   BITBUCKET_API_URL: {{ .Values.global.scmProviders.bitbucket.apiUrl | default "" | quote}}
   BITBUCKET_WEBHOOK_URL: {{ .Values.global.scmProviders.bitbucket.webhookUrl | default "" | quote}}
