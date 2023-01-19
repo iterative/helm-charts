@@ -9,8 +9,8 @@ data:
 
   ENABLE_SSL_FOR_WEBHOOK: {{ .Values.global.scmProviders.enableWebhookSSL | default "false" | quote | title }}
 
-  BITBUCKET_URL: {{.Values.global.scmProviders.bitbucket.url  | default "" | quote }}
-  BITBUCKET_API_URL: {{ .Values.global.scmProviders.bitbucket.apiUrl | default "" | quote}}
+  BITBUCKET_URL: {{.Values.global.scmProviders.bitbucket.url  | default "https://bitbucket.org" | quote }}
+  BITBUCKET_API_URL: {{ .Values.global.scmProviders.bitbucket.apiUrl | default "https://api.bitbucket.org" | quote}}
   BITBUCKET_WEBHOOK_URL: {{ .Values.global.scmProviders.bitbucket.webhookUrl | default "" | quote}}
 
   ENABLE_BLOBVAULT: "True"
@@ -41,11 +41,11 @@ data:
   {{- else }}
   REDIS_URL: "redis://{{ .Values.redis.fullnameOverride }}-master.{{ .Release.Namespace }}.svc.cluster.local:6379"
   {{- end }}
-  GITHUB_API_URL: {{ .Values.global.scmProviders.github.apiUrl | default | quote }}
-  GITHUB_URL: {{ .Values.global.scmProviders.github.url | default "" | quote }}
+  GITHUB_API_URL: {{ .Values.global.scmProviders.github.apiUrl | default "https://api.github.com" | quote }}
+  GITHUB_URL: {{ .Values.global.scmProviders.github.url | default "https://github.com" | quote }}
   GITHUB_WEBHOOK_URL: {{ .Values.global.scmProviders.github.webhookUrl | default "" | quote }}
   GITLAB_URL: {{ .Values.global.scmProviders.gitlab.url | default "" | quote}}
-  GITLAB_WEBHOOK_URL: {{ .Values.global.scmProviders.gitlab.webhookUrl | default "" | quote }}
+  GITLAB_WEBHOOK_URL: {{ .Values.global.scmProviders.gitlab.webhookUrl | default "https://gitlab.com" | quote }}
   MAX_VIEWS: {{ .Values.global.maxViews | default "" | quote }}
   MAX_TEAMS: {{ .Values.global.maxTeams | default "" | quote }}
   {{- $scmProviders := list }}
