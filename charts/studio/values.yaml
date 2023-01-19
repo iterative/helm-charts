@@ -6,19 +6,21 @@
 imagePullSecrets: []
 
 global:
+  # -- Studio: Url
+  url: "http://studio.example.com"
   # -- Studio: Maximum number of views
   maxViews: "100"
-  # -- Studio: Maximum number of teams  
+  # -- Studio: Maximum number of teams
   maxTeams: "10"
   # -- Studio: Secret key for encryption
   secretKey: ""
 
-  # -- Studio: Custom CA certificate in PEM format
-  # customCaCert: "
-  # -----BEGIN CERTIFICATE-----
-  # ....
-  # -----END CERTIFICATE-----
-  # "
+  # -- Studio: Custom CA certificate in PEM format used in organization e.g. for GitLab
+  # customCaCert: |-
+  #   -----BEGIN CERTIFICATE-----
+  #   ....
+  #   -----END CERTIFICATE-----
+  #
   customCaCert: ""
 
   blobvault:
@@ -39,12 +41,22 @@ global:
     # -- Celery result URL
     resultBackend: ""
 
+
+  ingress:
+    enabled: true
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    tlsEnabled: false
+    tlsSecretName: chart-example-tls
+
   postgres:
     # -- Postgres database URL
     databaseUrl: "studio-postgresql:5432/iterativeai"
     # -- Postgres database user
     databaseUser: "postgres"
-    # -- Postgres database password    
+    # -- Postgres database password
     databasePassword: "postgres"
 
   scmProviders:
@@ -91,7 +103,7 @@ global:
 
       # -- GitLab Webhook URL
       webhookUrl: ""
-      # -- GitLab Webhook Secret    
+      # -- GitLab Webhook Secret
       webhookSecret: ""
 
     bitbucket:
@@ -120,16 +132,16 @@ minio:
   enabled: true
   # -- Minio name override
   fullnameOverride: studio-minio
-  
+
   # Change this before deploying
   auth:
     # -- Minio root user
     rootUser: admin
     # -- Minio root password
     rootPassword: password
-  
+
   provisioning:
-    # -- Minio buckets to provision 
+    # -- Minio buckets to provision
     buckets:
       - iterativeai
 
@@ -190,16 +202,6 @@ studioUi:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
 
-  ingress:
-    enabled: false
-    className: ""
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    host: chart-example.local
-    tlsEnabled: false
-    tlsSecretName: chart-example-tls
-  
   nameOverride: ""
 
   fullnameOverride: ""
@@ -254,17 +256,7 @@ studioBackend:
     maxReplicas: 5
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
-  
-  ingress:
-    enabled: false
-    className: ""
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    host: chart-example.local
-    tlsEnabled: false
-    tlsSecretName: chart-example-tls
-  
+
   nameOverride: ""
 
   fullnameOverride: ""
@@ -309,7 +301,7 @@ studioBeat:
     maxReplicas: 5
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
-  
+
   nameOverride: ""
 
   fullnameOverride: ""
@@ -354,7 +346,7 @@ studioWorker:
     maxReplicas: 5
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
-  
+
   nameOverride: ""
 
   fullnameOverride: ""
