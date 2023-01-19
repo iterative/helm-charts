@@ -63,20 +63,6 @@ spec:
               serviceName: studio-backend
               servicePort: {{ .Values.studioBackend.service.port }}
               {{- end }}
-          - path: /api/*
-            {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
-            pathType: ImplementationSpecific
-            {{- end }}
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: studio-backend
-                port:
-                  number: {{ .Values.studioBackend.service.port }}
-              {{- else }}
-              serviceName: studio-backend
-              servicePort: {{ .Values.studioBackend.service.port }}
-              {{- end }}
           - path: /webhook/*
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
             pathType: ImplementationSpecific
