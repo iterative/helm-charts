@@ -4,8 +4,8 @@ metadata:
   name: studio
 data:
   ALLOWED_HOSTS: "*"
-  API_URL:  "http{{ if $.Values.studioBackend.ingress.tlsEnabled }}s{{ end }}://{{ .Values.studioBackend.ingress.host }}/"
-  UI_URL: "http{{ if $.Values.studioUi.ingress.tlsEnabled }}s{{ end }}://{{ .Values.studioUi.ingress.host }}/"
+  API_URL: "{{.Values.global.url }}/api"
+  UI_URL: "{{.Values.global.url }}/"
 
   ENABLE_SSL_FOR_WEBHOOK: {{ .Values.global.scmProviders.enableWebhookSSL | default "false" | quote | title }}
 
@@ -60,8 +60,8 @@ data:
   {{- end }}
   SCM_PROVIDERS: {{ $scmProviders | join "," | quote}}
   SOCIAL_AUTH_REDIRECT_IS_HTTPS: "False"
-  {{- if .Values.studioUi.ingress.enabled }}
-  SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }},http{{ if $.Values.studioUi.ingress.tlsEnabled }}s{{ end }}://{{ .Values.studioUi.ingress.host }}/"
+  {{- if .Values.global.ingress.enabled }}
+  SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }},{{ .Values.global.ingress.host }}/"
   {{- else }}
   SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }}"
   {{- end }}

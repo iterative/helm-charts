@@ -6,6 +6,8 @@
 imagePullSecrets: []
 
 global:
+  # -- Studio: Url
+  url: "http://studio.example.com"
   # -- Studio: Maximum number of views
   maxViews: "100"
   # -- Studio: Maximum number of teams
@@ -38,6 +40,16 @@ global:
     brokerUrl: ""
     # -- Celery result URL
     resultBackend: ""
+
+
+  ingress:
+    enabled: true
+    className: ""
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    tlsEnabled: false
+    tlsSecretName: chart-example-tls
 
   postgres:
     # -- Postgres database URL
@@ -190,16 +202,6 @@ studioUi:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
 
-  ingress:
-    enabled: false
-    className: ""
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    host: chart-example.local
-    tlsEnabled: false
-    tlsSecretName: chart-example-tls
-  
   nameOverride: ""
 
   fullnameOverride: ""
@@ -254,17 +256,7 @@ studioBackend:
     maxReplicas: 5
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
-  
-  ingress:
-    enabled: false
-    className: ""
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    host: chart-example.local
-    tlsEnabled: false
-    tlsSecretName: chart-example-tls
-  
+
   nameOverride: ""
 
   fullnameOverride: ""
