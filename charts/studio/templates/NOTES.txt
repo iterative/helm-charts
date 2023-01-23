@@ -1,6 +1,6 @@
 1. Get the application URL by running these commands:
-{{- if .Values.studioUi.ingress.enabled }}
-  http{{ if $.Values.studioUi.ingress.tlsEnabled }}s{{ end }}://{{ .Values.studioUi.ingress.host }}/
+{{- if .Values.global.ingress.enabled }}
+  http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{ .Values.global.ingress.host }}/
 {{- else if contains "NodePort" .Values.studioUi.service.type }}
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "studio.fullname" . }})
   export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
