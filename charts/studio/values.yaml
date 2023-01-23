@@ -15,7 +15,7 @@ global:
   # -- Studio: Secret key for encryption
   secretKey: ""
 
-  # -- Studio: Custom CA certificate in PEM format used in organization e.g. for GitLab
+  # -- Studio: Custom CA certificate in PEM format
   # customCaCert: |-
   #   -----BEGIN CERTIFICATE-----
   #   ....
@@ -209,7 +209,7 @@ studioUi:
   podAnnotations: {}
 
   podSecurityContext: {}
-    # fsGroup: 2000
+  # fsGroup: 2000
 
   securityContext: {}
     # capabilities:
