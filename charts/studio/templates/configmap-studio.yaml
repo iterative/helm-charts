@@ -7,13 +7,25 @@ data:
   API_URL: "{{.Values.global.url }}/api"
   UI_URL: "{{.Values.global.url }}/"
 
-  ENABLE_SSL_FOR_WEBHOOK: {{ .Values.global.scmProviders.enableWebhookSSL | default "false" | quote | title }}
+  {{- if .Values.global.scmProviders.enableWebhookSSL }}
+  ENABLE_SSL_FOR_WEBHOOK: {{ .Values.global.scmProviders.enableWebhookSSL | quote | title }}
+  {{- end }}
 
-  BITBUCKET_URL: {{.Values.global.scmProviders.bitbucket.url  | default "https://bitbucket.org" | quote }}
-  BITBUCKET_API_URL: {{ .Values.global.scmProviders.bitbucket.apiUrl | default "https://api.bitbucket.org" | quote}}
-  BITBUCKET_WEBHOOK_URL: {{ .Values.global.scmProviders.bitbucket.webhookUrl | default "" | quote}}
+  {{- if .Values.global.scmProviders.bitbucket.url }}
+  BITBUCKET_URL: {{.Values.global.scmProviders.bitbucket.url | quote }}
+  {{- end }}
+  {{- if .Values.global.scmProviders.bitbucket.apiUrl }}
+  BITBUCKET_API_URL: {{ .Values.global.scmProviders.bitbucket.apiUrl | quote}}
+  {{- end }}
+  {{- if .Values.global.scmProviders.bitbucket.webhookUrl }}
+  BITBUCKET_WEBHOOK_URL: {{ .Values.global.scmProviders.bitbucket.webhookUrl | quote}}
+  {{- end }}
 
+  {{- if Values.global.blobvault.bucket }}
   ENABLE_BLOBVAULT: "True"
+  BLOBVAULT_BUCKET: {{ .Values.global.blobvault.bucket | quote }}
+  {{- end }}
+
   {{- if .Values.global.blobvault.endpointUrl }}
   BLOBVAULT_ENDPOINT_URL: {{ .Values.global.blobvault.endpointUrl }}
   {{- else }}
@@ -25,29 +37,49 @@ data:
   {{- else }}
   BLOBVAULT_ENDPOINT_URL_FE: "{{ .Values.minio.fullnameOverride }}.{{ .Release.Namespace }}.svc.cluster.local:9000"
   {{- end }}
-  BLOBVAULT_BUCKET: {{.Values.global.blobvault.bucket | default "" | quote }}
+  
   {{- if .Values.global.celery.brokerUrl }}
   CELERY_BROKER_URL: {{ .Values.global.celery.brokerUrl }}
   {{- else }}
   CELERY_BROKER_URL: "redis://{{ .Values.redis.fullnameOverride }}-master.{{ .Release.Namespace }}.svc.cluster.local:6379"
   {{- end }}
+
   {{- if .Values.global.celery.resultBackend }}
   CELERY_RESULT_BACKEND: {{ .Values.global.celery.resultBackend }}
   {{- else }}
   CELERY_RESULT_BACKEND: "redis://{{ .Values.redis.fullnameOverride }}-master.{{ .Release.Namespace }}.svc.cluster.local:6379"
   {{- end }}
+
   {{- if .Values.global.celery.resultBackend }}
   REDIS_URL: {{ .Values.global.celery.resultBackend }}
   {{- else }}
   REDIS_URL: "redis://{{ .Values.redis.fullnameOverride }}-master.{{ .Release.Namespace }}.svc.cluster.local:6379"
   {{- end }}
-  GITHUB_API_URL: {{ .Values.global.scmProviders.github.apiUrl | default "https://api.github.com" | quote }}
-  GITHUB_URL: {{ .Values.global.scmProviders.github.url | default "https://github.com" | quote }}
-  GITHUB_WEBHOOK_URL: {{ .Values.global.scmProviders.github.webhookUrl | default "" | quote }}
-  GITLAB_URL: {{ .Values.global.scmProviders.gitlab.url | default "" | quote}}
-  GITLAB_WEBHOOK_URL: {{ .Values.global.scmProviders.gitlab.webhookUrl | default "https://gitlab.com" | quote }}
-  MAX_VIEWS: {{ .Values.global.maxViews | default "" | quote }}
-  MAX_TEAMS: {{ .Values.global.maxTeams | default "" | quote }}
+
+  {{- if .Values.global.scmProviders.github.apiUrl }}
+  GITHUB_API_URL: {{ .Values.global.scmProviders.github.apiUrl | quote }}
+  {{- end }}
+  {{- if .Values.global.scmProviders.github.url }}
+  GITHUB_URL: {{ .Values.global.scmProviders.github.url | quote }}
+  {{- end }}
+  {{- if .Values.global.scmProviders.github.webhookUrl }}
+  GITHUB_WEBHOOK_URL: {{ .Values.global.scmProviders.github.webhookUrl | quote }}
+  {{- end }}
+
+  {{- if .Values.global.scmProviders.gitlab.url }}
+  GITLAB_URL: {{ .Values.global.scmProviders.gitlab.url | quote}}
+  {{- end }}
+  {{- if .Values.global.scmProviders.gitlab.webhookUrl }}
+  GITLAB_WEBHOOK_URL: {{ .Values.global.scmProviders.gitlab.webhookUrl | quote }}
+  {{- end }}
+
+  {{- if .Values.global.maxViews }}
+  MAX_VIEWS: {{ .Values.global.maxViews | quote }}
+  {{- end }}
+  {{- if .Values.global.maxTeams }}
+  MAX_TEAMS: {{ .Values.global.maxTeams | quote }}
+  {{- end }}
+
   {{- $scmProviders := list }}
   {{- if .Values.global.scmProviders.gitlab.enabled }}
   {{- $scmProviders = append $scmProviders "gitlab" }}
@@ -58,8 +90,10 @@ data:
   {{- if .Values.global.scmProviders.bitbucket.enabled }}
   {{- $scmProviders = append $scmProviders "bitbucket" }}
   {{- end }}
-  SCM_PROVIDERS: {{ $scmProviders | join "," | quote}}
+  SCM_PROVIDERS: {{ $scmProviders | join "," | quote }}
+
   SOCIAL_AUTH_REDIRECT_IS_HTTPS: "False"
+
   {{- if .Values.global.ingress.enabled }}
   SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }},{{ .Values.global.ingress.host }}/"
   {{- else }}
