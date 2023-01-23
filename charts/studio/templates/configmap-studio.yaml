@@ -21,7 +21,7 @@ data:
   BITBUCKET_WEBHOOK_URL: {{ .Values.global.scmProviders.bitbucket.webhookUrl | quote}}
   {{- end }}
 
-  {{- if Values.global.blobvault.bucket }}
+  {{- if .Values.global.blobvault.bucket }}
   ENABLE_BLOBVAULT: "True"
   BLOBVAULT_BUCKET: {{ .Values.global.blobvault.bucket | quote }}
   {{- end }}
