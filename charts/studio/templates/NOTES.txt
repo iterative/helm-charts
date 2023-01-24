@@ -1,4 +1,4 @@
-1. Get the application URL by running these commands:
+Get the application URL by running these commands:
 {{- if .Values.global.ingress.enabled }}
   http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{ .Values.global.host }}/
 {{- else if contains "NodePort" .Values.studioUi.service.type }}
