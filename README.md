@@ -117,9 +117,6 @@ global:
     className: nginx
     tlsEnabled: true
     tlsSecretName: studio-ingress-tls
-  blobvault:
-    accessKeyId: <aws-access-key-id>
-    secretAccessKeyId: <aws-secret-access-key>
   scmProviders:
     github:
       enabled: true
