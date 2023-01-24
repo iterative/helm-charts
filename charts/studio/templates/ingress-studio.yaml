@@ -1,5 +1,4 @@
 {{- if .Values.global.ingress.enabled -}}
-{{- $host := regexSplit "//" (.Values.global.url) 2 | last | quote -}}
 {{- if and .Values.global.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.global.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.global.ingress.annotations "kubernetes.io/ingress.class" .Values.global.ingress.className}}
@@ -28,11 +27,11 @@ spec:
   {{- if .Values.global.ingress.tlsEnabled }}
   tls:
     - hosts:
-        - {{ $host }}
+        - {{ .Values.global.host }}
       secretName: {{ .Values.global.ingress.tlsSecretName }}
   {{- end }}
   rules:
-    - host: {{ $host }}
+    - host: {{ .Values.global.host }}
       http:
         paths:
           - path: /
