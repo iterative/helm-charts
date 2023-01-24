@@ -65,6 +65,15 @@ data:
   {{- if .Values.global.scmProviders.github.webhookUrl }}
   GITHUB_WEBHOOK_URL: {{ .Values.global.scmProviders.github.webhookUrl | quote }}
   {{- end }}
+  {{- if .Values.global.scmProviders.github.clientId }}
+  GITHUB_APP_CLIENT_ID: {{ .Values.global.scmProviders.github.clientId | quote }}
+  {{- end }}
+  {{- if .Values.global.scmProviders.github.appId }}
+  GITHUB_APP_ID: {{ .Values.global.scmProviders.github.appId | quote }}
+  {{- end }}
+  {{- if .Values.global.scmProviders.github.appName }}
+  GITHUB_APP_NAME: {{ .Values.global.scmProviders.github.appName | quote }}
+  {{- end }}
 
   {{- if .Values.global.scmProviders.gitlab.url }}
   GITLAB_URL: {{ .Values.global.scmProviders.gitlab.url | quote}}
