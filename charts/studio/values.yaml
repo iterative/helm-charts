@@ -76,6 +76,8 @@ global:
 
       # -- GitHub OAuth App Client ID
       clientId: ""
+      # -- GitHub OAuth App Name
+      appName: ""
       # -- GitHub OAuth App ID
       appId: ""
       # -- GitHub OAuth App Secret
