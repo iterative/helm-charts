@@ -85,7 +85,7 @@ global:
       # -- GitHub OAuth App Private Key
       privateKey: ""
 
-      # -- GitHub Webhook URL  
+      # -- GitHub Webhook URL, e.g. <global.url>/webhook/github/
       webhookUrl: ""
       # -- GitHub Webhook secret
       webhookSecret: ""
