@@ -49,7 +49,7 @@ spec:
               serviceName: studio-ui
               servicePort: {{ .Values.studioUi.service.port }}
               {{- end }}
-          - path: /api/*
+          - path: /api
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
             pathType: ImplementationSpecific
             {{- end }}
@@ -63,7 +63,7 @@ spec:
               serviceName: studio-backend
               servicePort: {{ .Values.studioBackend.service.port }}
               {{- end }}
-          - path: /webhook/*
+          - path: /webhook
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
             pathType: ImplementationSpecific
             {{- end }}
