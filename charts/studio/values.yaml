@@ -6,7 +6,7 @@
 imagePullSecrets: []
 
 global:
-  # -- Studio: Host app would be accessible on (no http(s) scheme)
+  # -- Studio: Hostname for accessing Studio (no http(s) scheme)
   host: "studio.example.com"
   # -- Studio: Maximum number of views
   maxViews: "100"
