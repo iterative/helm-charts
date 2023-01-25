@@ -3,6 +3,29 @@ entries:
   studio:
   - apiVersion: v2
     appVersion: v1.41.3
+    created: "2023-01-25T14:48:11.191589545Z"
+    dependencies:
+    - condition: minio.enabled
+      name: minio
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.10.3
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.2.0
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.9.1
+    description: A Helm chart for Kubernetes
+    digest: 64753f5842c511e9cf04fa71615d7b6f9f983ea81cbee0e05688814748674735
+    name: studio
+    type: application
+    urls:
+    - https://github.com/iterative/helm-charts/releases/download/studio-0.1.14/studio-0.1.14.tgz
+    version: 0.1.14
+  - apiVersion: v2
+    appVersion: v1.41.3
     created: "2023-01-23T22:38:52.362404761Z"
     dependencies:
     - condition: minio.enabled
@@ -323,4 +346,4 @@ entries:
     urls:
     - https://github.com/iterative/helm-charts/releases/download/studio-0.1.0/studio-0.1.0.tgz
     version: 0.1.0
-generated: "2023-01-23T22:38:52.362498763Z"
+generated: "2023-01-25T14:48:11.191716948Z"
