@@ -4,8 +4,8 @@ metadata:
   name: studio
 data:
   ALLOWED_HOSTS: "*"
-  API_URL: "{{.Values.global.url }}/api"
-  UI_URL: "{{.Values.global.url }}/"
+  API_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/api"
+  UI_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/"
 
   {{- if .Values.global.scmProviders.enableWebhookSSL }}
   ENABLE_SSL_FOR_WEBHOOK: {{ .Values.global.scmProviders.enableWebhookSSL | quote | title }}
@@ -65,6 +65,15 @@ data:
   {{- if .Values.global.scmProviders.github.webhookUrl }}
   GITHUB_WEBHOOK_URL: {{ .Values.global.scmProviders.github.webhookUrl | quote }}
   {{- end }}
+  {{- if .Values.global.scmProviders.github.clientId }}
+  GITHUB_APP_CLIENT_ID: {{ .Values.global.scmProviders.github.clientId | quote }}
+  {{- end }}
+  {{- if .Values.global.scmProviders.github.appId }}
+  GITHUB_APP_ID: {{ .Values.global.scmProviders.github.appId | quote }}
+  {{- end }}
+  {{- if .Values.global.scmProviders.github.appName }}
+  GITHUB_APP_NAME: {{ .Values.global.scmProviders.github.appName | quote }}
+  {{- end }}
 
   {{- if .Values.global.scmProviders.gitlab.url }}
   GITLAB_URL: {{ .Values.global.scmProviders.gitlab.url | quote}}
@@ -95,7 +104,7 @@ data:
   SOCIAL_AUTH_REDIRECT_IS_HTTPS: "False"
 
   {{- if .Values.global.ingress.enabled }}
-  SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }},{{ .Values.global.ingress.host }}/"
+  SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }},{{ .Values.global.host }}/"
   {{- else }}
   SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }}"
   {{- end }}

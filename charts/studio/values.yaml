@@ -6,13 +6,14 @@
 imagePullSecrets: []
 
 global:
-  # -- Studio: Url
-  url: "http://studio.example.com"
+  # -- Studio: Hostname for accessing Studio (no http(s) scheme)
+  host: "studio.example.com"
   # -- Studio: Maximum number of views
   maxViews: "100"
   # -- Studio: Maximum number of teams
   maxTeams: "10"
-  # -- Studio: Secret key for encryption
+  # -- Studio: Secret key for signing Webhook payloads
+  # We recommend you set this externally. If left empty, a random key will be generated.
   secretKey: ""
 
   # -- Studio: Custom CA certificate in PEM format
@@ -76,6 +77,8 @@ global:
 
       # -- GitHub OAuth App Client ID
       clientId: ""
+      # -- GitHub OAuth App Name
+      appName: ""
       # -- GitHub OAuth App ID
       appId: ""
       # -- GitHub OAuth App Secret
@@ -83,7 +86,7 @@ global:
       # -- GitHub OAuth App Private Key
       privateKey: ""
 
-      # -- GitHub Webhook URL  
+      # -- GitHub Webhook URL, e.g. https://<global.host>/webhook/github/
       webhookUrl: ""
       # -- GitHub Webhook secret
       webhookSecret: ""
