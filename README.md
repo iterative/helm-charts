@@ -112,6 +112,7 @@ imagePullSecrets:
 
 global:
   host: "my-studio.private.com"
+  secretKey: "768d4238-1257-4500-89ce-7ac6aea5c5c9"
   ingress:
     enabled: true
     className: nginx

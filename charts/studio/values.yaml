@@ -12,7 +12,8 @@ global:
   maxViews: "100"
   # -- Studio: Maximum number of teams
   maxTeams: "10"
-  # -- Studio: Secret key for encryption
+  # -- Studio: Secret key for signing Webhook payloads
+  # We recommend you set this externally. If left empty, a random key will be generated.
   secretKey: ""
 
   # -- Studio: Custom CA certificate in PEM format
