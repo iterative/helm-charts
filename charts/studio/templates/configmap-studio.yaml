@@ -56,11 +56,9 @@ data:
   REDIS_URL: "redis://{{ .Values.redis.fullnameOverride }}-master.{{ .Release.Namespace }}.svc.cluster.local:6379"
   {{- end }}
 
-  {{- if .Values.global.scmProviders.github.apiUrl }}
-  GITHUB_API_URL: {{ .Values.global.scmProviders.github.apiUrl | quote }}
-  {{- end }}
   {{- if .Values.global.scmProviders.github.url }}
   GITHUB_URL: {{ .Values.global.scmProviders.github.url | quote }}
+  GITHUB_API_URL: "{{ .Values.global.scmProviders.github.url | trimSuffix "/" }}/api/v3"
   {{- end }}
   {{- if .Values.global.scmProviders.github.webhookUrl }}
   GITHUB_WEBHOOK_URL: {{ .Values.global.scmProviders.github.webhookUrl | quote }}
