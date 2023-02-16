@@ -124,7 +124,7 @@ global:
       appId: "<app-id>"
       appName: "iterative-studio-selfhosted"
       clientId: "<gh-client-id>"
-      appSecret: "<gh-app-secret>"
+      clientSecret: "<gh-app-secret>"
       webhookUrl: "https://my-studio.private.com/webhook/github"
       privateKey: |-
         -----BEGIN RSA PRIVATE KEY-----

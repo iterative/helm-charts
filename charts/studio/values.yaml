@@ -78,14 +78,15 @@ global:
       # Set this if you're using the selfhosted version
       apiUrl: ""
 
-      # -- GitHub OAuth App Client ID
-      clientId: ""
+
       # -- GitHub OAuth App Name
       appName: ""
       # -- GitHub OAuth App ID
       appId: ""
+      # -- GitHub OAuth App Client ID
+      clientId: ""
       # -- GitHub OAuth App Secret
-      appSecret: ""
+      clientSecret: ""
       # -- GitHub OAuth App Private Key
       privateKey: ""
 
