@@ -92,8 +92,6 @@ global:
 
       # -- GitHub Webhook URL, e.g. https://<global.host>/webhook/github/
       webhookUrl: ""
-      # -- GitHub Webhook secret
-      webhookSecret: ""
 
     gitlab:
       # -- GitLab enabled
