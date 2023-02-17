@@ -27,13 +27,11 @@ data:
   {{- if .Values.global.blobvault.endpointUrl }}
   BLOBVAULT_ENDPOINT_URL: {{ .Values.global.blobvault.endpointUrl }}
   {{- else }}
-  BLOBVAULT_ENDPOINT_URL: "{{ .Values.minio.fullnameOverride }}.{{ .Release.Namespace }}.svc.cluster.local:9000"
+  BLOBVAULT_ENDPOINT_URL: "http://{{ .Values.minio.fullnameOverride }}.{{ .Release.Namespace }}.svc.cluster.local:9000"
   {{- end }}
 
   {{- if .Values.global.blobvault.endpointUrlFe }}
   BLOBVAULT_ENDPOINT_URL_FE: {{ .Values.global.blobvault.endpointUrlFe }}
-  {{- else }}
-  BLOBVAULT_ENDPOINT_URL_FE: "{{ .Values.minio.fullnameOverride }}.{{ .Release.Namespace }}.svc.cluster.local:9000"
   {{- end }}
   
   {{- if .Values.global.celery.brokerUrl }}
