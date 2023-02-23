@@ -106,3 +106,8 @@ data:
   {{- else }}
   SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }}"
   {{- end }}
+
+  STATIC_FILES_S3_ENABLED: {{ .Values.global.staticFilesS3Enabled | quote | title }}
+  {{- if .Values.global.staticFilesS3Enabled }}
+  STATIC_FILES_S3_BUCKET: {{ .Values.global.staticFilesS3Bucket | quote }}
+  {{- end }}

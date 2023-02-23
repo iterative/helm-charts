@@ -39,6 +39,12 @@ global:
     # -- Blobvault S3 secret access key ID
     secretAccessKeyId: "password"
 
+  # -- Enable serving WebAPI static files from S3 bucket
+  staticFilesS3Enabled: false
+
+  # -- Bucket name to serve WebAPI static files
+  staticFilesS3Bucket: ""
+
   celery:
     # -- Celery broker URL
     brokerUrl: ""
