@@ -146,9 +146,11 @@ minio:
     rootPassword: password
 
   provisioning:
+    # -- Minio provisioning enabled
+    enabled: true
     # -- Minio buckets to provision
     buckets:
-      - iterativeai
+      - name: iterativeai
 
 redis:
   # -- Redis enabled
