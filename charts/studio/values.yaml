@@ -16,9 +16,6 @@ global:
   # We recommend you set this externally. If left empty, a random key will be generated.
   secretKey: ""
 
-  # -- Studio: Enable secure flag on session cookies
-  sessionCookieSecure: true
-
   # -- Studio: Custom CA certificate in PEM format
   # customCaCert: |-
   #   -----BEGIN CERTIFICATE-----

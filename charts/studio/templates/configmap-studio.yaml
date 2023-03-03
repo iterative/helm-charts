@@ -97,8 +97,6 @@ data:
   {{- end }}
   SCM_PROVIDERS: {{ $scmProviders | join "," | quote }}
 
-  SESSION_COOKIE_SECURE: {{ .Values.global.sessionCookieSecure | quote | title }}
-
   SOCIAL_AUTH_REDIRECT_IS_HTTPS: "False"
 
   {{- if .Values.global.ingress.enabled }}
