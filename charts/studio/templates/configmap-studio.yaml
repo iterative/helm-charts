@@ -24,14 +24,12 @@ data:
   BLOBVAULT_BUCKET: {{ .Values.global.blobvault.bucket | quote }}
   {{- end }}
 
-  {{- if .Values.global.blobvault.endpointUrl }}
-  BLOBVAULT_ENDPOINT_URL: {{ .Values.global.blobvault.endpointUrl }}
-  {{- else }}
-  BLOBVAULT_ENDPOINT_URL: "http://{{ .Values.minio.fullnameOverride }}.{{ .Release.Namespace }}.svc.cluster.local:9000"
+  {{- if .Values.global.blobvault.regionName }}
+  BLOBVAULT_AWS_REGION: {{ .Values.global.blobvault.regionName }}
   {{- end }}
 
-  {{- if .Values.global.blobvault.endpointUrlFe }}
-  BLOBVAULT_ENDPOINT_URL_FE: {{ .Values.global.blobvault.endpointUrlFe }}
+  {{- if .Values.global.blobvault.endpointUrl }}
+  BLOBVAULT_ENDPOINT_URL: {{ .Values.global.blobvault.endpointUrl }}
   {{- end }}
   
   {{- if .Values.global.celery.brokerUrl }}
