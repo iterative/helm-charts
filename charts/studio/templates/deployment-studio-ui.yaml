@@ -53,6 +53,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: studio
+            - configMapRef:
+                name: studio-ui
             - secretRef:
                 name: studio
           {{- if .Values.global.customCaCert }}

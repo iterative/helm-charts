@@ -49,6 +49,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: studio
+            - configMapRef:
+                name: studio-worker
             - secretRef:
                 name: studio
           {{- if .Values.global.customCaCert }}
