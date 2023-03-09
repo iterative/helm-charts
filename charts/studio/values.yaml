@@ -24,6 +24,12 @@ global:
   #
   customCaCert: ""
 
+  # -- Studio: Additional environment variables for all pods
+  envVars: {}
+  # Example:
+  # envVars: 
+  #   DEBUG: True
+
   blobvault:
     # -- Blobvault S3 bucket name
     bucket: "iterativeai"
@@ -175,6 +181,12 @@ postgresql:
         database: iterativeai
 
 studioUi:
+  # -- Studio: Additional environment variables for ui pods
+  envVars: {}
+  # Example:
+  # envVars: 
+  #   DEBUG: True
+
   replicaCount: 1
 
   image:
@@ -230,6 +242,12 @@ studioUi:
   affinity: {}
 
 studioBackend:
+  # -- Studio: Additional environment variables for backend pods
+  envVars: {}
+  # Example:
+  # envVars: 
+  #   DEBUG: True
+
   replicaCount: 1
 
   image:
@@ -285,6 +303,12 @@ studioBackend:
   affinity: {}
 
 studioBeat:
+  # -- Studio: Additional environment variables for beat pods
+  envVars: {}
+  # Example:
+  # envVars: 
+  #   DEBUG: True
+
   replicaCount: 1
 
   resources: {}
@@ -330,6 +354,12 @@ studioBeat:
   affinity: {}
 
 studioWorker:
+  # -- Studio: Additional environment variables for worker pods
+  envVars: {}
+  # Example:
+  # envVars: 
+  #   DEBUG: True
+
   replicaCount: 1
 
   resources: {}

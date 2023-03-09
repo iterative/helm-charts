@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: studio-ui
+data:
+{{- with .Values.studioUi.envVars}}
+{{-  toYaml . | nindent 2 }}
+{{- end }}
