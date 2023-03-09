@@ -3,4 +3,6 @@ kind: ConfigMap
 metadata:
   name: studio-ui
 data:
-{{- toYaml .Values.studioUi.envVars  | nindent 4 }}
+{{- with .Values.studioUi.envVars}}
+{{-  toYaml . | nindent 2 }}
+{{- end }}

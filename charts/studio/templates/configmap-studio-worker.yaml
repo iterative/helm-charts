@@ -3,4 +3,6 @@ kind: ConfigMap
 metadata:
   name: studio-worker
 data:
-{{- toYaml .Values.studioWorker.envVars  | nindent 4 }}
+{{- with .Values.studioWorker.envVars}}
+{{-  toYaml . | nindent 2 }}
+{{- end }}

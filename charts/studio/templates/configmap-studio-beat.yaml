@@ -3,4 +3,6 @@ kind: ConfigMap
 metadata:
   name: studio-beat
 data:
-{{- toYaml .Values.studioBeat.envVars  | nindent 4 }}
+{{- with .Values.studioBeat.envVars}}
+{{-  toYaml . | nindent 2 }}
+{{- end }}

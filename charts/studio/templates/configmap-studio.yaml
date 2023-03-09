@@ -3,7 +3,9 @@ kind: ConfigMap
 metadata:
   name: studio
 data:
-{{- toYaml .Values.global.envVars  | nindent 4 }}
+{{- with .Values.global.envVars}}
+{{-  toYaml . | nindent 2 }}
+{{- end }}
 
   ALLOWED_HOSTS: "*"
   API_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/api"

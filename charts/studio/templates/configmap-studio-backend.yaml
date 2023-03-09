@@ -3,4 +3,6 @@ kind: ConfigMap
 metadata:
   name: studio-backend
 data:
-{{- toYaml .Values.studioBackend.envVars  | nindent 4 }}
+{{- with .Values.studioBackend.envVars}}
+{{-  toYaml . | nindent 2 }}
+{{- end }}
