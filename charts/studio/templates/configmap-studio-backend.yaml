@@ -3,6 +3,4 @@ kind: ConfigMap
 metadata:
   name: studio-backend
 data:
-{{- range $k, $v := .Values.studioBackend.envVars }}
-  {{ $v.name }}: "{{ $v.value }}"
-{{- end }}
+{{- toYaml .Values.studioBackend.envVars  | nindent 4 }}

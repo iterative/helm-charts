@@ -25,12 +25,10 @@ global:
   customCaCert: ""
 
   # -- Studio: Additional environment variables for all pods
-  envVars: []
+  envVars: {}
   # Example:
-  # envVars: [
-  #   - name: DEBUG
-  #     value: True
-  # ]
+  # envVars: 
+  #   DEBUG: True
 
   blobvault:
     # -- Blobvault S3 bucket name
@@ -184,12 +182,10 @@ postgresql:
 
 studioUi:
   # -- Studio: Additional environment variables for ui pods
-  envVars: []
+  envVars: {}
   # Example:
-  # envVars: [
-  #   - name: DEBUG
-  #     value: True
-  # ]
+  # envVars: 
+  #   DEBUG: True
 
   replicaCount: 1
 
@@ -247,12 +243,10 @@ studioUi:
 
 studioBackend:
   # -- Studio: Additional environment variables for backend pods
-  envVars: []
+  envVars: {}
   # Example:
-  # envVars: [
-  #   - name: DEBUG
-  #     value: True
-  # ]
+  # envVars: 
+  #   DEBUG: True
 
   replicaCount: 1
 
@@ -310,12 +304,10 @@ studioBackend:
 
 studioBeat:
   # -- Studio: Additional environment variables for beat pods
-  envVars: []
+  envVars: {}
   # Example:
-  # envVars: [
-  #   - name: DEBUG
-  #     value: True
-  # ]
+  # envVars: 
+  #   DEBUG: True
 
   replicaCount: 1
 
@@ -363,12 +355,10 @@ studioBeat:
 
 studioWorker:
   # -- Studio: Additional environment variables for worker pods
-  envVars: []
+  envVars: {}
   # Example:
-  # envVars: [
-  #   - name: DEBUG
-  #     value: True
-  # ]
+  # envVars: 
+  #   DEBUG: True
 
   replicaCount: 1
 
