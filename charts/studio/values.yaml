@@ -145,6 +145,8 @@ nginx:
 
   extraVolumes:
   - name: blobvault
+    persistentVolumeClaim:
+      claimName: blobvault
 
   extraVolumeMounts: 
   - name: blobvault
