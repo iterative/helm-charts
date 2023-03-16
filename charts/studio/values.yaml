@@ -31,6 +31,10 @@ global:
   #   DEBUG: True
 
   blobvault:
+    # -- Blobvault local backing store size
+    persistentVolume:
+      size: 30Gi
+
     # -- Blobvault S3 bucket name
     bucket: ""
     # -- Blobvault S3 endpoint URL
@@ -41,7 +45,7 @@ global:
     secretAccessKeyId: ""
     # -- Blobvault S3 region
     regionName: ""
-
+      
   celery:
     # -- Celery broker URL
     brokerUrl: ""
