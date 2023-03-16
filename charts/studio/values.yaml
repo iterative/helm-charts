@@ -32,15 +32,13 @@ global:
 
   blobvault:
     # -- Blobvault S3 bucket name
-    bucket: "iterativeai"
-    # -- Blobvault S3 endpoint URL for backend
+    bucket: ""
+    # -- Blobvault S3 endpoint URL
     endpointUrl: ""
-    # -- Blobvault S3 endpoint URL for frontend
-    endpointUrlFe: ""
     # -- Blobvault S3 access key ID
-    accessKeyId: "admin"
+    accessKeyId: ""
     # -- Blobvault S3 secret access key ID
-    secretAccessKeyId: "password"
+    secretAccessKeyId: ""
     # -- Blobvault S3 region
     regionName: ""
 
@@ -49,7 +47,6 @@ global:
     brokerUrl: ""
     # -- Celery result URL
     resultBackend: ""
-
 
   ingress:
     enabled: true
@@ -135,27 +132,95 @@ global:
       # -- Bitbucket Webhook URL
       webhookUrl: ""
 
+nginx:
+  service:
+    type: ClusterIP
 
-# Dependencies
-minio:
-  # -- Minio enabled
-  enabled: false
-  # -- Minio name override
-  fullnameOverride: studio-minio
-
-  # Change this before deploying
-  auth:
-    # -- Minio root user
-    rootUser: admin
-    # -- Minio root password
-    rootPassword: password
-
-  provisioning:
-    # -- Minio provisioning enabled
+  ingress:
     enabled: true
-    # -- Minio buckets to provision
-    buckets:
-      - name: iterativeai
+    hostname: "localhost"
+    path: /blobvault(/|$)(.*)
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+
+  extraVolumes:
+  - name: blobvault
+    persistentVolumeClaim:
+      claimName: blobvault
+
+  extraVolumeMounts: 
+  - name: blobvault
+    mountPath: /blobvault
+
+  serverBlock: |-
+    server {
+        listen       8080;
+        server_name  _;
+
+        root /blobvault;
+
+        location ~ \.json.gz$ {
+            if ($request_method = 'OPTIONS') {
+                add_header 'Access-Control-Allow-Origin' '*';
+                #
+                # Cookies
+                #
+                add_header 'Access-Control-Allow-Credentials' 'true';
+                add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+                #
+                # Custom headers and headers various browsers *should* be OK with but aren't
+                #
+                add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Studio-Trace-Id';
+                #
+                # Tell client that this pre-flight info is valid for 20 days
+                #
+                add_header 'Access-Control-Max-Age' 1728000;
+                add_header 'Content-Type' 'text/plain charset=UTF-8';
+                add_header 'Content-Length' 0;
+                return 204;
+            }
+            if ($request_method = 'GET') {
+                add_header 'Access-Control-Allow-Origin' '*';
+                add_header 'Access-Control-Allow-Credentials' 'true';
+                add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+                add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Studio-Trace-Id';
+                add_header Content-Encoding gzip;
+            }
+            gzip off;
+            types { } default_type "application/json";
+        }
+
+
+        location / {
+            if ($request_method = 'OPTIONS') {
+                add_header 'Access-Control-Allow-Origin' '*';
+                #
+                # Cookies
+                #
+                add_header 'Access-Control-Allow-Credentials' 'true';
+                add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+                #
+                # Custom headers and headers various browsers *should* be OK with but aren't
+                #
+                add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Studio-Trace-Id';
+                #
+                # Tell client that this pre-flight info is valid for 20 days
+                #
+                add_header 'Access-Control-Max-Age' 1728000;
+                add_header 'Content-Type' 'text/plain charset=UTF-8';
+                add_header 'Content-Length' 0;
+                return 204;
+            }
+            if ($request_method = 'GET') {
+                add_header 'Access-Control-Allow-Origin' '*';
+                add_header 'Access-Control-Allow-Credentials' 'true';
+                add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+                add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Studio-Trace-Id';
+            }
+
+            try_files $uri $uri/ =404;
+        }
+    }
 
 redis:
   # -- Redis enabled
