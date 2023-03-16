@@ -23,19 +23,24 @@ data:
   BITBUCKET_WEBHOOK_URL: {{ .Values.global.scmProviders.bitbucket.webhookUrl | quote}}
   {{- end }}
 
-  {{- if .Values.global.blobvault.bucket }}
   ENABLE_BLOBVAULT: "True"
-  BLOBVAULT_BUCKET: {{ .Values.global.blobvault.bucket | quote }}
-  {{- end }}
 
+  {{- if .Values.global.blobvault.bucket }}
+  BLOBVAULT_BUCKET: {{ .Values.global.blobvault.bucket | quote }}
   {{- if .Values.global.blobvault.regionName }}
   BLOBVAULT_AWS_REGION: {{ .Values.global.blobvault.regionName }}
   {{- end }}
-
   {{- if .Values.global.blobvault.endpointUrl }}
   BLOBVAULT_ENDPOINT_URL: {{ .Values.global.blobvault.endpointUrl }}
+  BLOBVAULT_ENDPOINT_URL_FE: {{ .Values.global.blobvault.endpointUrl }}
   {{- end }}
-  
+  {{- else }}
+  BLOBVAULT_LOCAL_ENABLED: "True"
+  BLOBVAULT_LOCAL_PATH: "/blobvault"
+  BLOBVAULT_ENDPOINT_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/blobvault"
+  BLOBVAULT_ENDPOINT_URL_FE: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/blobvault"
+  {{- end }}
+
   {{- if .Values.global.celery.brokerUrl }}
   CELERY_BROKER_URL: {{ .Values.global.celery.brokerUrl }}
   {{- else }}
