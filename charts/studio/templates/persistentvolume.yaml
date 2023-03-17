@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-path
+  storageClassName: {{ .Values.global.blobvault.persistentVolume.storageClassName }}
   resources:
     requests:
       storage: {{ .Values.global.blobvault.persistentVolume.size }}

@@ -33,6 +33,7 @@ global:
   blobvault:
     # -- Blobvault local backing store size
     persistentVolume:
+      storageClassName: local-path
       size: 30Gi
 
     # -- Blobvault S3 bucket name
