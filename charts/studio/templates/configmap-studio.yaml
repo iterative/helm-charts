@@ -11,8 +11,6 @@ data:
   API_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/api"
   UI_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/"
 
-  ENABLE_SSL_FOR_WEBHOOK: {{ .Values.global.scmProviders.enableWebhookSSL | quote | title }}
-
   {{- if .Values.global.scmProviders.bitbucket.url }}
   BITBUCKET_URL: {{.Values.global.scmProviders.bitbucket.url | quote }}
   {{- end }}
