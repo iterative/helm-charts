@@ -25,7 +25,7 @@ appVersion: "v1.59.0"
 
 dependencies:
   - name: nginx
-    version: "13.2.29"
+    version: "13.2.30"
     repository: "https://charts.bitnami.com/bitnami"
   - name: redis
     condition: redis.enabled
