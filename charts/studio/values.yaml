@@ -28,7 +28,7 @@ global:
   envVars: {}
   # Example:
   # envVars: 
-  #   DEBUG: True
+  #   DEBUG: "True"
 
   blobvault:
     # -- Blobvault local backing store size
@@ -254,7 +254,7 @@ studioUi:
   envVars: {}
   # Example:
   # envVars: 
-  #   DEBUG: True
+  #   DEBUG: "True"
 
   replicaCount: 1
 
@@ -311,7 +311,7 @@ studioBackend:
   envVars: {}
   # Example:
   # envVars: 
-  #   DEBUG: True
+  #   DEBUG: "True"
 
   replicaCount: 1
 
@@ -368,7 +368,7 @@ studioBeat:
   envVars: {}
   # Example:
   # envVars: 
-  #   DEBUG: True
+  #   DEBUG: "True"
 
   replicaCount: 1
 
@@ -415,7 +415,7 @@ studioWorker:
   envVars: {}
   # Example:
   # envVars: 
-  #   DEBUG: True
+  #   DEBUG: "True"
 
   replicaCount: 1
 
