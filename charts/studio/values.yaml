@@ -161,7 +161,7 @@ nginx:
 
         root /blobvault;
 
-        location ~ \.json.gz$ {
+        location ~ \.gz$ {
             if ($request_method = 'OPTIONS') {
                 add_header 'Access-Control-Allow-Origin' '*';
                 #
