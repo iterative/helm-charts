@@ -234,6 +234,10 @@ redis:
     # -- Redis authentication enabled
     enabled: false
 
+  replica:
+    # -- Redis number of replicas
+    replicaCount: 1
+
 postgresql:
   # -- Postgres enabled
   enabled: true
