@@ -14,8 +14,6 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: blobvault
-  labels:
-    {{- include "studio-ui.labels" . | nindent 4 }}
   {{- with .Values.global.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
