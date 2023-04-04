@@ -23,7 +23,7 @@ spec:
   {{- if and .Values.global.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
   ingressClassName: {{ .Values.global.ingress.className }}
   {{- end }}
-  {{- if .Values.global.ingress.tlsEnabled and .Values.global.ingress.hostnameEnabled }}
+  {{- if and .Values.global.ingress.tlsEnabled .Values.global.ingress.hostnameEnabled }}
   tls:
     - hosts:
         - {{ .Values.global.host }}
