@@ -13,11 +13,10 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: app
-  labels:
-    {{- include "studio-ui.labels" . | nindent 4 }}
-  {{- with .Values.global.ingress.annotations }}
+  name: blobvault
   annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  {{- with .Values.global.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
@@ -33,49 +32,22 @@ spec:
   rules:
     - http:
         paths:
-          - path: /
+          - path: /blobvault(/|$)(.*)
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
             pathType: ImplementationSpecific
             {{- end }}
             backend:
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: studio-ui
+                name: {{ .Release.Name }}-nginx
                 port:
-                  number: {{ .Values.studioUi.service.port }}
+                  name: http
               {{- else }}
-              serviceName: studio-ui
-              servicePort: {{ .Values.studioUi.service.port }}
-              {{- end }}
-          - path: /api
-            {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
-            pathType: ImplementationSpecific
-            {{- end }}
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: studio-backend
-                port:
-                  number: {{ .Values.studioBackend.service.port }}
-              {{- else }}
-              serviceName: studio-backend
-              servicePort: {{ .Values.studioBackend.service.port }}
-              {{- end }}
-          - path: /webhook
-            {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
-            pathType: ImplementationSpecific
-            {{- end }}
-            backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: studio-backend
-                port:
-                  number: {{ .Values.studioBackend.service.port }}
-              {{- else }}
-              serviceName: studio-backend
-              servicePort: {{ .Values.studioBackend.service.port }}
+              serviceName: {{ .Release.Name }}-nginx
+              servicePort: 80
               {{- end }}
       {{- if .Values.global.ingress.hostnameEnabled }}
       host: {{ .Values.global.host }}
       {{- end }}
 {{- end }}
+

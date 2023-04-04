@@ -55,6 +55,7 @@ global:
 
   ingress:
     enabled: true
+    hostnameEnabled: true
     className: ""
     annotations: {}
       # kubernetes.io/ingress.class: nginx
@@ -139,11 +140,7 @@ nginx:
     type: ClusterIP
 
   ingress:
-    enabled: true
-    hostname: "localhost"
-    path: /blobvault(/|$)(.*)
-    annotations:
-      nginx.ingress.kubernetes.io/rewrite-target: /$2
+    enabled: false
 
   extraVolumes:
   - name: blobvault
