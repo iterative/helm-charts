@@ -14,10 +14,10 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: blobvault
-  {{- with .Values.global.ingress.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+  {{- with .Values.global.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
   {{- if and .Values.global.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
