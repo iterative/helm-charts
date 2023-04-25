@@ -8,6 +8,8 @@ imagePullSecrets: []
 global:
   # -- Studio: Hostname for accessing Studio (no http(s) scheme)
   host: "studio.example.com"
+  # -- Studio: Base path (prefix)
+  basePath: ""
   # -- Studio: Maximum number of views
   maxViews: "100"
   # -- Studio: Maximum number of teams
