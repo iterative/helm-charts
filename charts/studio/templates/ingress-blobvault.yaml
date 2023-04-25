@@ -33,7 +33,7 @@ spec:
     - http:
         paths:
           {{- if .Values.global.basePath }}
-          - path: /{{ .Values.global.basePath | trimPrefix "/" | trimSuffix "/" }}/blobvault(/|$)(.*)
+          - path: /{{ include "studio.basePath" . }}/blobvault(/|$)(.*)
           {{- else }}
           - path: /blobvault(/|$)(.*)
           {{- end }}

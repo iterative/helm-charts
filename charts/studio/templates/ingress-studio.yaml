@@ -34,7 +34,7 @@ spec:
     - http:
         paths:
           {{- if .Values.global.basePath }}
-          - path: /{{ .Values.global.basePath | trimPrefix "/" | trimSuffix "/" }}
+          - path: /{{ include "studio.basePath" . }}
           {{- else }}
           - path: /
           {{- end }}
@@ -52,7 +52,7 @@ spec:
               servicePort: {{ .Values.studioUi.service.port }}
               {{- end }}
           {{- if .Values.global.basePath }}
-          - path: /{{ .Values.global.basePath | trimPrefix "/" | trimSuffix "/" }}/api
+          - path: /{{ include "studio.basePath" . }}/api
           {{- else }}
           - path: /api
           {{- end }}
@@ -70,7 +70,7 @@ spec:
               servicePort: {{ .Values.studioBackend.service.port }}
               {{- end }}
           {{- if .Values.global.basePath }}
-          - path: /{{ .Values.global.basePath | trimPrefix "/" | trimSuffix "/" }}/webhook
+          - path: /{{ include "studio.basePath" . }}/webhook
           {{- else }}
           - path: /webhook
           {{- end }}

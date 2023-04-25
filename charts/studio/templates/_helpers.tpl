@@ -124,3 +124,8 @@ checksum/configmap-studio: {{ include (print $.Template.BasePath "/configmap-stu
 checksum/configmap-ca-cert: {{ include (print $.Template.BasePath "/configmap-ca-cert.yaml") . | sha256sum }}
 checksum/secret-studio: {{ include (print $.Template.BasePath "/secret-studio.yaml") . | sha256sum }}
 {{- end }}
+
+
+{{- define "studio.basePath" -}}
+{{- printf "%s" .Values.global.basePath | trimPrefix "/" | trimSuffix "/" }}
+{{- end }}
