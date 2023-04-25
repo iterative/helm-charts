@@ -32,9 +32,9 @@ spec:
   rules:
     - http:
         paths:
-          {{- if .Values.global.basePath -}}
+          {{- if .Values.global.basePath }}
           - path: /{{ .Values.global.basePath | trimPrefix "/" | trimSuffix "/" }}/blobvault(/|$)(.*)
-          {{- else -}}
+          {{- else }}
           - path: /blobvault(/|$)(.*)
           {{- end }}
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
