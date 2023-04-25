@@ -33,7 +33,11 @@ spec:
   rules:
     - http:
         paths:
+          {{- if .Values.global.basePath }}
+          - path: /{{ .Values.global.basePath | trimPrefix "/" | trimSuffix "/" }}/
+          {{- else }}
           - path: /
+          {{- end }}
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
             pathType: ImplementationSpecific
             {{- end }}
@@ -47,7 +51,11 @@ spec:
               serviceName: studio-ui
               servicePort: {{ .Values.studioUi.service.port }}
               {{- end }}
+          {{- if .Values.global.basePath }}
+          - path: /{{ .Values.global.basePath | trimPrefix "/" | trimSuffix "/" }}/api
+          {{- else }}
           - path: /api
+          {{- end }}
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
             pathType: ImplementationSpecific
             {{- end }}
@@ -61,7 +69,11 @@ spec:
               serviceName: studio-backend
               servicePort: {{ .Values.studioBackend.service.port }}
               {{- end }}
+          {{- if .Values.global.basePath }}
+          - path: /{{ .Values.global.basePath | trimPrefix "/" | trimSuffix "/" }}/webhook
+          {{- else }}
           - path: /webhook
+          {{- end }}
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
             pathType: ImplementationSpecific
             {{- end }}
