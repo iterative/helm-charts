@@ -34,7 +34,7 @@ spec:
     - http:
         paths:
           {{- if .Values.global.basePath }}
-          - path: /{{ .Values.global.basePath | trimPrefix "/" | trimSuffix "/" }}/
+          - path: /{{ .Values.global.basePath | trimPrefix "/" | trimSuffix "/" }}
           {{- else }}
           - path: /
           {{- end }}
