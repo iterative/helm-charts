@@ -37,7 +37,7 @@ spec:
     - http:
         paths:
           {{- if .Values.global.basePath }}
-          - path: /{{ include "studio.basePath" . }}/webhook
+          - path: /{{ include "studio.basePath" . }}/webhook(/|$)(.*)
           {{- else }}
           - path: /webhook
           {{- end }}

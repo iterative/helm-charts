@@ -37,7 +37,7 @@ spec:
     - http:
         paths:
           {{- if .Values.global.basePath }}
-          - path: /{{ include "studio.basePath" . }}/api
+          - path: /{{ include "studio.basePath" . }}/api(/|$)(.*)
           {{- else }}
           - path: /api
           {{- end }}
