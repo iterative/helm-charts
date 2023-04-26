@@ -18,7 +18,7 @@ metadata:
     {{- include "studio-ui.labels" . | nindent 4 }}
   annotations:
     {{- if .Values.global.basePath }}
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
     {{- end }}
   {{- with .Values.global.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
@@ -37,7 +37,7 @@ spec:
     - http:
         paths:
           {{- if .Values.global.basePath }}
-          - path: /{{ include "studio.basePath" . }}/webhook(/|$)(.*)
+          - path: /{{ include "studio.basePath" . }}/(webhook(?:/|$).*)
           {{- else }}
           - path: /webhook
           {{- end }}
