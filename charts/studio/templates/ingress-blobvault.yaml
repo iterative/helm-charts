@@ -32,7 +32,7 @@ spec:
   rules:
     - http:
         paths:
-          {{- if .Values.global.basePath }}
+          {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
           - path: /{{ include "studio.basePath" . }}/blobvault(/|$)(.*)
           {{- else }}
           - path: /blobvault(/|$)(.*)
