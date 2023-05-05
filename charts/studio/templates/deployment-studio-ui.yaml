@@ -45,11 +45,7 @@ spec:
             periodSeconds: 10
           readinessProbe:
             httpGet:
-            {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
-              path: /{{ include "studio.basePath" . }}/api/health
-            {{- else }}
               path: /api/health
-            {{- end }}
               port: 3000
             initialDelaySeconds: 5
             periodSeconds: 25
