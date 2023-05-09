@@ -11,10 +11,6 @@ data:
   API_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/api"
   UI_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}{{ include "studio.basePath" . }}{{- end }}"
 
-  {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
-  BASE_PATH: {{ include "studio.basePath" . }}
-  {{- end }}
-
   {{- if .Values.global.scmProviders.bitbucket.url }}
   BITBUCKET_URL: {{.Values.global.scmProviders.bitbucket.url | quote }}
   {{- end }}
