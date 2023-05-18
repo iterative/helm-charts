@@ -46,9 +46,9 @@ spec:
           readinessProbe:
             httpGet:
             {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
-              path: /{{ include "studio.basePath" . }}/fapi/health
+              path: /{{ include "studio.basePath" . }}/{{- if semverCompare ">=1.80.0" (.Values.studioUi.image.tag | default .Chart.AppVersion) }}f{{end}}api/health
             {{- else }}
-              path: /fapi/health
+              path: /{{- if semverCompare ">=1.80.0" (.Values.studioUi.image.tag | default .Chart.AppVersion) }}f{{end}}api/health
             {{- end }}
               port: 3000
             initialDelaySeconds: 5
