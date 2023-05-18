@@ -8,8 +8,12 @@ data:
 {{- end }}
 
   ALLOWED_HOSTS: "*"
-  API_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/api"
-  UI_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/"
+  API_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/api"
+  UI_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}{{ include "studio.basePath" . }}{{- end }}"
+
+  {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
+  BASE_PATH: /{{ include "studio.basePath" . }}
+  {{- end }}
 
   {{- if .Values.global.scmProviders.bitbucket.url }}
   BITBUCKET_URL: {{.Values.global.scmProviders.bitbucket.url | quote }}
@@ -35,8 +39,8 @@ data:
   {{- else }}
   BLOBVAULT_LOCAL_ENABLED: "True"
   BLOBVAULT_LOCAL_PATH: "/blobvault"
-  BLOBVAULT_ENDPOINT_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/blobvault"
-  BLOBVAULT_ENDPOINT_URL_FE: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/blobvault"
+  BLOBVAULT_ENDPOINT_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/blobvault"
+  BLOBVAULT_ENDPOINT_URL_FE: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/blobvault"
   {{- end }}
 
   {{- if .Values.global.celery.brokerUrl }}
@@ -109,4 +113,3 @@ data:
   {{- else }}
   SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }}"
   {{- end }}
-

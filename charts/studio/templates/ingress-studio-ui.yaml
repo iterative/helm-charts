@@ -13,9 +13,10 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: blobvault
+  name: {{ .Release.Name }}-studio-ui
+  labels:
+    {{- include "studio-ui.labels" . | nindent 4 }}
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
   {{- with .Values.global.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -33,9 +34,9 @@ spec:
     - http:
         paths:
           {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
-          - path: /{{ include "studio.basePath" . }}/blobvault(/|$)(.*)
+          - path: /{{ include "studio.basePath" . }}((?:/|$).*)
           {{- else }}
-          - path: /blobvault(/|$)(.*)
+          - path: /
           {{- end }}
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
             pathType: ImplementationSpecific
@@ -43,15 +44,14 @@ spec:
             backend:
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: {{ .Release.Name }}-nginx
+                name: studio-ui
                 port:
-                  name: http
+                  number: {{ .Values.studioUi.service.port }}
               {{- else }}
-              serviceName: {{ .Release.Name }}-nginx
-              servicePort: 80
+              serviceName: studio-ui
+              servicePort: {{ .Values.studioUi.service.port }}
               {{- end }}
       {{- if .Values.global.ingress.hostnameEnabled }}
       host: {{ .Values.global.host }}
       {{- end }}
 {{- end }}
-
