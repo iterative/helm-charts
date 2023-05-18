@@ -13,7 +13,7 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: app-api
+  name: {{ .Release.Name }}-studio-api
   labels:
     {{- include "studio-ui.labels" . | nindent 4 }}
   annotations:
