@@ -35,6 +35,8 @@ global:
   blobvault:
     # -- Blobvault local backing store size
     persistentVolume:
+      accessModes: 
+        - ReadWriteOnce
       storageClassName: local-path
       size: 30Gi
 

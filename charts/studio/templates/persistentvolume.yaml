@@ -5,7 +5,9 @@ metadata:
   name: blobvault
 spec:
   accessModes:
-    - ReadWriteOnce
+  {{- with .Values.global.blobvault.persistentVolume.accessModes }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
   storageClassName: {{ .Values.global.blobvault.persistentVolume.storageClassName }}
   resources:
     requests:
