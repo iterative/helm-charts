@@ -8,7 +8,9 @@ spec:
   {{- with .Values.global.blobvault.persistentVolume.accessModes }}
   {{- toYaml . | nindent 4 }}
   {{- end }}
+  {{- if .Values.global.blobvault.persistentVolume.storageClassName }}
   storageClassName: {{ .Values.global.blobvault.persistentVolume.storageClassName }}
+  {{- end }}
   resources:
     requests:
       storage: {{ .Values.global.blobvault.persistentVolume.size }}

@@ -17,6 +17,7 @@ metadata:
   labels:
     {{- include "studio-ui.labels" . | nindent 4 }}
   annotations:
+    helm.sh/hook: post-install,post-upgrade
   {{- with .Values.global.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}

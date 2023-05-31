@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "studio.fullname" . }}:{{ .Values.studioUi.service.port }}']
+      args: ['studio-ui:{{ .Values.studioUi.service.port }}']
   restartPolicy: Never
