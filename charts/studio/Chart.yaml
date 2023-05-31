@@ -24,7 +24,7 @@ version: 0.1.31
 appVersion: "v1.82.0"
 
 maintainers:
-  - name: Iterative, Inc.
+  - name: iterative
     email: support@iterative.ai
 
 dependencies:
