@@ -8,6 +8,10 @@ spec:
   {{- if not .Values.studioUi.autoscaling.enabled }}
   replicas: {{ .Values.studioUi.replicaCount }}
   {{- end }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 0
   selector:
     matchLabels:
       {{- include "studio-ui.selectorLabels" . | nindent 6 }}
