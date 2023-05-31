@@ -24,8 +24,8 @@ version: 0.1.30
 appVersion: "v1.82.0"
 
 maintainers:
-  - name: jesper7
-  - name: mjasion
+  - name: Iterative, Inc.
+    email: support@iterative.ai
 
 dependencies:
   - name: nginx
