@@ -37,7 +37,7 @@ global:
     persistentVolume:
       accessModes:
         - ReadWriteOnce
-      # storageClassName: local-path
+      storageClassName: local-path
       size: 30Gi
 
     # -- Blobvault S3 bucket name
