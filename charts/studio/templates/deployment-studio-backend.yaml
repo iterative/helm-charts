@@ -8,6 +8,10 @@ spec:
   {{- if not .Values.studioBackend.autoscaling.enabled }}
   replicas: {{ .Values.studioBackend.replicaCount }}
   {{- end }}
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 50%
   selector:
     matchLabels:
       {{- include "studio-backend.selectorLabels" . | nindent 6 }}
@@ -28,6 +32,26 @@ spec:
       serviceAccountName: {{ include "studio.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.studioBackend.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: run-migrations
+          securityContext: {{- toYaml .Values.studioBackend.securityContext | nindent 12 }}
+          image: "{{ .Values.studioBackend.image.repository }}:{{ .Values.studioBackend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.studioBackend.image.pullPolicy }}
+          command: [ "/bin/sh", "-c" ]
+          args:
+            - |
+              ./manage.py migrate
+          {{- if .Release.IsUpgrade }}
+              ./manage.py migrate phonenumber --fake-initial
+              ./manage.py migrate
+          {{- end }}
+          envFrom:
+            - configMapRef:
+                name: studio
+            - configMapRef:
+                name: studio-backend
+            - secretRef:
+                name: studio
       containers:
         - name: studio-backend
           securityContext:
@@ -52,7 +76,16 @@ spec:
               path: /health?format=json
               port: 8000
             initialDelaySeconds: 5
-            periodSeconds: 25
+            periodSeconds: 5
+            failureThreshold: 3
+            timeoutSeconds: 60
+          livenessProbe:
+            httpGet:
+              path: /health?format=json
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 5
             timeoutSeconds: 60
           {{- if .Values.global.customCaCert }}
           volumeMounts:
@@ -61,6 +94,11 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.studioBackend.resources | nindent 12 }}
+          env:
+            - name: "NO_MIGRATE_DB"
+              value: "1"
+            - name: "WAIT_FOR_MIGRATIONS"
+              value: "1"
           envFrom:
             - configMapRef:
                 name: studio
