@@ -65,15 +65,19 @@ spec:
                 name: studio-ui
             - secretRef:
                 name: studio
-          {{- if .Values.global.customCaCert }}
           volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          {{- if .Values.global.customCaCert }}
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
           {{- end }}
           resources:
             {{- toYaml .Values.studioUi.resources | nindent 12 }}
-      {{- if .Values.global.customCaCert }}
       volumes:
+        - name: tmp
+          emptyDir: {}
+      {{- if .Values.global.customCaCert }}
         - name: studio-ca-certificates
           configMap:
             name: studio-ca-certificates
