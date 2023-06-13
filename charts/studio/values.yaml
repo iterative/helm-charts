@@ -99,8 +99,9 @@ global:
       # -- GitHub OAuth App Private Key
       privateKey: ""
 
-      # -- GitHub Webhook URL, e.g. https://<global.host>/webhook/github/
-      webhookUrl: ""
+      # -- GitHub Webhook URL - override only using GitHub SaaS
+      # defaults to ${UI_URL}/webhook/github/
+      # webhookUrl: ""
 
     gitlab:
       # -- GitLab enabled
@@ -115,10 +116,9 @@ global:
       # -- GitLab OAuth App Secret Key
       secretKey: ""
 
-      # -- GitLab Webhook URL
-      webhookUrl: ""
-      # -- GitLab Webhook Secret
-      webhookSecret: ""
+      # -- GitLab Webhook URL - override only using GitLab SaaS
+      # defaults to ${UI_URL}/webhook/gitlab/
+      # webhookUrl: ""
 
     bitbucket:
       # -- Bitbucket enabled
@@ -136,8 +136,9 @@ global:
       # -- Bitbucket OAuth App Secret Key
       secretKey: ""
 
-      # -- Bitbucket Webhook URL
-      webhookUrl: ""
+      # -- Bitbucket Webhook URL - override only using BitBucket SaaS
+      # defaults to ${UI_URL}/webhook/bitbucket/
+      # webhookUrl: ""
 
 nginx:
   service:
