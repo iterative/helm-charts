@@ -103,6 +103,12 @@ global:
     password: "postgres"
 
   scmProviders:
+
+    # -- Set custom hostname for incoming webhook  if you're using SaaS version of GitHub, GitLab or Bitbucket.
+    # @default -- `$global.host` value.
+    webhookHost: ""
+
+    # -- Configure GitHub App integration with the Studio.
     github:
       # -- GitHub enabled
       enabled: false
@@ -126,9 +132,7 @@ global:
       # -- GitHub OAuth App Private Key
       privateKey: ""
 
-      # -- GitHub Webhook URL, e.g. https://<global.host>/webhook/github/
-      webhookUrl: ""
-
+    # -- Configure GitLab App integration with the Studio.
     gitlab:
       # -- GitLab enabled
       enabled: false
@@ -142,11 +146,10 @@ global:
       # -- GitLab OAuth App Secret Key
       secretKey: ""
 
-      # -- GitLab Webhook URL
-      webhookUrl: ""
       # -- GitLab Webhook Secret
       webhookSecret: ""
 
+    # -- Configure BitBucket App integration with the Studio.
     bitbucket:
       # -- Bitbucket enabled
       enabled: false
@@ -162,9 +165,6 @@ global:
       clientId: ""
       # -- Bitbucket OAuth App Secret Key
       secretKey: ""
-
-      # -- Bitbucket Webhook URL
-      webhookUrl: ""
 
 nginx:
   service:

@@ -31,7 +31,7 @@ spec:
   {{- if and .Values.global.ingress.tlsEnabled .Values.global.ingress.hostnameEnabled }}
   tls:
     - hosts:
-        - {{ .Values.global.host }}
+        - {{.Values.global.scmProviders.webhookHost | default .Values.global.host}}
       secretName: {{ .Values.global.ingress.tlsSecretName }}
   {{- end }}
   rules:
@@ -56,6 +56,6 @@ spec:
               servicePort: {{ .Values.studioBackend.service.port }}
               {{- end }}
       {{- if .Values.global.ingress.hostnameEnabled }}
-      host: {{ .Values.global.host }}
+      host: {{ .Values.global.scmProviders.webhookHost | default .Values.global.host }}
       {{- end }}
 {{- end }}
