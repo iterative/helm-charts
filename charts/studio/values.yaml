@@ -68,12 +68,23 @@ global:
     tlsSecretName: chart-example-tls
 
   postgres:
-    # -- Postgres database URL
-    databaseUrl: "studio-postgresql:5432/iterativeai"
-    # -- Postgres database user
-    databaseUser: "postgres"
-    # -- Postgres database password
-    databasePassword: "postgres"
+    # -- (DEPRECATED) Postgres database URL
+    databaseUrl: ""
+    # -- (DEPRECATED) Postgres database user
+    databaseUser: ""
+    # -- (DEPRECATED) Postgres database password
+    databasePassword: ""
+
+    # -- Postgres hostname
+    host: "studio-postgresql"
+    # -- Postgres port
+    port: "5432"
+    # -- Postgres database name
+    databaseName: "iterativeai"
+    # -- Postgres user
+    user: "postgres"
+    # -- Postgres password
+    password: "postgres"
 
   scmProviders:
     github:
