@@ -18,6 +18,7 @@ global:
   # We recommend you set this externally. If left empty, a random key will be generated.
   secretKey: ""
 
+  # Deprecated in favor of `customCaCerts`
   # -- Studio: Custom CA certificate in PEM format
   # customCaCert: |-
   #   -----BEGIN CERTIFICATE-----
@@ -25,6 +26,16 @@ global:
   #   -----END CERTIFICATE-----
   #
   customCaCert: ""
+
+  # -- Studio: Custom CA certificate in PEM format
+  # customCaCerts:
+  # - |-
+  #     -----BEGIN CERTIFICATE-----
+  #     ....
+  #     -----END CERTIFICATE-----
+  #
+  customCaCerts: []
+
 
   # -- Studio: Additional environment variables for all pods
   envVars: {}

@@ -7,3 +7,9 @@ data:
   self_signed_ca.crt: |
 {{ .Values.global.customCaCert | indent 4}}
   {{- end }}
+  {{- if .Values.global.customCaCerts }}
+    {{- range $index, $customCa := .Values.global.customCaCerts }}
+  self_signed_ca_{{ $index }}.crt:
+{{ $customCa | indent 4}}
+    {{- end }}
+  {{- end }}
