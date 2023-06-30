@@ -108,7 +108,7 @@ global:
     # @default -- `$global.host` value.
     webhookHost: ""
 
-    # -- Configure GitHub App integration with the Studio.
+    # -- GitHub App integration with Studio.
     github:
       # -- GitHub enabled
       enabled: false
@@ -132,7 +132,7 @@ global:
       # -- GitHub OAuth App Private Key
       privateKey: ""
 
-    # -- Configure GitLab App integration with the Studio.
+    # -- GitLab App integration with Studio.
     gitlab:
       # -- GitLab enabled
       enabled: false
@@ -149,7 +149,7 @@ global:
       # -- GitLab Webhook Secret
       webhookSecret: ""
 
-    # -- Configure BitBucket App integration with the Studio.
+    # -- BitBucket App integration with Studio.
     bitbucket:
       # -- Bitbucket enabled
       enabled: false
