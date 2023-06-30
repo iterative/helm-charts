@@ -104,7 +104,7 @@ global:
 
   scmProviders:
 
-    # -- Set custom hostname for incoming webhook  if you're using SaaS version of GitHub, GitLab or Bitbucket.
+    # -- Custom hostname for incoming webhook (if Studio runs on a private network and you use SaaS versions of GitHub, GitLab, or Bitbucket)
     # @default -- `$global.host` value.
     webhookHost: ""
 
