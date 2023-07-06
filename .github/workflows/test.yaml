@@ -49,16 +49,8 @@ jobs:
         if: steps.list-changed.outputs.changed == 'true'
         uses: helm/kind-action@v1.7.0
 
-      - name: Configure docker credentials
-        if: steps.list-changed.outputs.changed == 'true'
-        run: |
-          kubectl create secret docker-registry iterativeai \
-          --docker-server=docker.iterative.ai \
-          --docker-username="${{ secrets.ITERATIVE_DOCKER_REGISTRY_USER }}" \
-          --docker-password="${{ secrets.ITERATIVE_DOCKER_REGISTRY_PASSWORD }}"
-
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
         run: |
-          ct install --namespace default --target-branch ${{ github.event.repository.default_branch }} --upgrade --debug \
-          --helm-extra-set-args '--set imagePullSecrets[0].name=iterativeai'
+          ct lint-and-install --target-branch ${{ github.event.repository.default_branch }} --upgrade --debug \
+          --helm-extra-set-args '--set ci=true --set global.blobvault.persistentVolume.storageClassName="standard" --set imagePullSecrets[0].name=iterativeai --set dockerUsername="${{ secrets.ITERATIVE_DOCKER_REGISTRY_USER }}" --set dockerPassword="${{ secrets.ITERATIVE_DOCKER_REGISTRY_PASSWORD }}" --set dockerServer=docker.iterative.ai'
