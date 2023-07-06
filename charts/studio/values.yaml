@@ -253,6 +253,9 @@ redis:
   # -- Redis name override
   fullnameOverride: studio-redis
 
+  commonConfiguration: |-
+    timeout 20
+
   auth:
     # -- Redis authentication enabled
     enabled: false
