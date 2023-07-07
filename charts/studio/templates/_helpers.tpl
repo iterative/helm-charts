@@ -130,6 +130,6 @@ checksum/secret-studio: {{ include (print $.Template.BasePath "/secret-studio.ya
 {{- printf "%s" .Values.global.basePath | trimPrefix "/" | trimSuffix "/" }}
 {{- end }}
 
-{{- define "dockerconfig" -}}
+{{- define "ciDockerConfig" -}}
 {{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" .Values.dockerServer (printf "%s:%s" .Values.dockerUsername .Values.dockerPassword | b64enc) }}
 {{- end }}
