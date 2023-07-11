@@ -35,3 +35,4 @@ jobs:
           --method POST
         env:
           GITHUB_TOKEN: ${{ github.token }}
+        if: false # remove this for auto-merge
