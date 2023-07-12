@@ -28,7 +28,7 @@ jobs:
           --squash
           .
         env:
-          GITHUB_TOKEN: ${{ secrets.OLIVAW_PAT }}
+          GITHUB_TOKEN: ${{ secrets.OLIVAW_GITHUB_PERSONAL_ACCESS_TOKEN }}
       - run: >
           gh api repos/${{ github.repository }}/pulls/$(gh pr view --{json=,jq=.}number)/reviews
           --field event=APPROVE
