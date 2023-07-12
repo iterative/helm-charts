@@ -15,6 +15,8 @@ data:
   BASE_PATH: /{{ include "studio.basePath" . }}
   {{- end }}
 
+  TEST_CI: "1"
+
   {{- if .Values.global.scmProviders.bitbucket.url }}
   BITBUCKET_URL: {{.Values.global.scmProviders.bitbucket.url | quote }}
   {{- end }}
