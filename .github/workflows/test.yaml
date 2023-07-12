@@ -9,7 +9,7 @@ on:
 
 jobs:
   lint-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-8-cores
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -48,6 +48,10 @@ jobs:
       - name: Create kind cluster
         if: steps.list-changed.outputs.changed == 'true'
         uses: helm/kind-action@v1.7.0
+
+      - run: |
+          kubectl get storageclass standard
+          kubectl describe storageclass standard
 
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
