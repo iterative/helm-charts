@@ -255,8 +255,13 @@ nginx:
 redis:
   # -- Redis enabled
   enabled: true
-  # -- Redis name override
-  fullnameOverride: studio-redis
+
+  # -- Redis master configuration
+  master:
+    # -- Redis master persistence configuration
+    persistence:
+      # -- Redis master persistence size in PVC
+      size: "1Gi"
 
   # -- Redis master configuration
   master:
