@@ -68,7 +68,7 @@ global:
     # -- Celery result URL
     resultBackend: ""
 
-  # -- Studio: Settings related to DVC^X
+  # -- Studio: Settings related to DVCX
   dvcx: {}
     # -- Place where DVC^X will store its temporary files
     # rootDir: "/tmp"
