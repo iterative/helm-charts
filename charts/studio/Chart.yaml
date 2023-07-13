@@ -27,6 +27,8 @@ maintainers:
   - name: iterative
     email: support@iterative.ai
 
+icon: "https://static.iterative.ai/logo/studio.svg"
+
 dependencies:
   - name: nginx
     version: "13.2.30"

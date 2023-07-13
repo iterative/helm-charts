@@ -114,6 +114,4 @@ data:
   SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }}"
   {{- end }}
 
-  {{- $dvcx := .Values.global.dvcx | default dict }}
-  DQL_ROOT_DIR: {{ $dvcx.rootDir | default "/tmp" | quote }}
-  DVCX_ROOT_DIR: {{ $dvcx.rootDir | default "/tmp" | quote }}
+

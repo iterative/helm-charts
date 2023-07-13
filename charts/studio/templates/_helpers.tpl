@@ -133,3 +133,16 @@ checksum/secret-studio: {{ include (print $.Template.BasePath "/secret-studio.ya
 {{- define "ciDockerConfig" -}}
 {{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" .Values.dockerServer (printf "%s:%s" .Values.dockerUsername .Values.dockerPassword | b64enc) }}
 {{- end }}
+
+{{- define "studio.dvcx.configMap" -}}
+{{- $dvcx := .Values.global.dvcx | default dict }}
+{{- $dvcxClickhouse := $dvcx.clickHouse | default dict }}
+DQL_ENABLED: {{ $dvcx.enabled | default "False" | quote }}
+DQL_ROOT_DIR: {{ $dvcx.rootDir | default "/tmp" | quote }}
+DQL_CH_HOST: {{ $dvcxClickhouse.host | default "" | quote }}
+DQL_CH_DATABASE: {{ $dvcxClickhouse.database | default "" | quote }}
+DVCX_ENABLED: {{ $dvcx.enabled | default "False" | quote }}
+DVCX_ROOT_DIR: {{ $dvcx.rootDir | default "/tmp" | quote }}
+DVCX_CH_HOST: {{ $dvcxClickhouse.host | default "" | quote }}
+DVCX_CH_DATABASE: {{ $dvcxClickhouse.database | default "" | quote }}
+{{- end }}
