@@ -258,13 +258,6 @@ redis:
 
   # -- Redis master configuration
   master:
-    # -- Redis master persistence configuration
-    persistence:
-      # -- Redis master persistence size in PVC
-      size: "1Gi"
-
-  # -- Redis master configuration
-  master:
     ## Redis&reg; master resource requests and limits
     ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
     ## @param master.resources.limits The resources limits for the Redis&reg; master containers
