@@ -253,11 +253,18 @@ redis:
   # -- Redis name override
   fullnameOverride: studio-redis
 
+  # -- Redis replica configuration
+  replica:
+    # -- Redis replica count. 0 for standalone deployment of 1 master and 0 replicas
+    replicaCount: 0
+
+  # -- Redis common configuration to be added into the ConfigMap
   commonConfiguration: |-
     timeout 20
 
+  # -- Redis authentication settings
   auth:
-    # -- Redis authentication enabled
+    # -- Redis authentication disabled
     enabled: false
 
 postgresql:
