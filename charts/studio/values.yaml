@@ -255,8 +255,6 @@ nginx:
 redis:
   # -- Redis enabled
   enabled: true
-  # -- Redis name override
-  fullnameOverride: studio-redis
 
   # -- Redis master configuration
   master:

@@ -46,19 +46,19 @@ data:
   {{- if .Values.global.celery.brokerUrl }}
   CELERY_BROKER_URL: {{ .Values.global.celery.brokerUrl }}
   {{- else }}
-  CELERY_BROKER_URL: "redis://{{ .Values.redis.fullnameOverride }}-master.{{ .Release.Namespace }}.svc.cluster.local:6379"
+  CELERY_BROKER_URL: "redis://{{ .Release.Name }}-redis-master.{{ .Release.Namespace }}.svc.cluster.local:6379"
   {{- end }}
 
   {{- if .Values.global.celery.resultBackend }}
   CELERY_RESULT_BACKEND: {{ .Values.global.celery.resultBackend }}
   {{- else }}
-  CELERY_RESULT_BACKEND: "redis://{{ .Values.redis.fullnameOverride }}-master.{{ .Release.Namespace }}.svc.cluster.local:6379"
+  CELERY_RESULT_BACKEND: "redis://{{ .Release.Name }}-redis-master.{{ .Release.Namespace }}.svc.cluster.local:6379"
   {{- end }}
 
   {{- if .Values.global.celery.resultBackend }}
   REDIS_URL: {{ .Values.global.celery.resultBackend }}
   {{- else }}
-  REDIS_URL: "redis://{{ .Values.redis.fullnameOverride }}-master.{{ .Release.Namespace }}.svc.cluster.local:6379"
+  REDIS_URL: "redis://{{ .Release.Name }}-redis-master.{{ .Release.Namespace }}.svc.cluster.local:6379"
   {{- end }}
 
   {{- if .Values.global.scmProviders.github.apiUrl }}
