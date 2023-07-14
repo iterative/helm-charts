@@ -18,8 +18,8 @@ global:
   # We recommend you set this externally. If left empty, a random key will be generated.
   secretKey: ""
 
+  # -- (DEPRECATED) Studio: Custom CA certificate in PEM format
   # Deprecated in favor of `customCaCerts`
-  # -- Studio: Custom CA certificate in PEM format
   # customCaCert: |-
   #   -----BEGIN CERTIFICATE-----
   #   ....
@@ -120,7 +120,6 @@ global:
       # Set this if you're using the selfhosted version
       apiUrl: ""
 
-
       # -- GitHub OAuth App Name
       appName: ""
       # -- GitHub OAuth App ID
@@ -131,6 +130,9 @@ global:
       clientSecret: ""
       # -- GitHub OAuth App Private Key
       privateKey: ""
+
+      # -- (DEPRECATED) GitHub Webhook URL
+      webhookUrl: ""
 
     # -- GitLab App integration with Studio.
     gitlab:
@@ -145,6 +147,9 @@ global:
       clientId: ""
       # -- GitLab OAuth App Secret Key
       secretKey: ""
+
+      # -- (DEPRECATED) GitLab Webhook URL
+      webhookUrl: ""
 
       # -- GitLab Webhook Secret
       webhookSecret: ""
@@ -166,6 +171,8 @@ global:
       # -- Bitbucket OAuth App Secret Key
       secretKey: ""
 
+      # -- (DEPRECATED) BitBucket Webhook URL
+      webhookUrl: ""
 nginx:
   service:
     type: ClusterIP

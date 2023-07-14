@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.1.32](https://img.shields.io/badge/Version-0.1.32-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.82.0](https://img.shields.io/badge/AppVersion-v1.82.0-informational?style=flat-square)
+![Version: 0.2.8](https://img.shields.io/badge/Version-0.2.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.9.1](https://img.shields.io/badge/AppVersion-v2.9.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -16,7 +16,7 @@ A Helm chart for Kubernetes
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | nginx | 13.2.30 |
 | https://charts.bitnami.com/bitnami | postgresql | 11.9.13 |
-| https://charts.bitnami.com/bitnami | redis | 17.2.0 |
+| https://charts.bitnami.com/bitnami | redis | 17.11.8 |
 
 ## Values
 
@@ -31,7 +31,9 @@ A Helm chart for Kubernetes
 | global.blobvault.secretAccessKeyId | string | `""` | Blobvault S3 secret access key ID |
 | global.celery.brokerUrl | string | `""` | Celery broker URL |
 | global.celery.resultBackend | string | `""` | Celery result URL |
-| global.customCaCert | string | `""` | Studio: Custom CA certificate in PEM format customCaCert: |-   -----BEGIN CERTIFICATE-----   ....   -----END CERTIFICATE-----  |
+| global.customCaCert | DEPRECATED | `""` | Studio: Custom CA certificate in PEM format Deprecated in favor of `customCaCerts` customCaCert: |-   -----BEGIN CERTIFICATE-----   ....   -----END CERTIFICATE-----  |
+| global.customCaCerts | list | `[]` | Studio: Custom CA certificate in PEM format customCaCerts: - |-     -----BEGIN CERTIFICATE-----     ....     -----END CERTIFICATE-----  |
+| global.dvcx | object | `{}` | Studio: Settings related to DVCX |
 | global.envVars | object | `{}` | Studio: Additional environment variables for all pods |
 | global.host | string | `"studio.example.com"` | Studio: Hostname for accessing Studio (no http(s) scheme) |
 | global.ingress.annotations | object | `{}` |  |
@@ -42,16 +44,22 @@ A Helm chart for Kubernetes
 | global.ingress.tlsSecretName | string | `"chart-example-tls"` |  |
 | global.maxTeams | string | `"10"` | Studio: Maximum number of teams |
 | global.maxViews | string | `"100"` | Studio: Maximum number of views |
-| global.postgres.databasePassword | string | `"postgres"` | Postgres database password |
-| global.postgres.databaseUrl | string | `"studio-postgresql:5432/iterativeai"` | Postgres database URL |
-| global.postgres.databaseUser | string | `"postgres"` | Postgres database user |
-| global.scmProviders.bitbucket | object | `{"apiUrl":"","clientId":"","enabled":false,"secretKey":"","url":""}` | Configure BitBucket App integration with the Studio. |
+| global.postgres.databaseName | string | `"iterativeai"` | Postgres database name |
+| global.postgres.databasePassword | DEPRECATED | `""` | Postgres database password |
+| global.postgres.databaseUrl | DEPRECATED | `""` | Postgres database URL |
+| global.postgres.databaseUser | DEPRECATED | `""` | Postgres database user |
+| global.postgres.host | string | `"studio-postgresql"` | Postgres hostname |
+| global.postgres.password | string | `"postgres"` | Postgres password |
+| global.postgres.port | string | `"5432"` | Postgres port |
+| global.postgres.user | string | `"postgres"` | Postgres user |
+| global.scmProviders.bitbucket | object | `{"apiUrl":"","clientId":"","enabled":false,"secretKey":"","url":"","webhookUrl":""}` | BitBucket App integration with Studio. |
 | global.scmProviders.bitbucket.apiUrl | string | `""` | Bitbucket Server API URL Set this if you're using the selfhosted version |
 | global.scmProviders.bitbucket.clientId | string | `""` | Bitbucket OAuth App Client ID |
 | global.scmProviders.bitbucket.enabled | bool | `false` | Bitbucket enabled |
 | global.scmProviders.bitbucket.secretKey | string | `""` | Bitbucket OAuth App Secret Key |
 | global.scmProviders.bitbucket.url | string | `""` | Bitbucket Server URL Set this if you're using the selfhosted version |
-| global.scmProviders.github | object | `{"apiUrl":"","appId":"","appName":"","clientId":"","clientSecret":"","enabled":false,"privateKey":"","url":""}` | Configure GitHub App integration with the Studio. |
+| global.scmProviders.bitbucket.webhookUrl | DEPRECATED | `""` | BitBucket Webhook URL |
+| global.scmProviders.github | object | `{"apiUrl":"","appId":"","appName":"","clientId":"","clientSecret":"","enabled":false,"privateKey":"","url":"","webhookUrl":""}` | GitHub App integration with Studio. |
 | global.scmProviders.github.apiUrl | string | `""` | GitHub Enterprise API URL Set this if you're using the selfhosted version |
 | global.scmProviders.github.appId | string | `""` | GitHub OAuth App ID |
 | global.scmProviders.github.appName | string | `""` | GitHub OAuth App Name |
@@ -60,13 +68,15 @@ A Helm chart for Kubernetes
 | global.scmProviders.github.enabled | bool | `false` | GitHub enabled |
 | global.scmProviders.github.privateKey | string | `""` | GitHub OAuth App Private Key |
 | global.scmProviders.github.url | string | `""` | GitHub Enterprise URL Set this if you're using the selfhosted version |
-| global.scmProviders.gitlab | object | `{"clientId":"","enabled":false,"secretKey":"","url":"","webhookSecret":""}` | Configure GitLab App integration with the Studio. |
+| global.scmProviders.github.webhookUrl | DEPRECATED | `""` | GitHub Webhook URL |
+| global.scmProviders.gitlab | object | `{"clientId":"","enabled":false,"secretKey":"","url":"","webhookSecret":"","webhookUrl":""}` | GitLab App integration with Studio. |
 | global.scmProviders.gitlab.clientId | string | `""` | GitLab OAuth App Client ID |
 | global.scmProviders.gitlab.enabled | bool | `false` | GitLab enabled |
 | global.scmProviders.gitlab.secretKey | string | `""` | GitLab OAuth App Secret Key |
 | global.scmProviders.gitlab.url | string | `""` | GitLab Enterprise Edition URL Set this if you're using the selfhosted version |
 | global.scmProviders.gitlab.webhookSecret | string | `""` | GitLab Webhook Secret |
-| global.scmProviders.webhookHost | string | `$global.host` value. | Set custom hostname for incoming webhook  if you're using SaaS version of GitHub, GitLab or Bitbucket. |
+| global.scmProviders.gitlab.webhookUrl | DEPRECATED | `""` | GitLab Webhook URL |
+| global.scmProviders.webhookHost | string | `$global.host` value. | Custom hostname for incoming webhook (if Studio runs on a private network and you use SaaS versions of GitHub, GitLab, or Bitbucket) |
 | global.secretKey | string | `""` | Studio: Secret key for signing Webhook payloads We recommend you set this externally. If left empty, a random key will be generated. |
 | imagePullSecrets | list | `[]` | Secret containing Docker registry credentials |
 | nginx.extraVolumeMounts[0].mountPath | string | `"/blobvault"` |  |
@@ -80,9 +90,18 @@ A Helm chart for Kubernetes
 | postgresql.fullnameOverride | string | `"studio-postgresql"` | Postgres name override |
 | postgresql.global.postgresql.auth.database | string | `"iterativeai"` | Postgres database |
 | postgresql.global.postgresql.auth.postgresPassword | string | `"postgres"` | Postgres password |
-| redis.auth.enabled | bool | `false` | Redis authentication enabled |
+| redis.auth | object | `{"enabled":false}` | Redis authentication settings |
+| redis.auth.enabled | bool | `false` | Redis authentication disabled |
+| redis.commonConfiguration | string | `"timeout 20"` | Redis common configuration to be added into the ConfigMap |
 | redis.enabled | bool | `true` | Redis enabled |
 | redis.fullnameOverride | string | `"studio-redis"` | Redis name override |
+| redis.master | object | `{"persistence":{"enabled":false},"resources":{"limits":{"cpu":"1000m","memory":"2Gi"},"requests":{"cpu":"200m","memory":"512Mi"}}}` | Redis master configuration |
+| redis.master.persistence | object | `{"enabled":false}` | Redis master persistence configuration |
+| redis.master.persistence.enabled | bool | `false` | Redis master persistence is disabled |
+| redis.replica | object | `{"persistence":{"enabled":false},"replicaCount":0}` | Redis replica configuration |
+| redis.replica.persistence | object | `{"enabled":false}` | Redis replica persistence configuration |
+| redis.replica.persistence.enabled | bool | `false` | Redis replica persistence is disabled |
+| redis.replica.replicaCount | int | `0` | Redis replica count. 0 for standalone deployment of 1 master and 0 replicas |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `false` |  |
 | serviceAccount.name | string | `""` |  |
