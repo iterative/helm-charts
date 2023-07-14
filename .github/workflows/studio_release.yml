@@ -1,0 +1,38 @@
+on:
+  repository_dispatch:
+    types: [studio-release]
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  release:
+    concurrency:
+      group: release
+    runs-on: ubuntu-latest
+    env:
+      STUDIO_VERSION: ${{ github.event.client_payload.version }}
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          for expression in \
+            '.version |= (split(".") | .[-1] |= ((. type = "!!int") + 1) | join("."))' \
+            '.appVersion = env(STUDIO_VERSION)'
+          do
+            go run github.com/mikefarah/yq/v4@v4.34.1 eval --inplace "$expression" charts/studio/Chart.yaml
+          done
+      - uses: iterative/setup-cml@v1
+      - run: >
+          cml pr create
+          --{title,body,message}="Studio: bump to $STUDIO_VERSION"
+          --branch="bump-studio-$STUDIO_VERSION"
+          --squash
+          .
+        env:
+          GITHUB_TOKEN: ${{ secrets.OLIVAW_GITHUB_PERSONAL_ACCESS_TOKEN }}
+      - run: >
+          gh api repos/${{ github.repository }}/pulls/$(gh pr view --{json=,jq=.}number)/reviews
+          --field event=APPROVE
+          --method POST
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        if: false # remove this for auto-merge
