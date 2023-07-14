@@ -70,7 +70,7 @@ global:
 
   # -- Studio: Settings related to DVCX
   dvcx: {}
-    # -- Place where DVC^X will store its temporary files
+    # -- Place where DVCX will store its temporary files
     # rootDir: "/tmp"
 
   ingress:
