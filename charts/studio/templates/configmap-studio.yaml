@@ -1,3 +1,4 @@
+{{$webhookHost := .Values.global.scmProviders.webhookHost | default .Values.global.host }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -21,8 +22,8 @@ data:
   {{- if .Values.global.scmProviders.bitbucket.apiUrl }}
   BITBUCKET_API_URL: {{ .Values.global.scmProviders.bitbucket.apiUrl | quote}}
   {{- end }}
-  {{- if and .Values.global.scmProviders.bitbucket.enabled .Values.global.scmProviders.webhookHost }}
-  BITBUCKET_WEBHOOK_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{ .Values.global.scmProviders.webhookHost}}/webhook/bitbucket/"
+  {{- if and .Values.global.scmProviders.bitbucket.enabled $webhookHost }}
+  BITBUCKET_WEBHOOK_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{ $webhookHost }}/webhook/bitbucket/"
   {{- end }}
 
   ENABLE_BLOBVAULT: "True"
@@ -67,8 +68,8 @@ data:
   {{- if .Values.global.scmProviders.github.url }}
   GITHUB_URL: {{ .Values.global.scmProviders.github.url | quote }}
   {{- end }}
-  {{- if and .Values.global.scmProviders.github.enabled .Values.global.scmProviders.webhookHost }}
-  GITHUB_WEBHOOK_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{ .Values.global.scmProviders.webhookHost}}/webhook/github/"
+  {{- if and .Values.global.scmProviders.github.enabled $webhookHost }}
+  GITHUB_WEBHOOK_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{ $webhookHost }}/webhook/github/"
   {{- end }}
   {{- if .Values.global.scmProviders.github.clientId }}
   GITHUB_APP_CLIENT_ID: {{ .Values.global.scmProviders.github.clientId | quote }}
@@ -83,8 +84,8 @@ data:
   {{- if .Values.global.scmProviders.gitlab.url }}
   GITLAB_URL: {{ .Values.global.scmProviders.gitlab.url | quote}}
   {{- end }}
-  {{- if and .Values.global.scmProviders.gitlab.enabled .Values.global.scmProviders.webhookHost }}
-  GITLAB_WEBHOOK_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{ .Values.global.scmProviders.webhookHost}}/webhook/gitlab/"
+  {{- if and .Values.global.scmProviders.gitlab.enabled $webhookHost }}
+  GITLAB_WEBHOOK_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{ $webhookHost }}/webhook/gitlab/"
   {{- end }}
 
   {{- if .Values.global.maxViews }}
