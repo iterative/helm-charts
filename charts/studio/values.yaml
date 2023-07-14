@@ -253,11 +253,40 @@ redis:
   # -- Redis name override
   fullnameOverride: studio-redis
 
+  # -- Redis master configuration
+  master:
+    ## Redis&reg; master resource requests and limits
+    ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+    ## @param master.resources.limits The resources limits for the Redis&reg; master containers
+    ## @param master.resources.requests The requested resources for the Redis&reg; master containers
+    resources:
+      requests:
+        cpu: "200m"
+        memory: "512Mi"
+      limits:
+        cpu: "1000m"
+        memory: "2Gi"
+    # -- Redis master persistence configuration
+    persistence:
+      # -- Redis master persistence is disabled
+      enabled: false
+
+  # -- Redis replica configuration
+  replica:
+    # -- Redis replica count. 0 for standalone deployment of 1 master and 0 replicas
+    replicaCount: 0
+    # -- Redis replica persistence configuration
+    persistence:
+      # -- Redis replica persistence is disabled
+      enabled: false
+
+  # -- Redis common configuration to be added into the ConfigMap
   commonConfiguration: |-
     timeout 20
 
+  # -- Redis authentication settings
   auth:
-    # -- Redis authentication enabled
+    # -- Redis authentication disabled
     enabled: false
 
 postgresql:
