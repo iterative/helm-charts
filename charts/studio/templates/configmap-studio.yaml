@@ -113,3 +113,8 @@ data:
   {{- else }}
   SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }}"
   {{- end }}
+
+  {{- $dvcx := .Values.global.dvcx | default dict }}
+  DQL_ENABLED: {{ $dvcx.enabled | default "False" | quote }}
+  DVCX_ENABLED: {{ $dvcx.enabled | default "False" | quote }}
+
