@@ -53,6 +53,14 @@ spec:
                 name: studio-beat
             - secretRef:
                 name: studio
+            {{- if .Values.global.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.global.envFromSecret }}
+            {{- end }}
+            {{- if .Values.studioBeat.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.studioBeat.envFromSecret }}
+            {{- end }}
           {{- if .Values.global.customCaCert }}
           volumeMounts:
             - name: studio-ca-certificates

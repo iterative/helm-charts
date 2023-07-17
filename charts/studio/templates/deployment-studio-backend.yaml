@@ -52,6 +52,14 @@ spec:
                 name: studio-backend
             - secretRef:
                 name: studio
+            {{- if .Values.global.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.global.envFromSecret }}
+            {{- end }}
+            {{- if .Values.studioBackend.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.studioBackend.envFromSecret }}
+            {{- end }}
       containers:
         - name: studio-backend
           securityContext:
@@ -106,6 +114,14 @@ spec:
                 name: studio-backend
             - secretRef:
                 name: studio
+            {{- if .Values.global.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.global.envFromSecret }}
+            {{- end }}
+            {{- if .Values.studioBackend.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.studioBackend.envFromSecret }}
+            {{- end }}
       {{- if .Values.global.customCaCert }}
       volumes:
         - name: studio-ca-certificates

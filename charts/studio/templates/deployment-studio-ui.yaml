@@ -65,6 +65,14 @@ spec:
                 name: studio-ui
             - secretRef:
                 name: studio
+            {{- if .Values.global.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.global.envFromSecret }}
+            {{- end }}
+            {{- if .Values.studioUi.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.studioUi.envFromSecret }}
+            {{- end }}
           {{- if .Values.global.customCaCert }}
           volumeMounts:
             - name: studio-ca-certificates
