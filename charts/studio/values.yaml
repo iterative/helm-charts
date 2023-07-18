@@ -43,8 +43,8 @@ global:
   # envVars:
   #   DEBUG: "True"
 
-  # -- Studio: The name of a secret in the same kubernetes namespace which contain values to be added
-  # to all Studio pods as environment variables.
+  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # passed to all Studio pods.
   envFromSecret: ""
 
   blobvault:
@@ -327,8 +327,8 @@ studioUi:
   # envVars:
   #   DEBUG: "True"
 
-  # -- The name of a secret in the same kubernetes namespace which contain values to be added
-  # UI pods as environment variables.
+  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # passed to UI pods.
   envFromSecret: ""
 
   replicaCount: 1
@@ -388,8 +388,8 @@ studioBackend:
   # envVars:
   #   DEBUG: "True"
 
-  # -- The name of a secret in the same kubernetes namespace which contain values to be added
-  # Backend pods as environment variables.
+  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # passed to backend pods.
   envFromSecret: ""
 
   replicaCount: 1
@@ -449,8 +449,8 @@ studioBeat:
   # envVars:
   #   DEBUG: "True"
 
-  # -- The name of a secret in the same kubernetes namespace which contain values to be added
-  # Beat pods as environment variables.
+  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # passed to beat pods.
   envFromSecret: ""
 
   replicaCount: 1
@@ -500,8 +500,8 @@ studioWorker:
   # envVars:
   #   DEBUG: "True"
 
-  # -- The name of a secret in the same kubernetes namespace which contain values to be added
-  # Worker pods as environment variables.
+  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # passed to worker pods.
   envFromSecret: ""
 
   replicaCount: 1
