@@ -18,8 +18,8 @@ global:
   # We recommend you set this externally. If left empty, a random key will be generated.
   secretKey: ""
 
+  # -- (DEPRECATED) Studio: Custom CA certificate in PEM format
   # Deprecated in favor of `customCaCerts`
-  # -- Studio: Custom CA certificate in PEM format
   # customCaCert: |-
   #   -----BEGIN CERTIFICATE-----
   #   ....
@@ -103,6 +103,12 @@ global:
     password: "postgres"
 
   scmProviders:
+
+    # -- Custom hostname for incoming webhook (if Studio runs on a private network and you use SaaS versions of GitHub, GitLab, or Bitbucket)
+    # @default -- `$global.host` value.
+    webhookHost: ""
+
+    # -- GitHub App integration with Studio.
     github:
       # -- GitHub enabled
       enabled: false
@@ -113,7 +119,6 @@ global:
       # -- GitHub Enterprise API URL
       # Set this if you're using the selfhosted version
       apiUrl: ""
-
 
       # -- GitHub OAuth App Name
       appName: ""
@@ -126,9 +131,10 @@ global:
       # -- GitHub OAuth App Private Key
       privateKey: ""
 
-      # -- GitHub Webhook URL, e.g. https://<global.host>/webhook/github/
+      # -- (DEPRECATED) GitHub Webhook URL
       webhookUrl: ""
 
+    # -- GitLab App integration with Studio.
     gitlab:
       # -- GitLab enabled
       enabled: false
@@ -142,11 +148,13 @@ global:
       # -- GitLab OAuth App Secret Key
       secretKey: ""
 
-      # -- GitLab Webhook URL
+      # -- (DEPRECATED) GitLab Webhook URL
       webhookUrl: ""
+
       # -- GitLab Webhook Secret
       webhookSecret: ""
 
+    # -- BitBucket App integration with Studio.
     bitbucket:
       # -- Bitbucket enabled
       enabled: false
@@ -163,9 +171,8 @@ global:
       # -- Bitbucket OAuth App Secret Key
       secretKey: ""
 
-      # -- Bitbucket Webhook URL
+      # -- (DEPRECATED) BitBucket Webhook URL
       webhookUrl: ""
-
 nginx:
   service:
     type: ClusterIP
