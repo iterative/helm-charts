@@ -43,6 +43,10 @@ global:
   # envVars:
   #   DEBUG: "True"
 
+  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # passed to all Studio pods.
+  envFromSecret: ""
+
   blobvault:
     # -- Blobvault local backing store size
     persistentVolume:
@@ -79,7 +83,7 @@ global:
     className: ""
     annotations: {}
       # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+      # kubernetes.io/tls-acme: "true"
     tlsEnabled: false
     tlsSecretName: chart-example-tls
 
@@ -323,6 +327,10 @@ studioUi:
   # envVars:
   #   DEBUG: "True"
 
+  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # passed to UI pods.
+  envFromSecret: ""
+
   replicaCount: 1
 
   image:
@@ -379,6 +387,10 @@ studioBackend:
   # Example:
   # envVars:
   #   DEBUG: "True"
+
+  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # passed to backend pods.
+  envFromSecret: ""
 
   replicaCount: 1
 
@@ -437,6 +449,10 @@ studioBeat:
   # envVars:
   #   DEBUG: "True"
 
+  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # passed to beat pods.
+  envFromSecret: ""
+
   replicaCount: 1
 
   resources:
@@ -483,6 +499,10 @@ studioWorker:
   # Example:
   # envVars:
   #   DEBUG: "True"
+
+  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # passed to worker pods.
+  envFromSecret: ""
 
   replicaCount: 1
 

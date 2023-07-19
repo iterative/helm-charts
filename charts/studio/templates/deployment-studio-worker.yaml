@@ -53,6 +53,14 @@ spec:
                 name: studio-worker
             - secretRef:
                 name: studio
+            {{- if .Values.global.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.global.envFromSecret }}
+            {{- end }}
+            {{- if .Values.studioWorker.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.studioWorker.envFromSecret }}
+            {{- end }}
           volumeMounts:
             - name: blobvault
               mountPath: /blobvault
