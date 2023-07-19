@@ -547,10 +547,6 @@ studioBackend:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
 
-  nameOverride: ""
-
-  fullnameOverride: ""
-
   podAnnotations: {}
 
   podSecurityContext: {}
@@ -599,9 +595,62 @@ studioBeat:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
 
-  nameOverride: ""
+  podAnnotations: {}
 
-  fullnameOverride: ""
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+studioLeo:
+  # -- Studio: Additional environment variables for leo pods
+  envVars: {}
+  # Example:
+  # envVars:
+  #   DEBUG: "True"
+
+  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # passed to leo pods.
+  envFromSecret: ""
+
+  replicaCount: 1
+
+  image:
+    repository: docker.iterative.ai/leo-server
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    # tag: "v1.34.0"
+
+  service:
+    type: ClusterIP
+    port: 8181
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 1
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
 
   podAnnotations: {}
 

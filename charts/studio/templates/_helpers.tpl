@@ -79,6 +79,15 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
+{{- define "studio-leo.labels" -}}
+helm.sh/chart: {{ include "studio.chart" . }}
+{{ include "studio-backend.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
 {{- define "studio-ui.labels" -}}
 helm.sh/chart: {{ include "studio.chart" . }}
 {{ include "studio-ui.selectorLabels" . }}
@@ -106,11 +115,6 @@ app.kubernetes.io/name: {{ include "studio.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "studio-ui.selectorLabels" -}}
-app.kubernetes.io/name: studio-ui
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end }}
-
 {{- define "studio-backend.selectorLabels" -}}
 app.kubernetes.io/name: studio-backend
 app.kubernetes.io/instance: {{ .Release.Name }}
@@ -123,6 +127,16 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 
 {{- define "studio-dvcx-worker.selectorLabels" -}}
 app.kubernetes.io/name: studio-dvcx-worker
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{- define "studio-leo.selectorLabels" -}}
+app.kubernetes.io/name: studio-leo
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{- define "studio-ui.selectorLabels" -}}
+app.kubernetes.io/name: studio-ui
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
