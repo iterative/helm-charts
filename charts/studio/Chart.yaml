@@ -31,7 +31,7 @@ icon: "https://static.iterative.ai/logo/studio.svg"
 
 dependencies:
   - name: nginx
-    version: "13.2.30"
+    version: "15.1.1"
     repository: "https://charts.bitnami.com/bitnami"
   - name: redis
     condition: redis.enabled
