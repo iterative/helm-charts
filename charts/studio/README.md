@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.2.8](https://img.shields.io/badge/Version-0.2.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.9.1](https://img.shields.io/badge/AppVersion-v2.9.1-informational?style=flat-square)
+![Version: 0.2.10](https://img.shields.io/badge/Version-0.2.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.9.1](https://img.shields.io/badge/AppVersion-v2.9.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -16,7 +16,7 @@ A Helm chart for Kubernetes
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | nginx | 13.2.30 |
 | https://charts.bitnami.com/bitnami | postgresql | 11.9.13 |
-| https://charts.bitnami.com/bitnami | redis | 17.11.8 |
+| https://charts.bitnami.com/bitnami | redis | 17.13.2 |
 
 ## Values
 
@@ -34,6 +34,7 @@ A Helm chart for Kubernetes
 | global.customCaCert | DEPRECATED | `""` | Studio: Custom CA certificate in PEM format Deprecated in favor of `customCaCerts` customCaCert: |-   -----BEGIN CERTIFICATE-----   ....   -----END CERTIFICATE-----  |
 | global.customCaCerts | list | `[]` | Studio: Custom CA certificate in PEM format customCaCerts: - |-     -----BEGIN CERTIFICATE-----     ....     -----END CERTIFICATE-----  |
 | global.dvcx | object | `{}` | Studio: Settings related to DVCX |
+| global.envFromSecret | string | `""` | Studio: The name of an existing Secret that contains sensitive environment variables passed to all Studio pods. |
 | global.envVars | object | `{}` | Studio: Additional environment variables for all pods |
 | global.host | string | `"studio.example.com"` | Studio: Hostname for accessing Studio (no http(s) scheme) |
 | global.ingress.annotations | object | `{}` |  |
@@ -110,6 +111,7 @@ A Helm chart for Kubernetes
 | studioBackend.autoscaling.maxReplicas | int | `5` |  |
 | studioBackend.autoscaling.minReplicas | int | `1` |  |
 | studioBackend.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| studioBackend.envFromSecret | string | `""` | Studio: The name of an existing Secret that contains sensitive environment variables passed to backend pods. |
 | studioBackend.envVars | object | `{}` | Studio: Additional environment variables for backend pods |
 | studioBackend.fullnameOverride | string | `""` |  |
 | studioBackend.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -132,6 +134,7 @@ A Helm chart for Kubernetes
 | studioBeat.autoscaling.maxReplicas | int | `5` |  |
 | studioBeat.autoscaling.minReplicas | int | `1` |  |
 | studioBeat.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| studioBeat.envFromSecret | string | `""` | Studio: The name of an existing Secret that contains sensitive environment variables passed to beat pods. |
 | studioBeat.envVars | object | `{}` | Studio: Additional environment variables for beat pods |
 | studioBeat.fullnameOverride | string | `""` |  |
 | studioBeat.nameOverride | string | `""` |  |
@@ -150,6 +153,7 @@ A Helm chart for Kubernetes
 | studioUi.autoscaling.maxReplicas | int | `5` |  |
 | studioUi.autoscaling.minReplicas | int | `1` |  |
 | studioUi.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| studioUi.envFromSecret | string | `""` | Studio: The name of an existing Secret that contains sensitive environment variables passed to UI pods. |
 | studioUi.envVars | object | `{}` | Studio: Additional environment variables for ui pods |
 | studioUi.fullnameOverride | string | `""` |  |
 | studioUi.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -172,6 +176,7 @@ A Helm chart for Kubernetes
 | studioWorker.autoscaling.maxReplicas | int | `5` |  |
 | studioWorker.autoscaling.minReplicas | int | `1` |  |
 | studioWorker.autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
+| studioWorker.envFromSecret | string | `""` | Studio: The name of an existing Secret that contains sensitive environment variables passed to worker pods. |
 | studioWorker.envVars | object | `{}` | Studio: Additional environment variables for worker pods |
 | studioWorker.fullnameOverride | string | `""` |  |
 | studioWorker.nameOverride | string | `""` |  |
