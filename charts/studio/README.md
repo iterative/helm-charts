@@ -26,7 +26,10 @@ A Helm chart for Kubernetes
 | global.blobvault.accessKeyId | string | `""` | Blobvault S3 access key ID |
 | global.blobvault.bucket | string | `""` | Blobvault S3 bucket name |
 | global.blobvault.endpointUrl | string | `""` | Blobvault S3 endpoint URL |
-| global.blobvault.persistentVolume | object | `{"accessModes":["ReadWriteOnce"],"size":"30Gi","storageClassName":"local-path"}` | Blobvault local backing store size |
+| global.blobvault.persistentVolume | object | `{"accessModes":["ReadWriteOnce"],"size":"30Gi","storageClassName":""}` | Blobvault local backing store settings. |
+| global.blobvault.persistentVolume.accessModes | list | ReadWriteOnce | Blobvault local backing store access mode. |
+| global.blobvault.persistentVolume.size | string | `"30Gi"` | Blobvault local backing store size. |
+| global.blobvault.persistentVolume.storageClassName | string | default storage class in the cluster. | Blobvault local backing store storage class. |
 | global.blobvault.regionName | string | `""` | Blobvault S3 region |
 | global.blobvault.secretAccessKeyId | string | `""` | Blobvault S3 secret access key ID |
 | global.celery.brokerUrl | string | `""` | Celery broker URL |
