@@ -14,10 +14,11 @@ spec:
   template:
     metadata:
       annotations:
+        checksum/configmap-studio-leo: {{ include (print $.Template.BasePath "/configmap-studio-leo.yaml") . | sha256sum }}
         {{- include "studio.checksum" . | indent 8 }}
-      {{- with .Values.studioLeo.podAnnotations }}
+        {{- with .Values.studioLeo.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
       labels:
         {{- include "studio-leo.selectorLabels" . | nindent 8 }}
     spec:
@@ -61,6 +62,8 @@ spec:
           envFrom:
             - secretRef:
                 name: studio
+            - configMapRef:
+                name: {{ .Release.Name }}-studio-leo
             {{- if .Values.global.envFromSecret }}
             - secretRef:
                 name: {{ .Values.global.envFromSecret }}
