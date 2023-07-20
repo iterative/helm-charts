@@ -12,7 +12,6 @@ spec:
   {{- $pvc := (lookup "v1" "PersistentVolumeClaim" .Release.Namespace "blobvault") | default dict }}
   {{- $pvcSpec := (get $pvc "spec") | default dict }}
   {{- $storageClassName := (get $pvcSpec "storageClassName") | default $.Values.global.blobvault.persistentVolume.storageClassName }}
-{{/*  {{- $storageClassName :=  $.Values.global.blobvault.persistentVolume.storageClassName }}*/}}
   {{- if $storageClassName }}
   storageClassName: {{ $storageClassName }}
   {{- end }}
