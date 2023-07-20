@@ -1,6 +1,6 @@
 Application URL:
 {{- if .Values.global.ingress.enabled }}
-  http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{ .Values.global.host }}/
+  {{include "ingress.protocol" . }}://{{.Values.global.host }}/{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}{{ include "studio.basePath" . }}{{- end }}
 {{- else if contains "NodePort" .Values.studioUi.service.type }}
 Get the application URL by running these commands:
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "studio.fullname" . }})

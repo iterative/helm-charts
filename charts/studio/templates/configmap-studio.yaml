@@ -9,8 +9,8 @@ data:
 {{- end }}
 
   ALLOWED_HOSTS: "*"
-  API_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/api"
-  UI_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}/{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}{{ include "studio.basePath" . }}{{- end }}"
+  API_URL: "{{include "ingress.protocol" . }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/api"
+  UI_URL: "{{include "ingress.protocol" . }}://{{.Values.global.host }}/{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}{{ include "studio.basePath" . }}{{- end }}"
 
   {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
   BASE_PATH: /{{ include "studio.basePath" . }}
@@ -23,7 +23,7 @@ data:
   BITBUCKET_API_URL: {{ .Values.global.scmProviders.bitbucket.apiUrl | quote}}
   {{- end }}
   {{- if and .Values.global.scmProviders.bitbucket.enabled $webhookHost }}
-  BITBUCKET_WEBHOOK_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{ $webhookHost }}/webhook/bitbucket/"
+  BITBUCKET_WEBHOOK_URL: "{{include "ingress.protocol" . }}://{{ $webhookHost }}/webhook/bitbucket/"
   {{- end }}
 
   ENABLE_BLOBVAULT: "True"
@@ -40,8 +40,8 @@ data:
   {{- else }}
   BLOBVAULT_LOCAL_ENABLED: "True"
   BLOBVAULT_LOCAL_PATH: "/blobvault"
-  BLOBVAULT_ENDPOINT_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/blobvault"
-  BLOBVAULT_ENDPOINT_URL_FE: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/blobvault"
+  BLOBVAULT_ENDPOINT_URL: "{{include "ingress.protocol" . }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/blobvault"
+  BLOBVAULT_ENDPOINT_URL_FE: "{{include "ingress.protocol" . }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/blobvault"
   {{- end }}
 
   {{- if .Values.global.celery.brokerUrl }}
@@ -69,7 +69,7 @@ data:
   GITHUB_URL: {{ .Values.global.scmProviders.github.url | quote }}
   {{- end }}
   {{- if and .Values.global.scmProviders.github.enabled $webhookHost }}
-  GITHUB_WEBHOOK_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{ $webhookHost }}/webhook/github/"
+  GITHUB_WEBHOOK_URL: "{{include "ingress.protocol" . }}://{{ $webhookHost }}/webhook/github/"
   {{- end }}
   {{- if .Values.global.scmProviders.github.clientId }}
   GITHUB_APP_CLIENT_ID: {{ .Values.global.scmProviders.github.clientId | quote }}
@@ -85,7 +85,7 @@ data:
   GITLAB_URL: {{ .Values.global.scmProviders.gitlab.url | quote}}
   {{- end }}
   {{- if and .Values.global.scmProviders.gitlab.enabled $webhookHost }}
-  GITLAB_WEBHOOK_URL: "http{{ if $.Values.global.ingress.tlsEnabled }}s{{ end }}://{{ $webhookHost }}/webhook/gitlab/"
+  GITLAB_WEBHOOK_URL: "{{include "ingress.protocol" . }}://{{ $webhookHost }}/webhook/gitlab/"
   {{- end }}
 
   {{- if .Values.global.maxViews }}

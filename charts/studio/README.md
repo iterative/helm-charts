@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.2.10](https://img.shields.io/badge/Version-0.2.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.9.1](https://img.shields.io/badge/AppVersion-v2.9.1-informational?style=flat-square)
+![Version: 0.2.11](https://img.shields.io/badge/Version-0.2.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.9.1](https://img.shields.io/badge/AppVersion-v2.9.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -37,12 +37,12 @@ A Helm chart for Kubernetes
 | global.envFromSecret | string | `""` | Studio: The name of an existing Secret that contains sensitive environment variables passed to all Studio pods. |
 | global.envVars | object | `{}` | Studio: Additional environment variables for all pods |
 | global.host | string | `"studio.example.com"` | Studio: Hostname for accessing Studio (no http(s) scheme) |
-| global.ingress.annotations | object | `{}` |  |
-| global.ingress.className | string | `""` |  |
+| global.ingress.annotations | object | `{}` | Additional Ingress annotations |
+| global.ingress.className | string | `""` | Ingress class to use |
 | global.ingress.enabled | bool | `true` |  |
-| global.ingress.hostnameEnabled | bool | `true` |  |
-| global.ingress.tlsEnabled | bool | `false` |  |
-| global.ingress.tlsSecretName | string | `"chart-example-tls"` |  |
+| global.ingress.hostnameEnabled | bool | `true` | Configure ingress resource to match hostnames to the service |
+| global.ingress.tlsEnabled | bool | `false` | Expose studio under HTTPS protocol |
+| global.ingress.tlsSecretName | string | `"chart-example-tls"` | TLS secret name to use for HTTPS on Ingress For ALB Ingress Controller leave empty. |
 | global.maxTeams | string | `"10"` | Studio: Maximum number of teams |
 | global.maxViews | string | `"100"` | Studio: Maximum number of views |
 | global.postgres.databaseName | string | `"iterativeai"` | Postgres database name |

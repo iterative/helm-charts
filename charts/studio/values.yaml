@@ -79,12 +79,18 @@ global:
 
   ingress:
     enabled: true
+    # -- Configure ingress resource to match hostnames to the service
     hostnameEnabled: true
+    # -- Ingress class to use
     className: ""
+    # -- Additional Ingress annotations
     annotations: {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
+    # -- Expose studio under HTTPS protocol
     tlsEnabled: false
+    # -- TLS secret name to use for HTTPS on Ingress
+    # For ALB Ingress Controller leave empty.
     tlsSecretName: chart-example-tls
 
   postgres:

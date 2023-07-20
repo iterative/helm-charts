@@ -144,3 +144,8 @@ DVCX_ROOT_DIR: {{ $dvcx.rootDir | default "/tmp" | quote }}
 DVCX_CH_HOST: {{ $dvcxClickhouse.host | default "" | quote }}
 DVCX_CH_DATABASE: {{ $dvcxClickhouse.database | default "" | quote }}
 {{- end }}
+
+{{- define "ingress.protocol" -}}
+http{{- if $.Values.global.ingress.tlsEnabled }}s{{- end}}
+{{- end }}
+
