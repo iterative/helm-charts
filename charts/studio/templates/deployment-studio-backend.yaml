@@ -18,6 +18,7 @@ spec:
   template:
     metadata:
       annotations:
+        checksum/configmap-studio-backend: {{ include (print $.Template.BasePath "/configmap-studio-backend.yaml") . | sha256sum }}
         {{- include "studio.checksum" . | indent 8 }}
         {{- with .Values.studioBackend.podAnnotations }}
         {{- toYaml . | nindent 8 }}
