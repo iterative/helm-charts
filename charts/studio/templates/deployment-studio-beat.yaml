@@ -14,10 +14,11 @@ spec:
   template:
     metadata:
       annotations:
+        checksum/configmap-studio-beat: {{ include (print $.Template.BasePath "/configmap-studio-beat.yaml") . | sha256sum }}
         {{- include "studio.checksum" . | indent 8 }}
-      {{- with .Values.studioBeat.podAnnotations }}
+        {{- with .Values.studioBeat.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
       labels:
         {{- include "studio-beat.selectorLabels" . | nindent 8 }}
     spec:
