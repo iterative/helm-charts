@@ -62,17 +62,13 @@ spec:
             - secretRef:
                 name: {{ .Values.studioBeat.envFromSecret }}
             {{- end }}
-          {{- if .Values.global.customCaCert }}
           volumeMounts:
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
-          {{- end }}
-      {{- if .Values.global.customCaCert }}
       volumes:
         - name: studio-ca-certificates
           configMap:
             name: studio-ca-certificates
-      {{- end }}
       {{- with .Values.studioBeat.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

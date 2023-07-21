@@ -65,19 +65,15 @@ spec:
           volumeMounts:
             - name: blobvault
               mountPath: /blobvault
-            {{- if .Values.global.customCaCert }}
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
-            {{- end }}
       volumes:
         - name: blobvault
           persistentVolumeClaim:
             claimName: blobvault
-        {{- if .Values.global.customCaCert }}
         - name: studio-ca-certificates
           configMap:
             name: studio-ca-certificates
-        {{- end }}
       {{- with .Values.studioWorker.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

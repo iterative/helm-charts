@@ -96,11 +96,9 @@ spec:
             periodSeconds: 10
             failureThreshold: 5
             timeoutSeconds: 60
-          {{- if .Values.global.customCaCert }}
           volumeMounts:
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
-          {{- end }}
           resources:
             {{- toYaml .Values.studioBackend.resources | nindent 12 }}
           env:
@@ -123,12 +121,10 @@ spec:
             - secretRef:
                 name: {{ .Values.studioBackend.envFromSecret }}
             {{- end }}
-      {{- if .Values.global.customCaCert }}
       volumes:
         - name: studio-ca-certificates
           configMap:
             name: studio-ca-certificates
-      {{- end }}
       {{- with .Values.studioBackend.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
