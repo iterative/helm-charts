@@ -9,7 +9,7 @@ data:
   {{- end }}
   {{- if .Values.global.customCaCerts }}
     {{- range $index, $customCa := .Values.global.customCaCerts }}
-  self_signed_ca_{{ $index }}.crt:
+  self_signed_ca_{{ $index }}.crt: |
 {{ $customCa | indent 4}}
     {{- end }}
   {{- end }}
