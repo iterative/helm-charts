@@ -48,11 +48,18 @@ global:
   envFromSecret: ""
 
   blobvault:
-    # -- Blobvault local backing store size
+    # -- Blobvault local backing store settings.
     persistentVolume:
+      # -- Blobvault local backing store access mode.
+      # @default -- ReadWriteOnce
       accessModes:
         - ReadWriteOnce
-      storageClassName: local-path
+
+      # -- Blobvault local backing store storage class.
+      # @default -- default storage class in the cluster.
+      storageClassName: ""
+
+      # -- Blobvault local backing store size.
       size: 30Gi
 
     # -- Blobvault S3 bucket name
