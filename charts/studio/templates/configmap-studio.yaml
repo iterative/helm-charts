@@ -109,11 +109,7 @@ data:
 
   SOCIAL_AUTH_REDIRECT_IS_HTTPS: "False"
 
-  {{- if .Values.global.ingress.enabled }}
   SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }},{{ .Values.global.host }}"
-  {{- else }}
-  SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }}"
-  {{- end }}
 
   {{- $dvcx := .Values.global.dvcx | default dict }}
   DQL_ENABLED: {{ $dvcx.enabled | default "False" | quote }}
