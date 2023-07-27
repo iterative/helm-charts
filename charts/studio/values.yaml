@@ -347,7 +347,7 @@ studioUi:
   replicaCount: 1
 
   image:
-    repository: docker.iterative.ai/viewer_ui
+    repository: docker.iterative.ai/studio-frontend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     # tag: "v1.34.0"
@@ -408,7 +408,7 @@ studioBackend:
   replicaCount: 1
 
   image:
-    repository: docker.iterative.ai/viewer_backend
+    repository: docker.iterative.ai/studio-backend
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     # tag: "v1.34.0"
