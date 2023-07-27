@@ -118,7 +118,7 @@ A Helm chart for Kubernetes
 | studioBackend.envVars | object | `{}` | Studio: Additional environment variables for backend pods |
 | studioBackend.fullnameOverride | string | `""` |  |
 | studioBackend.image.pullPolicy | string | `"IfNotPresent"` |  |
-| studioBackend.image.repository | string | `"docker.iterative.ai/viewer_backend"` |  |
+| studioBackend.image.repository | string | `"docker.iterative.ai/studio-backend"` |  |
 | studioBackend.nameOverride | string | `""` |  |
 | studioBackend.nodeSelector | object | `{}` |  |
 | studioBackend.podAnnotations | object | `{}` |  |
@@ -160,7 +160,7 @@ A Helm chart for Kubernetes
 | studioUi.envVars | object | `{}` | Studio: Additional environment variables for ui pods |
 | studioUi.fullnameOverride | string | `""` |  |
 | studioUi.image.pullPolicy | string | `"IfNotPresent"` |  |
-| studioUi.image.repository | string | `"docker.iterative.ai/viewer_ui"` |  |
+| studioUi.image.repository | string | `"docker.iterative.ai/studio-frontend"` |  |
 | studioUi.nameOverride | string | `""` |  |
 | studioUi.nodeSelector | object | `{}` |  |
 | studioUi.podAnnotations | object | `{}` |  |
