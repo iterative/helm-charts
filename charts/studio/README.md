@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.2.16](https://img.shields.io/badge/Version-0.2.16-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.9.1](https://img.shields.io/badge/AppVersion-v2.9.1-informational?style=flat-square)
+![Version: 0.2.17](https://img.shields.io/badge/Version-0.2.17-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.9.1](https://img.shields.io/badge/AppVersion-v2.9.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -118,7 +118,7 @@ A Helm chart for Kubernetes
 | studioBackend.envVars | object | `{}` | Studio: Additional environment variables for backend pods |
 | studioBackend.fullnameOverride | string | `""` |  |
 | studioBackend.image.pullPolicy | string | `"IfNotPresent"` |  |
-| studioBackend.image.repository | string | `"docker.iterative.ai/viewer_backend"` |  |
+| studioBackend.image.repository | string | `"docker.iterative.ai/studio-backend"` |  |
 | studioBackend.nameOverride | string | `""` |  |
 | studioBackend.nodeSelector | object | `{}` |  |
 | studioBackend.podAnnotations | object | `{}` |  |
@@ -160,7 +160,7 @@ A Helm chart for Kubernetes
 | studioUi.envVars | object | `{}` | Studio: Additional environment variables for ui pods |
 | studioUi.fullnameOverride | string | `""` |  |
 | studioUi.image.pullPolicy | string | `"IfNotPresent"` |  |
-| studioUi.image.repository | string | `"docker.iterative.ai/viewer_ui"` |  |
+| studioUi.image.repository | string | `"docker.iterative.ai/studio-frontend"` |  |
 | studioUi.nameOverride | string | `""` |  |
 | studioUi.nodeSelector | object | `{}` |  |
 | studioUi.podAnnotations | object | `{}` |  |
