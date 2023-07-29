@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.2.17](https://img.shields.io/badge/Version-0.2.17-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.9.1](https://img.shields.io/badge/AppVersion-v2.9.1-informational?style=flat-square)
+![Version: 0.2.18](https://img.shields.io/badge/Version-0.2.18-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.9.1](https://img.shields.io/badge/AppVersion-v2.9.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -16,7 +16,7 @@ A Helm chart for Kubernetes
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | nginx | 13.2.30 |
 | https://charts.bitnami.com/bitnami | postgresql | 11.9.13 |
-| https://charts.bitnami.com/bitnami | redis | 17.13.2 |
+| https://charts.bitnami.com/bitnami | redis | 17.14.3 |
 
 ## Values
 
