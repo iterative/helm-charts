@@ -49,6 +49,7 @@ global:
 
   blobvault:
     # -- Blobvault local backing store settings.
+    # Not used when `global.blobvault.bucket` is set.
     persistentVolume:
       # -- Blobvault local backing store access mode.
       # @default -- ReadWriteOnce
