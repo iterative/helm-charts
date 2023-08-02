@@ -46,7 +46,7 @@ spec:
           args:
             - |
               ./manage.py migrate
-          {{- if .Release.IsUpgrade }}
+          {{- if and .Release.IsUpgrade (not .Values.ci) }}
               ./manage.py migrate phonenumber --fake-initial
               ./manage.py migrate
           {{- end }}

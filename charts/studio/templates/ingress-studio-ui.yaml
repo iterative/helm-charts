@@ -39,7 +39,7 @@ spec:
     - http:
         paths:
           {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
-          - path: /{{ include "studio.basePath" . }}((?:/|$).*)
+          - path: /{{ include "studio.basePath" . }}
           {{- else }}
           - path: /
           {{- end }}
