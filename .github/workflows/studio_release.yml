@@ -22,11 +22,10 @@ jobs:
           done
       - uses: iterative/setup-cml@v1
       - run: >
-          cml pr create
+          cml pr create .
           --{title,body,message}="Studio: bump to $STUDIO_VERSION"
           --branch="bump-studio-$STUDIO_VERSION"
           --squash
-          .
         env:
           GITHUB_TOKEN: ${{ secrets.OLIVAW_GITHUB_PERSONAL_ACCESS_TOKEN }}
       - run: >
