@@ -20,9 +20,6 @@ jobs:
           do
             go run github.com/mikefarah/yq/v4@v4.34.1 eval --inplace "$expression" charts/studio/Chart.yaml
           done
-      - run: |
-          go run github.com/norwoodj/helm-docs/...@v1.11.0
-        working-directory: charts/studio
       - uses: iterative/setup-cml@v1
       - run: >
           cml pr create .
