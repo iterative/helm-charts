@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-blobvault-nginx
+data:
+  nginx.conf: |
+    user  nginx;
+    worker_processes  auto;
+
+    error_log  /var/log/nginx/error.log notice;
+    pid        /var/run/nginx.pid;
+
+    events {
+      worker_connections  1024;
+    }
+
+    http {
+      include       /etc/nginx/mime.types;
+      default_type  application/octet-stream;
+
+      log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+      '$status $body_bytes_sent "$http_referer" '
+      '"$http_user_agent" "$http_x_forwarded_for"';
+
+      access_log  /dev/stdout  main;
+      error_log  /dev/stdout info;
+
+      sendfile        on;
+      tcp_nopush     on;
+
+      server_tokens off;
+
+      keepalive_timeout  65;
+
+      gzip  on;
+
+
+      include /etc/nginx/conf.d/*.conf;
+    }
+  default.conf: |
+    server {
+        listen       80;
+        server_name  _;
+        access_log /dev/stdout;
+        error_log /dev/stdout debug;
+
+        root /blobvault;
+
+        add_header 'Access-Control-Allow-Origin' '*';
+        add_header 'Access-Control-Allow-Credentials' 'true';
+        add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+        add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Studio-Trace-Id';
+
+        {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
+        rewrite /{{ include "studio.basePath" . }}/blobvault/(.*) /$1 break;
+        {{- else }}
+        rewrite /blobvault/(.*) /$1 break;
+        {{- end }}
+
+        location ~ \.gz$ {
+            if ($request_method = 'OPTIONS') {
+                add_header 'Access-Control-Max-Age' 1728000;
+                add_header 'Content-Type' 'text/plain charset=UTF-8';
+                add_header 'Content-Length' 0;
+                return 204;
+            }
+            if ($request_method = 'GET') {
+                add_header Content-Encoding gzip;
+            }
+            gzip off;
+            types { } default_type "application/json";
+        }
+
+
+        location /blobvault {
+            if ($request_method = 'OPTIONS') {
+                add_header 'Access-Control-Max-Age' 1728000;
+                add_header 'Content-Type' 'text/plain charset=UTF-8';
+                add_header 'Content-Length' 0;
+                return 204;
+            }
+
+            gzip on;
+
+            try_files $uri $uri/ =404;
+        }
+    }

@@ -1,4 +1,4 @@
-{{- if .Values.global.blobvault.bucket }}
+{{- if not .Values.global.blobvault.bucket }}
 {{- if .Values.global.ingress.enabled -}}
 {{- if and .Values.global.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.global.ingress.annotations "kubernetes.io/ingress.class") }}
@@ -14,12 +14,12 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: blobvault
+  name: {{.Release.Name}}-blobvault-nginx
   annotations:
     helm.sh/hook: post-install,post-upgrade
     helm.sh/hook-weight: "-1"
     argocd.argoproj.io/hook: PostSync
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+{{/*    nginx.ingress.kubernetes.io/rewrite-target: /$2*/}}
   {{- with .Values.global.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -39,9 +39,9 @@ spec:
     - http:
         paths:
           {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
-          - path: /{{ include "studio.basePath" . }}/blobvault(/|$)(.*)
+          - path: /{{ include "studio.basePath" . }}/blobvault
           {{- else }}
-          - path: /blobvault(/|$)(.*)
+          - path: /blobvault
           {{- end }}
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
             pathType: ImplementationSpecific
@@ -49,12 +49,12 @@ spec:
             backend:
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: {{ .Release.Name }}-nginx
+                name: {{ .Release.Name }}-blobvault-nginx
                 port:
                   name: http
               {{- else }}
-              serviceName: {{ .Release.Name }}-nginx
-              servicePort: 80
+              serviceName: {{ .Release.Name }}-blobvault-nginx
+              servicePort: {{ .Values.studioBlobvault.service.port | default 80 }}
               {{- end }}
       {{- if .Values.global.ingress.hostnameEnabled }}
       host: {{ .Values.global.host }}

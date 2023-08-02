@@ -97,6 +97,15 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
+{{- define "studio-blobvault-nginx.labels" -}}
+helm.sh/chart: {{ include "studio.chart" . }}
+{{ include "studio-blobvault-nginx.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
 {{- define "pgbouncer.labels" -}}
 helm.sh/chart: {{ include "studio.chart" . }}
 {{ include "pgbouncer.selectorLabels" . }}
@@ -112,6 +121,16 @@ Selector labels
 
 {{- define "studio.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "studio.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{- define "studio-ui.selectorLabels" -}}
+app.kubernetes.io/name: studio-ui
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{- define "studio-blobvault-nginx.selectorLabels" -}}
+app.kubernetes.io/name: studio-blobvault-nginx
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
