@@ -70,15 +70,10 @@ spec:
         - name: blobvault-pvc
           persistentVolumeClaim:
             claimName: blobvault
-{{/*      {{- with .Values.studioBlobvault.nodeSelector }}*/}}
-{{/*      nodeSelector:*/}}
-{{/*        {{- toYaml . | nindent 8 }}*/}}
-{{/*      {{- end }}*/}}
-{{/*      {{- with .Values.studioBlobvault.affinity }}*/}}
-{{/*      affinity:*/}}
-{{/*        {{- toYaml . | nindent 8 }}*/}}
-{{/*      {{- end }}*/}}
-{{/*      {{- with .Values.studioBlobvault.tolerations }}*/}}
-{{/*      tolerations:*/}}
-{{/*        {{- toYaml . | nindent 8 }}*/}}
-{{/*      {{- end }}*/}}
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: "kubernetes.io/hostname"
+              labelSelector:
+                matchLabels:
+                  {{- include "studio-worker.selectorLabels" . | nindent 18 }}
