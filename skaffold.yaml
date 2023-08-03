@@ -1,0 +1,35 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+deploy:
+  helm:
+    releases:
+      - name: studio
+        chartPath: charts/studio
+        skipBuildDependencies: false
+        wait: true
+        valuesFiles:
+          - charts/studio/values.yaml
+        recreatePods: false
+        upgradeOnChange: true
+  kubectl: {}
+
+profiles:
+  - name: local
+    patches:
+      - path: /deploy/helm/releases/0/valuesFiles/1
+        value: charts/studio/values-skaffold.yaml
+        op: add
+  - name: ingress-docker-desktop
+    activation:
+      - kubeContext: docker-desktop
+    manifests:
+      kustomize:
+        paths:
+          - skaffold/docker-desktop
+  - name: ingress-kind
+    activation:
+      - kubeContext: kind-(.*)
+    manifests:
+      kustomize:
+        paths:
+          - skaffold/kind
