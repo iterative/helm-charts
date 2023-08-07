@@ -36,7 +36,7 @@ spec:
           securityContext:
             {{- toYaml .Values.studioBlobvault.securityContext | nindent 12 }}
           image: "{{ .Values.studioBlobvault.image.repository }}:{{ .Values.studioBlobvault.image.tag | default "1.25.1-alpine" }}"
-          imagePullPolicy: {{ .Values.studioBlobvault.image.pullPolicy }}
+          imagePullPolicy: "IfNotPresent"
           ports:
             - name: http
               containerPort: 80
@@ -61,7 +61,12 @@ spec:
               mountPath: /blobvault
               readOnly: true
           resources:
-            {{- toYaml .Values.studioBlobvault.resources | nindent 12 }}
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
       volumes:
         - name: studio-blobvault-nginx-config
           configMap:

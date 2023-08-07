@@ -86,13 +86,11 @@ data:
         }
     }
     server {
-
       access_log  /dev/null  main;
       error_log  /dev/null info;
 
       listen 8080;
-      server_name _;
       location / {
-            return 200 'Ok';
+            return 200 'OK';
       }
     }
