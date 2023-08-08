@@ -7,7 +7,7 @@ $ git clone git@github.com:<your-username>/helm-charts.git
 ```
 Install [Helm](https://helm.sh/docs/intro/install/) and [Skaffold](https://skaffold.dev/docs/install/).
 
-Install your local Kubernetes cluster:
+Install a local Kubernetes cluster:
 - [Docker Desktop](https://docs.docker.com/desktop/kubernetes/) - recommended
 - [Kind](https://kind.sigs.k8s.io/docs/user/configuration/) - it needs additional configuration 
    to expose ingress 👇
