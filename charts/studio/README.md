@@ -15,7 +15,7 @@ A Helm chart for Kubernetes
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | nginx | 13.2.30 |
-| https://charts.bitnami.com/bitnami | postgresql | 11.9.13 |
+| https://charts.bitnami.com/bitnami | postgresql | 12.8.1 |
 | https://charts.bitnami.com/bitnami | redis | 17.14.3 |
 
 ## Values
