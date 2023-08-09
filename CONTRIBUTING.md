@@ -22,8 +22,7 @@ the following command:
 $ kind create cluster --config kind-config.yaml
 ```
 
-That's it. You should be ready to make changes, run tests, and make commits! If
-you experience any problems, don't hesitate to ping us in our [chat](/chat).
+That's it. You should be ready to make changes, run tests, and make commits! 🎉
 
 ## Running skaffold
 Run skaffold in the root of the repo:
@@ -33,6 +32,11 @@ $ skaffold dev
 ```
 Wait for the deployment to finish. You can check the status of the deployment in console.
 When it is ready, open the browser and go to http://localhost. You should see the Studio page.
+
+> [!NOTE]
+> Skaffold contains a configuration to install `ingress-nginx` for kind and
+> docker-desktop. The profile will be used automatically when you run skaffold with the `dev` profile
+> and the name of the current `kubeContext` matches `kind-*` or `docker-desktop`.
 
 ### Skaffold profile - `local`
 
@@ -45,8 +49,3 @@ To use the profile, run skaffold with following command:
 ```cli
 $ skaffold dev -p local
 ```
-
-> [!NOTE]
-> Skaffold contains a configuration to install `ingress-nginx` for kind and 
-> docker-desktop. The profile will be used automatically when you run skaffold with the `dev` profile 
-> and the name of the current `kubeContext` matches `kind-*` or `docker-desktop`.
