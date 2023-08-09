@@ -15,8 +15,8 @@ Install a local Kubernetes cluster:
 
 
 ### Kind cluster
-Kind cluster does not expose ports by default. To enable ingress, you need to create cluster with
-following command:
+Kind does not expose ports by default. To enable this, you need to create the cluster with
+the following command:
 
 ```cli
 $ kind create cluster --config kind-config.yaml
@@ -46,6 +46,7 @@ To use the profile, run skaffold with following command:
 $ skaffold dev -p local
 ```
 
-Skaffold configuration contains also configuration to install `ingress-nginx` for kind cluster or 
-docker-desktop. Both profiles will be used automatically when you run skaffold with `dev` profile, 
-and the current `kubeContext` name will match `kind-*` or `docker-desktop`.
+> [!NOTE]
+> Skaffold contains a configuration to install `ingress-nginx` for kind and 
+> docker-desktop. The profile will be used automatically when you run skaffold with the `dev` profile 
+> and the name of the current `kubeContext` matches `kind-*` or `docker-desktop`.
