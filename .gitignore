@@ -1,3 +1,4 @@
 *.tgz
 override.yaml
 .idea
+/charts/studio/local-values.yaml
