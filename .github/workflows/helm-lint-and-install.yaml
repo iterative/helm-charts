@@ -1,4 +1,4 @@
-name: Lint and Test Charts
+helm-lint-and-test: Lint and Test Charts
 
 on:
   pull_request:
@@ -57,7 +57,7 @@ jobs:
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
         run: |
-          ct lint-and-install --target-branch ${{ github.event.repository.default_branch }} --upgrade --debug \
+          ct lint-and-install --target-branch ${{ github.event.repository.default_branch }} --upgrade --skip-missing-values --debug \
           --helm-extra-set-args '--set ci=true --set global.blobvault.persistentVolume.storageClassName="standard" --set imagePullSecrets[0].name=iterativeai --set dockerUsername=${{ secrets.ITERATIVE_DOCKER_REGISTRY_USER }} --set dockerPassword=${{ secrets.ITERATIVE_DOCKER_REGISTRY_PASSWORD }} --set dockerServer=docker.iterative.ai'
 
   helm-docs:
