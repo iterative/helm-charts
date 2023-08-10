@@ -206,6 +206,8 @@ nginx:
   - name: blobvault
     mountPath: /blobvault
 
+  # -- Nginx for blobvault configuration
+  # @default -- see in `values.yaml`
   serverBlock: |-
     server {
         listen       8080;
@@ -333,14 +335,15 @@ postgresql:
         # -- Postgres database
         database: iterativeai
 
+# -- Studio UI settings group
 studioUi:
-  # -- Studio: Additional environment variables for ui pods
+  # -- Additional environment variables for ui pods
   envVars: {}
   # Example:
   # envVars:
   #   DEBUG: "True"
 
-  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # -- The name of an existing Secret that contains sensitive environment variables
   # passed to UI pods.
   envFromSecret: ""
 
@@ -394,18 +397,21 @@ studioUi:
 
   affinity: {}
 
+# -- Studio Backend settings group
 studioBackend:
-  # -- Studio: Additional environment variables for backend pods
+  # -- Additional environment variables for backend pods
   envVars: {}
   # Example:
   # envVars:
   #   DEBUG: "True"
 
-  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # -- The name of an existing Secret that contains sensitive environment variables
   # passed to backend pods.
   envFromSecret: ""
 
+  # -- Number of replicas of backend pods
   replicaCount: 1
+
 
   image:
     repository: docker.iterative.ai/studio-backend
@@ -455,14 +461,15 @@ studioBackend:
 
   affinity: {}
 
+# -- Studio Beat settings group
 studioBeat:
-  # -- Studio: Additional environment variables for beat pods
+  # -- Additional environment variables for beat pods
   envVars: {}
   # Example:
   # envVars:
   #   DEBUG: "True"
 
-  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # -- The name of an existing Secret that contains sensitive environment variables
   # passed to beat pods.
   envFromSecret: ""
 
@@ -506,43 +513,51 @@ studioBeat:
 
   affinity: {}
 
+# -- Studio Worker settings group
 studioWorker:
-  # -- Studio: Additional environment variables for worker pods
+  # -- Additional environment variables for worker pods
   envVars: {}
   # Example:
   # envVars:
   #   DEBUG: "True"
 
-  # -- Studio: The name of an existing Secret that contains sensitive environment variables
+  # -- The name of an existing Secret that contains sensitive environment variables
   # passed to worker pods.
   envFromSecret: ""
 
   replicaCount: 1
 
+  # -- Worker resources configuration
   resources:
+    # -- Worker resource requests configuration
     requests:
       cpu: 500m
       memory: 512Mi
+    # -- Worker resource limits configuration
     limits:
       cpu: 1000m
       memory: 1Gi
-
+  # -- Worker autoscaling configuration
   autoscaling:
+    # -- Worker autoscaling enabled flag
     enabled: false
+    # -- Worker autoscaling minimum replicas
     minReplicas: 1
+    # -- Worker autoscaling maximum replicas
     maxReplicas: 5
+    # -- Worker autoscaling target CPU utilization percentage
     targetCPUUtilizationPercentage: 80
+    # -- Worker autoscaling target memory utilization percentage
     # targetMemoryUtilizationPercentage: 80
 
-  nameOverride: ""
-
-  fullnameOverride: ""
-
+  # -- Additional worker pod annotations
   podAnnotations: {}
 
+  # -- Worker pod security context
   podSecurityContext: {}
     # fsGroup: 2000
 
+  # -- Worker security context
   securityContext: {}
     # capabilities:
     #   drop:
@@ -551,10 +566,96 @@ studioWorker:
     # runAsNonRoot: true
     # runAsUser: 1000
 
+  # -- Worker node selector
+  nodeSelector: {}
+  # -- Worker tolerations
+  tolerations: []
+  # -- Worker affinity
+  affinity: {}
+
+# -- Studio DVCx Worker settings group
+studioDvcxWorker:
+
+  # -- DVCx worker image settings
+  image:
+    # -- DVCx worker image repository
+    repository: docker.iterative.ai/studio-backend
+
+    pullPolicy: IfNotPresent
+    # -- Overrides the image tag whose default is the chart appVersion.
+    # tag: "v1.34.0"
+
+  # -- Additional environment variables for DVCx worker pods
+  envVars: {}
+  # Example:
+  # envVars:
+  #   DEBUG: "True"
+
+  # -- The name of an existing Secret that contains sensitive environment variables passed to DVCx
+  # worker pods.
+  envFromSecret: ""
+
+  replicaCount: 1
+
+  # -- DVCx worker resources configuration
+  resources:
+    # -- DVCx worker requests configuration
+    requests:
+      cpu: 500m
+      memory: 512Mi
+      ephemeral-storage: 500Mi
+    # -- DVCx worker limits configuration
+    limits:
+      cpu: 8000m
+      memory: 16Gi
+      ephemeral-storage: 10Gi
+
+  # -- Ephemeral storage configuration
+  ephemeralStorage:
+    # -- Ephemeral Storage type. Possible values: `emptyDir`, `pvc`
+    type: emptyDir
+    # -- Persistent Volume Claim configuration for ephemeral storage
+    persistentVolumeClaim:
+      # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`
+      storageClass: ""
+    sizeLimit: 1Gi
+
+  # -- DVCx worker autoscaling configuration
+  autoscaling:
+    # -- DVCx worker autoscaling enabled flag
+    enabled: false
+    # -- DVCx worker autoscaling min replicas
+    minReplicas: 1
+    # -- DVCx worker autoscaling max replicas
+    maxReplicas: 5
+    # -- DVCx worker autoscaling target CPU utilization percentage
+    targetCPUUtilizationPercentage: 80
+    # -- DVCx worker autoscaling target memory utilization percentage
+    # targetMemoryUtilizationPercentage: 80
+
+  # -- Additional DVCx worker pod annotations
+  podAnnotations: {}
+
+  # -- DVCx worker pod security context configuration
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  # -- DVCx worker pod security context configuration
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+  # runAsUser: 1000
+
+  # -- DVCx worker pod node selector configuration
   nodeSelector: {}
 
+  # -- DVCx worker pod tolerations configuration
   tolerations: []
 
+  # -- DVCx worker pod affinity configuration
   affinity: {}
 
 serviceAccount:

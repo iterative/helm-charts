@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-dvcx-worker
+  labels:
+    {{- include "studio-dvcx-worker.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.studioDvcxWorker.autoscaling.enabled }}
+  replicas: {{ .Values.studioDvcxWorker.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "studio-dvcx-worker.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap-studio-dvcx-worker: {{ include (print $.Template.BasePath "/configmap-studio-dvcx-worker.yaml") . | sha256sum }}
+        {{- include "studio.checksum" . | indent 8 }}
+        {{- with .Values.studioDvcxWorker.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "studio-dvcx-worker.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "studio.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.studioDvcxWorker.podSecurityContext | nindent 8 }}
+      containers:
+        - name: studio-dvcx-worker
+          securityContext:
+            {{- toYaml .Values.studioDvcxWorker.securityContext | nindent 12 }}
+          image: "{{ .Values.studioDvcxWorker.image.repository }}:{{ .Values.studioDvcxWorker.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.studioDvcxWorker.image.pullPolicy }}
+          args: ["/app/bin/run_celery_worker.sh"]
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.studioDvcxWorker.resources | nindent 12 }}
+          env:
+            - name: "NO_MIGRATE_DB"
+              value: "1"
+            - name: "WAIT_FOR_MIGRATIONS"
+              value: "1"
+          envFrom:
+            - configMapRef:
+                name: studio
+            - configMapRef:
+                name: studio-dvcx-worker
+            - secretRef:
+                name: studio
+            {{- if .Values.global.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.global.envFromSecret }}
+            {{- end }}
+            {{- if .Values.studioDvcxWorker.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.studioDvcxWorker.envFromSecret }}
+            {{- end }}
+          volumeMounts:
+            - name: blobvault
+              mountPath: /blobvault
+            - name: studio-ca-certificates
+              mountPath: /usr/local/share/ca-certificates
+            - name: tmp-ephemeral
+              mountPath: /tmp
+      volumes:
+        - name: blobvault
+          persistentVolumeClaim:
+            claimName: blobvault
+        - name: studio-ca-certificates
+          configMap:
+            name: studio-ca-certificates
+        - name: tmp-ephemeral
+          {{- if eq .Values.studioDvcxWorker.ephemeralStorage.type "pvc" }}
+          ephemeral:
+            volumeClaimTemplate:
+              metadata:
+                labels:
+                  type: {{.Release.Name}}-dvcx-worker
+              spec:
+                accessModes: [ "ReadWriteOnce" ]
+                {{- if .Values.studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
+                storageClassName: "scratch-storage-class"
+                {{- end }}
+                resources:
+                  requests:
+                    storage: {{ .Values.studioDvcxWorker.ephemeralStorage.sizeLimit }}
+          {{- else }}
+          emptyDir:
+            sizeLimit: {{ .Values.studioDvcxWorker.ephemeralStorage.sizeLimit }}
+          {{- end }}
+      {{- with .Values.studioDvcxWorker.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studioDvcxWorker.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studioDvcxWorker.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -50,8 +50,17 @@ helm.sh/chart: {{ include "studio.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-
 {{- end }}
+
+{{- define "studio-dvcx-worker.labels" -}}
+helm.sh/chart: {{ include "studio.chart" . }}
+{{ include "studio-dvcx-worker.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
 {{- define "studio-worker.labels" -}}
 helm.sh/chart: {{ include "studio.chart" . }}
 {{ include "studio-worker.selectorLabels" . }}
@@ -100,6 +109,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 
 {{- define "studio-beat.selectorLabels" -}}
 app.kubernetes.io/name: studio-beat
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{- define "studio-dvcx-worker.selectorLabels" -}}
+app.kubernetes.io/name: studio-dvcx-worker
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 

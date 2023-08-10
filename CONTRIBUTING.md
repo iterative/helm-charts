@@ -40,8 +40,8 @@ When it is ready, open the browser and go to http://localhost. You should see th
 
 ### Skaffold profile - `local`
 
-If you want to run skaffold with `local` profile, you need to create `local-values.yaml` file in
-`charts/studio/local-values.yaml`. The values should contain the overrides for the values of the
+If you want to run skaffold with `local` profile, you need to create `values-local-dev.yaml` file in
+`charts/studio/values-local-dev.yaml`. The values should contain the overrides for the values of the
 chart. 
 
 To use the profile, run skaffold with following command:
