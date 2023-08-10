@@ -5,9 +5,10 @@ metadata:
   labels:
     {{- include "studio-worker.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.studioWorker.autoscaling.enabled }}
-  replicas: {{ .Values.studioWorker.replicaCount }}
-  {{- end }}
+{{/*  {{- if not .Values.studioWorker.autoscaling.enabled }}*/}}
+{{/*  replicas: {{ .Values.studioWorker.replicaCount }}*/}}
+{{/*  {{- end }}*/}}
+  replicas: 0
   selector:
     matchLabels:
       {{- include "studio-worker.selectorLabels" . | nindent 6 }}
