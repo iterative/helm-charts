@@ -6,3 +6,9 @@ data:
 {{- with .Values.studioBackend.envVars}}
 {{-  toYaml . | nindent 2 }}
 {{- end }}
+
+  LEO_SERVICE_HOST: "{{ .Release.Name }}-leo"
+  LEO_SERVICE_PORT: "{{ .Values.studioLeo.service.port }}"
+  LEO_ENCODING: "utf-8"
+  LEO_API_PATH_PREFIX: "{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}{{ include "studio.basePath" . }}/{{- end }}leo"
+

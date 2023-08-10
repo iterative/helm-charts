@@ -131,10 +131,3 @@ data:
   DVCX_ROOT_DIR: {{ $dvcx.rootDir | default "/tmp" | quote }}
   DVCX_CH_HOST: {{ $dvcxClickhouse.host | default "" | quote }}
   DVCX_CH_DATABASE: {{ $dvcxClickhouse.database | default "" | quote }}
-
-  LEO_SERVICE_HOST: {{ .Release.Name }}-studio-leo
-  LEO_SERVICE_PORT: {{ .Values.studioLeo.service.port }}
-  LEO_HOST: "{{ .Release.Name }}-studio-leo:{{ .Values.studioLeo.service.port }}"
-  LEO_ENCODING: "utf-8"
-  LEO_API_PATH_PREFIX: "{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/leo"
-  LEO_ORIGIN: "http://{{.Release.Name}}-studio-leo"

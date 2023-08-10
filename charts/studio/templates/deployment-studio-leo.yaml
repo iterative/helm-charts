@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-studio-leo
+  name: {{ .Release.Name }}-leo
   labels:
     {{- include "studio-leo.labels" . | nindent 4 }}
 spec:
@@ -63,7 +63,7 @@ spec:
             - secretRef:
                 name: studio
             - configMapRef:
-                name: {{ .Release.Name }}-studio-leo
+                name: {{ .Release.Name }}-leo
             {{- if .Values.global.envFromSecret }}
             - secretRef:
                 name: {{ .Values.global.envFromSecret }}
