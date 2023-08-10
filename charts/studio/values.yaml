@@ -513,8 +513,17 @@ studioBeat:
 
   affinity: {}
 
-# -- Studio Worker settings group
+# -- Studio worker settings group
 studioWorker:
+  # -- Studio worker image settings
+  image:
+    # -- Studio worker image repository
+    repository: docker.iterative.ai/studio-backend
+    # -- Studio worker image pull policy
+    pullPolicy: IfNotPresent
+    # -- Overrides the image tag whose default is the chart appVersion.
+    # tag: "v1.34.0"
+
   # -- Additional environment variables for worker pods
   envVars: {}
   # Example:
@@ -579,8 +588,8 @@ studioDvcxWorker:
   # -- DVCx worker image settings
   image:
     # -- DVCx worker image repository
-    repository: docker.iterative.ai/studio-backend
-
+    repository: docker.iterative.ai/studio-dvcx-worker
+    # -- DVCx worker image pull policy
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
     # tag: "v1.34.0"
@@ -614,11 +623,12 @@ studioDvcxWorker:
   ephemeralStorage:
     # -- Ephemeral Storage type. Possible values: `emptyDir`, `pvc`
     type: emptyDir
+    # -- Ephemeral Storage size limit
+    sizeLimit: 1Gi
     # -- Persistent Volume Claim configuration for ephemeral storage
     persistentVolumeClaim:
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`
       storageClass: ""
-    sizeLimit: 1Gi
 
   # -- DVCx worker autoscaling configuration
   autoscaling:

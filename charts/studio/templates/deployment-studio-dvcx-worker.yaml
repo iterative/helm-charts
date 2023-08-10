@@ -35,11 +35,7 @@ spec:
             {{- toYaml .Values.studioDvcxWorker.securityContext | nindent 12 }}
           image: "{{ .Values.studioDvcxWorker.image.repository }}:{{ .Values.studioDvcxWorker.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.studioDvcxWorker.image.pullPolicy }}
-          args: ["/app/bin/run_celery_worker.sh"]
-          ports:
-            - name: http
-              containerPort: 8000
-              protocol: TCP
+          args: ["/app/bin/run_celery_worker_udf.sh"]
           resources:
             {{- toYaml .Values.studioDvcxWorker.resources | nindent 12 }}
           env:

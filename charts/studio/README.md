@@ -116,7 +116,7 @@ A Helm chart for Kubernetes
 | studioBeat | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"fullnameOverride":"","nameOverride":"","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"200m","memory":"256Mi"},"requests":{"cpu":"100m","memory":"128Mi"}},"securityContext":{},"tolerations":[]}` | Studio Beat settings group |
 | studioBeat.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to beat pods. |
 | studioBeat.envVars | object | `{}` | Additional environment variables for beat pods |
-| studioDvcxWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"storageClass":""},"sizeLimit":"1Gi","type":"emptyDir"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-backend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"8000m","ephemeral-storage":"10Gi","memory":"16Gi"},"requests":{"cpu":"500m","ephemeral-storage":"500Mi","memory":"512Mi"}},"securityContext":{},"tolerations":[]}` | Studio DVCx Worker settings group |
+| studioDvcxWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"storageClass":""},"sizeLimit":"1Gi","type":"emptyDir"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"8000m","ephemeral-storage":"10Gi","memory":"16Gi"},"requests":{"cpu":"500m","ephemeral-storage":"500Mi","memory":"512Mi"}},"securityContext":{},"tolerations":[]}` | Studio DVCx Worker settings group |
 | studioDvcxWorker.affinity | object | `{}` | DVCx worker pod affinity configuration |
 | studioDvcxWorker.autoscaling | object | `{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | DVCx worker autoscaling configuration |
 | studioDvcxWorker.autoscaling.enabled | bool | `false` | DVCx worker autoscaling enabled flag |
@@ -128,9 +128,11 @@ A Helm chart for Kubernetes
 | studioDvcxWorker.ephemeralStorage | object | `{"persistentVolumeClaim":{"storageClass":""},"sizeLimit":"1Gi","type":"emptyDir"}` | Ephemeral storage configuration |
 | studioDvcxWorker.ephemeralStorage.persistentVolumeClaim | object | `{"storageClass":""}` | Persistent Volume Claim configuration for ephemeral storage |
 | studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass` |
+| studioDvcxWorker.ephemeralStorage.sizeLimit | string | `"1Gi"` | Ephemeral Storage size limit |
 | studioDvcxWorker.ephemeralStorage.type | string | `"emptyDir"` | Ephemeral Storage type. Possible values: `emptyDir`, `pvc` |
-| studioDvcxWorker.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-backend"}` | DVCx worker image settings |
-| studioDvcxWorker.image.repository | string | `"docker.iterative.ai/studio-backend"` | DVCx worker image repository |
+| studioDvcxWorker.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"}` | DVCx worker image settings |
+| studioDvcxWorker.image.pullPolicy | string | `"IfNotPresent"` | DVCx worker image pull policy |
+| studioDvcxWorker.image.repository | string | `"docker.iterative.ai/studio-dvcx-worker"` | DVCx worker image repository |
 | studioDvcxWorker.nodeSelector | object | `{}` | DVCx worker pod node selector configuration |
 | studioDvcxWorker.podAnnotations | object | `{}` | Additional DVCx worker pod annotations |
 | studioDvcxWorker.podSecurityContext | object | `{}` | DVCx worker pod security context configuration |
@@ -142,7 +144,7 @@ A Helm chart for Kubernetes
 | studioUi | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"fullnameOverride":"","image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-frontend"},"nameOverride":"","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":3000,"type":"ClusterIP"},"tolerations":[]}` | Studio UI settings group |
 | studioUi.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to UI pods. |
 | studioUi.envVars | object | `{}` | Additional environment variables for ui pods |
-| studioWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"500m","memory":"512Mi"}},"securityContext":{},"tolerations":[]}` | Studio Worker settings group |
+| studioWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-backend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"500m","memory":"512Mi"}},"securityContext":{},"tolerations":[]}` | Studio worker settings group |
 | studioWorker.affinity | object | `{}` | Worker affinity |
 | studioWorker.autoscaling | object | `{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | Worker autoscaling configuration |
 | studioWorker.autoscaling.enabled | bool | `false` | Worker autoscaling enabled flag |
@@ -151,6 +153,9 @@ A Helm chart for Kubernetes
 | studioWorker.autoscaling.targetCPUUtilizationPercentage | int | `80` | Worker autoscaling target CPU utilization percentage |
 | studioWorker.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to worker pods. |
 | studioWorker.envVars | object | `{}` | Additional environment variables for worker pods |
+| studioWorker.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-backend"}` | Studio worker image settings |
+| studioWorker.image.pullPolicy | string | `"IfNotPresent"` | Studio worker image pull policy |
+| studioWorker.image.repository | string | `"docker.iterative.ai/studio-backend"` | Studio worker image repository |
 | studioWorker.nodeSelector | object | `{}` | Worker node selector |
 | studioWorker.podAnnotations | object | `{}` | Additional worker pod annotations |
 | studioWorker.podSecurityContext | object | `{}` | Worker pod security context |
