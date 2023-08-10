@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{.Release.Name}}}-studio-leo
+  name: {{.Release.Name}}-studio-leo
 data:
 {{- with .Values.studioLeo.envVars}}
 {{-  toYaml . | nindent 2 }}

@@ -631,7 +631,7 @@ studioLeo:
     repository: docker.iterative.ai/leo-server
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    # tag: "v1.34.0"
+    tag: "v0.0.13"
 
   service:
     type: ClusterIP
