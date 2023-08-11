@@ -3,7 +3,6 @@ kind: ConfigMap
 metadata:
   name: studio-backend
 data:
-{{- include "studio.dvcx.configMap" . | indent 2}}
 {{- with .Values.studioBackend.envVars}}
 {{-  toYaml . | nindent 2 }}
 {{- end }}

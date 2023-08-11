@@ -3,7 +3,6 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-dvcx-worker
 data:
-{{- include "studio.dvcx.configMap" . | indent 2}}
 {{- with .Values.studioDvcxWorker.envVars}}
 {{-  toYaml . | nindent 2 }}
 {{- end }}
