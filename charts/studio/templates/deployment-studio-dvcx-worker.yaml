@@ -35,7 +35,7 @@ spec:
             {{- toYaml .Values.studioDvcxWorker.securityContext | nindent 12 }}
           image: "{{ .Values.studioDvcxWorker.image.repository }}:{{ .Values.studioDvcxWorker.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.studioDvcxWorker.image.pullPolicy }}
-          args: ["/app/bin/run_celery_worker_udf.sh"]
+          args: ["/app/bin/worker_runners/dql-udf.sh"]
           resources:
             {{- toYaml .Values.studioDvcxWorker.resources | nindent 12 }}
           env:
