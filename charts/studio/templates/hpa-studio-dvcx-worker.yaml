@@ -4,12 +4,12 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: {{.Release.Name}}-dvcx-worker
   labels:
-    {{- include "studio-worker.labels" . | nindent 4 }}
+    {{- include "studio-dvcx-worker.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: studio-worker
+    name: studio-dvcx-worker
   minReplicas: {{ .Values.studioDvcxWorker.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.studioDvcxWorker.autoscaling.maxReplicas }}
   metrics:
