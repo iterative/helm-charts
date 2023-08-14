@@ -1,0 +1,32 @@
+{{- if .Values.studioDvcxWorker.autoscaling.enabled }}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{.Release.Name}}-dvcx-worker
+  labels:
+    {{- include "studio-dvcx-worker.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: studio-dvcx-worker
+  minReplicas: {{ .Values.studioDvcxWorker.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.studioDvcxWorker.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.studioDvcxWorker.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.studioDvcxWorker.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.studioDvcxWorker.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.studioDvcxWorker.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

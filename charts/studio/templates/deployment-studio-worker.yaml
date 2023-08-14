@@ -36,10 +36,6 @@ spec:
           image: "{{ .Values.studioBackend.image.repository }}:{{ .Values.studioBackend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.studioBackend.image.pullPolicy }}
           args: ["/app/bin/run_celery_worker.sh"]
-          ports:
-            - name: http
-              containerPort: 8000
-              protocol: TCP
           resources:
             {{- toYaml .Values.studioWorker.resources | nindent 12 }}
           env:

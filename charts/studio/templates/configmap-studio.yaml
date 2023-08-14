@@ -116,6 +116,15 @@ data:
   {{- end }}
 
   {{- $dvcx := .Values.global.dvcx | default dict }}
+  {{- $dvcxClickhouse := $dvcx.clickHouse | default dict }}
   DQL_ENABLED: {{ $dvcx.enabled | default "False" | quote }}
+  DQL_UDF_ENABLED: {{ $dvcx.udfEnabled | default "False" | quote }}
   DVCX_ENABLED: {{ $dvcx.enabled | default "False" | quote }}
+  DVCX_UDF_ENABLED: {{ $dvcx.udfEnabled | default "False" | quote }}
 
+  DQL_ROOT_DIR: {{ $dvcx.rootDir | default "/tmp" | quote }}
+  DQL_CH_HOST: {{ $dvcxClickhouse.host | default "" | quote }}
+  DQL_CH_DATABASE: {{ $dvcxClickhouse.database | default "" | quote }}
+  DVCX_ROOT_DIR: {{ $dvcx.rootDir | default "/tmp" | quote }}
+  DVCX_CH_HOST: {{ $dvcxClickhouse.host | default "" | quote }}
+  DVCX_CH_DATABASE: {{ $dvcxClickhouse.database | default "" | quote }}
