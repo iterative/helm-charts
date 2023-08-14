@@ -116,7 +116,7 @@ data:
   {{- end }}
 
   {{- $dvcx := .Values.global.dvcx | default dict }}
-  {{- $dvcxClickhouse := $dvcx.clickhouse | default dict }}
+  {{- $dvcxClickhouse := $dvcx.clickHouse | default dict }}
   DQL_ENABLED: {{ $dvcx.enabled | default "False" | quote }}
   DQL_UDF_ENABLED: {{ $dvcx.udfEnabled | default "False" | quote }}
   DVCX_ENABLED: {{ $dvcx.enabled | default "False" | quote }}
