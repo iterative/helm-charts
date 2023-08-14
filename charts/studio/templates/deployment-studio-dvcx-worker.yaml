@@ -47,7 +47,7 @@ spec:
             - configMapRef:
                 name: studio
             - configMapRef:
-                name: studio-dvcx-worker
+                name: {{ .Release.Name }}-dvcx-worker
             - secretRef:
                 name: studio
             {{- if .Values.global.envFromSecret }}
