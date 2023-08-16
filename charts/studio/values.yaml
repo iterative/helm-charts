@@ -335,17 +335,16 @@ postgresql:
         # -- Postgres database
         database: iterativeai
 
+# -- Ray cluster settings group
 ray:
   # -- Ray enabled
   enabled: false
-  # -- Ray name override
-  fullnameOverride: {{ .Release.Name }}-ray
-
-  # -- Container image used for Ray nodes
-  image: rayproject/ray:2.4.0-py310-cpu
 
   # -- Ray version
   version: 2.4.0
+
+  # -- Container image used for Ray nodes
+  image: rayproject/ray:2.4.0-py310-cpu
 
   # Recommendation: adjust resources (i.e. combined requests & limits) so a
   # single Ray node (e.g. head or worker) is scheduled on each Kubernetes node,

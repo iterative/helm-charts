@@ -122,7 +122,7 @@ data:
   DVCX_ENABLED: {{ $dvcx.enabled | default "False" | quote }}
   DVCX_UDF_ENABLED: {{ $dvcx.udfEnabled | default "False" | quote }}
   {{- if .Values.ray.enabled }}
-  DVCX_RAY_URL: "http://{{ .Values.ray.fullnameOverride }}-head-svc.{{ .Release.Namespace }}.svc.cluster.local:8265"
+  DVCX_RAY_URL: "http://{{ .Release.Name }}-ray-head-svc.{{ .Release.Namespace }}.svc.cluster.local:8265"
   {{- end }}
 
   DQL_ROOT_DIR: {{ $dvcx.rootDir | default "/tmp" | quote }}
