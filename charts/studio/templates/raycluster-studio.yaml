@@ -1,4 +1,4 @@
-{{- if .Values.ray.enabled }}
+{{- if .Values.ray.enabled -}}
 apiVersion: ray.io/v1alpha1
 kind: RayCluster
 metadata:
