@@ -335,10 +335,10 @@ postgresql:
         # -- Postgres database
         database: iterativeai
 
-# -- Ray cluster settings group
+# -- Ray cluster settings group used by DVCx
 ray:
   # -- Ray enabled
-  enabled: true
+  enabled: false
 
   # -- Ray version
   version: 2.4.0
