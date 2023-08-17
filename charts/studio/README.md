@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.4.2](https://img.shields.io/badge/Version-0.4.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.27.0](https://img.shields.io/badge/AppVersion-v2.27.0-informational?style=flat-square)
+![Version: 0.4.3](https://img.shields.io/badge/Version-0.4.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.27.0](https://img.shields.io/badge/AppVersion-v2.27.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -121,7 +121,7 @@ A Helm chart for Kubernetes
 | studioBeat | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"fullnameOverride":"","nameOverride":"","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"200m","memory":"256Mi"},"requests":{"cpu":"100m","memory":"128Mi"}},"securityContext":{},"tolerations":[]}` | Studio Beat settings group |
 | studioBeat.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to beat pods. |
 | studioBeat.envVars | object | `{}` | Additional environment variables for beat pods |
-| studioDvcxWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"storageClass":""},"sizeLimit":"1Gi","type":"emptyDir"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"8000m","ephemeral-storage":"10Gi","memory":"16Gi"},"requests":{"cpu":"500m","ephemeral-storage":"500Mi","memory":"512Mi"}},"securityContext":{},"tolerations":[]}` | Studio DVCx Worker settings group |
+| studioDvcxWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"storageClass":""},"size":"1Gi","type":"emptyDir"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"8000m","ephemeral-storage":"10Gi","memory":"16Gi"},"requests":{"cpu":"500m","ephemeral-storage":"500Mi","memory":"512Mi"}},"securityContext":{},"tolerations":[]}` | Studio DVCx Worker settings group |
 | studioDvcxWorker.affinity | object | `{}` | DVCx worker pod affinity configuration |
 | studioDvcxWorker.autoscaling | object | `{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | DVCx worker autoscaling configuration |
 | studioDvcxWorker.autoscaling.enabled | bool | `false` | DVCx worker autoscaling enabled flag |
@@ -130,10 +130,10 @@ A Helm chart for Kubernetes
 | studioDvcxWorker.autoscaling.targetCPUUtilizationPercentage | int | `80` | DVCx worker autoscaling target CPU utilization percentage |
 | studioDvcxWorker.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to DVCx worker pods. |
 | studioDvcxWorker.envVars | object | `{}` | Additional environment variables for DVCx worker pods |
-| studioDvcxWorker.ephemeralStorage | object | `{"persistentVolumeClaim":{"storageClass":""},"sizeLimit":"1Gi","type":"emptyDir"}` | Ephemeral storage configuration |
+| studioDvcxWorker.ephemeralStorage | object | `{"persistentVolumeClaim":{"storageClass":""},"size":"1Gi","type":"emptyDir"}` | Ephemeral storage configuration |
 | studioDvcxWorker.ephemeralStorage.persistentVolumeClaim | object | `{"storageClass":""}` | Persistent Volume Claim configuration for ephemeral storage |
 | studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass` |
-| studioDvcxWorker.ephemeralStorage.sizeLimit | string | `"1Gi"` | Ephemeral Storage size limit |
+| studioDvcxWorker.ephemeralStorage.size | string | `"1Gi"` | Ephemeral Storage size |
 | studioDvcxWorker.ephemeralStorage.type | string | `"emptyDir"` | Ephemeral Storage type. Possible values: `emptyDir`, `pvc` |
 | studioDvcxWorker.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"}` | DVCx worker image settings |
 | studioDvcxWorker.image.pullPolicy | string | `"IfNotPresent"` | DVCx worker image pull policy |
