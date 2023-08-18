@@ -29,6 +29,8 @@ spec:
       serviceAccountName: {{ include "studio.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.studioDvcxWorker.podSecurityContext | nindent 8 }}
+        fsGroup: 103 # dvc
+        fsGroupChangePolicy: "OnRootMismatch"
       containers:
         - name: studio-dvcx-worker
           securityContext:

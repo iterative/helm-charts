@@ -33,6 +33,8 @@ spec:
       serviceAccountName: {{ include "studio.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.studioBackend.podSecurityContext | nindent 8 }}
+        fsGroup: 103 # dvc
+        fsGroupChangePolicy: "OnRootMismatch"
       initContainers:
         - name: run-migrations
           securityContext: {{- toYaml .Values.studioBackend.securityContext | nindent 12 }}

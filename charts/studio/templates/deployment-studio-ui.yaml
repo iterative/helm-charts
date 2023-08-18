@@ -33,6 +33,8 @@ spec:
       serviceAccountName: {{ include "studio.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.studioUi.podSecurityContext | nindent 8 }}
+        fsGroup: 103 # dvc
+        fsGroupChangePolicy: "OnRootMismatch"
       containers:
         - name: studio-ui
           securityContext:
