@@ -483,10 +483,6 @@ studioUi:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
 
-  nameOverride: ""
-
-  fullnameOverride: ""
-
   podAnnotations: {}
 
   podSecurityContext: {}
