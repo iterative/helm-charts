@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "studio-leo.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.studioLeo.autoscaling.enabled }}
   replicas: {{ .Values.studioLeo.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "studio-leo.selectorLabels" . | nindent 6 }}
