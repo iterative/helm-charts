@@ -18,10 +18,9 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/configmap-studio-backend: >-
-          {{ include (print $.Template.BasePath "/configmap-studio-backend.yaml") . | sha256sum }}
-        checksum/configmap-nginx-sidecar: >-
-          {{ include (print $.Template.BasePath "/configmap-studio-backend-nginx-sidecar.yaml") . | sha256sum }}
+        checksum/configmap-studio-backend: {{ include (print $.Template.BasePath "/configmap-studio-backend.yaml") . | sha256sum }}
+        checksum/configmap-studio-backend-nginx-sidecar: {{ include (print $.Template.BasePath "/configmap-studio-backend-nginx-sidecar.yaml") . | sha256sum }}
+        checksum/configmap-studio-nginx-config: {{ include (print $.Template.BasePath "/configmap-studio-nginx-config.yaml") . | sha256sum }}
         {{- include "studio.checksum" . | indent 8 }}
 
         {{- with .Values.studioBackend.podAnnotations }}
@@ -149,7 +148,7 @@ spec:
               port: 8080
             periodSeconds: 10
           volumeMounts:
-            - name: studio-nginx-sidecar
+            - name: studio-nginx-config
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
             - name: studio-nginx-sidecar
@@ -171,6 +170,9 @@ spec:
           configMap:
             name: studio-ca-certificates
         {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
+        - name: studio-nginx-config
+          configMap:
+            name: {{ .Release.Name }}-nginx-config
         - name: studio-nginx-sidecar
           configMap:
             name: {{ .Release.Name }}-backend-nginx-sidecar
