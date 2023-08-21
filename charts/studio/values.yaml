@@ -365,6 +365,8 @@ ray:
 
 # -- PgBouncer settings group
 pgBouncer:
+  enabled: false
+
   # -- PgBouncer image settings
   image:
     # -- PgBouncer image repository
