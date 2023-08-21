@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgbouncer
+  labels:
+    {{- include "pgbouncer.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.pgBouncer.service.type }}
+  ports:
+    - port: {{ .Values.pgBouncer.service.port }}
+      targetPort: pgbouncer
+      protocol: TCP
+      name: pgbouncer
+  selector:
+    {{- include "pgbouncer.selectorLabels" . | nindent 4 }}

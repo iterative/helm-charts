@@ -363,6 +363,95 @@ ray:
       minimum: 1
       maximum: 4
 
+# -- PgBouncer settings group
+pgBouncer:
+  # -- PgBouncer image settings
+  image:
+    # -- PgBouncer image repository
+    repository: docker.io/bitnami/pgbouncer
+    # -- PgBouncer image pull policy
+    pullPolicy: IfNotPresent
+    # -- PgBouncer image tag
+    tag: "1.20.1"
+
+  service:
+    type: ClusterIP
+    port: 6432
+
+  # -- Additional environment variables for PgBouncer pods
+  envVars: {}
+  # Example:
+  # envVars:
+  #   DEBUG: "True"
+
+  # -- The name of an existing Secret that contains sensitive environment variables passed to DVCx
+  # worker pods.
+  envFromSecret: ""
+
+  replicaCount: 1
+
+  # -- PgBouncer resources configuration
+  resources:
+    # -- PgBouncer requests configuration
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    # -- PgBouncer limits configuration
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+
+  # -- PgBouncer autoscaling configuration
+  autoscaling:
+    # -- PgBouncer autoscaling enabled flag
+    enabled: false
+    # -- PgBouncer autoscaling min replicas
+    minReplicas: 1
+    # -- PgBouncer autoscaling max replicas
+    maxReplicas: 5
+    # -- PgBouncer autoscaling target CPU utilization percentage
+    targetCPUUtilizationPercentage: 80
+    # -- PgBouncer autoscaling target memory utilization percentage
+    # targetMemoryUtilizationPercentage: 80
+
+  # -- Additional PgBouncer pod annotations
+  podAnnotations: {}
+
+  # -- PgBouncer pod security context configuration
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  # -- PgBouncer pod security context configuration
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+  # runAsUser: 1000
+
+  # -- PgBouncer service account name
+  serviceAccountName: ""
+
+  # -- PgBouncer pod node selector configuration
+  nodeSelector: {}
+
+  # -- PgBouncer pod tolerations configuration
+  tolerations: []
+
+  # -- PgBouncer pod affinity configuration
+  affinity: {}
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+
 # -- Studio UI settings group
 studioUi:
   # -- Additional environment variables for ui pods

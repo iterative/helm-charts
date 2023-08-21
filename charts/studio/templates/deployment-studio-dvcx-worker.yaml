@@ -30,7 +30,7 @@ spec:
       securityContext:
         fsGroup: 103
         fsGroupChangePolicy: "OnRootMismatch"
-        {{- with .Values.studioWorker.podSecurityContext }}
+        {{- with .Values.studioDvcxWorker.podSecurityContext }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       containers:
