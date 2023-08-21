@@ -1,4 +1,4 @@
-{{- if .Values.pgBouncer.enabled -}}
+{{- if ((.Values.pgBouncer).enabled) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
