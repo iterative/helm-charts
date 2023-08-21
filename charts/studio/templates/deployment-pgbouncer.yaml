@@ -14,6 +14,7 @@ spec:
   template:
     metadata:
       annotations:
+        checksum/secret-pgbouncer: {{ include (print $.Template.BasePath "/secret-pgbouncer.yaml") . | sha256sum }}
         {{- include "studio.checksum" . | indent 8 }}
         {{- with .Values.pgBouncer.podAnnotations }}
         {{- toYaml . | nindent 8 }}
