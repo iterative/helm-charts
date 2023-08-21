@@ -90,10 +90,10 @@ spec:
                 {{- end }}
                 resources:
                   requests:
-                    storage: {{ .Values.studioDvcxWorker.ephemeralStorage.sizeLimit }}
+                    storage: {{ .Values.studioDvcxWorker.ephemeralStorage.size }}
           {{- else }}
           emptyDir:
-            sizeLimit: {{ .Values.studioDvcxWorker.ephemeralStorage.sizeLimit }}
+            sizeLimit: {{ .Values.studioDvcxWorker.ephemeralStorage.size }}
           {{- end }}
       {{- with .Values.studioDvcxWorker.nodeSelector }}
       nodeSelector:

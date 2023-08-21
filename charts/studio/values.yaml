@@ -651,8 +651,8 @@ studioDvcxWorker:
   ephemeralStorage:
     # -- Ephemeral Storage type. Possible values: `emptyDir`, `pvc`
     type: emptyDir
-    # -- Ephemeral Storage size limit
-    sizeLimit: 1Gi
+    # -- Ephemeral Storage size
+    size: 1Gi
     # -- Persistent Volume Claim configuration for ephemeral storage
     persistentVolumeClaim:
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`
