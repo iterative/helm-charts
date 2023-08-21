@@ -134,10 +134,7 @@ A Helm chart for Kubernetes
 | redis.replica.persistence.enabled | bool | `false` | Redis replica persistence is disabled |
 | redis.replica.replicaCount | int | `0` | Redis replica count. 0 for standalone deployment of 1 master and 0 replicas |
 | serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `false` |  |
-| serviceAccount.create | bool | `false` |  |
-| serviceAccount.name | string | `""` |  |
 | serviceAccount.name | string | `""` |  |
 | studioBackend | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"fullnameOverride":"","image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-backend"},"nameOverride":"","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":8000,"type":"ClusterIP"},"tolerations":[]}` | Studio Backend settings group |
 | studioBackend.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to backend pods. |
