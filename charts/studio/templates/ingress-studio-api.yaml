@@ -16,9 +16,12 @@ metadata:
   name: {{ .Release.Name }}-studio-api
   labels:
     {{- include "studio-ui.labels" . | nindent 4 }}
+    "app.kubernetes.io/managed-by": "Helm"
   annotations:
+    meta.helm.sh/release-name: {{ .Release.Name }}
+    meta.helm.sh/release-namespace: {{.Release.Namespace}}
     helm.sh/hook: post-install,post-upgrade
-    helm.sh/hook-weight: "-1"
+    helm.sh/resource-policy: "delete"
     argocd.argoproj.io/hook: PostSync
   {{- with .Values.global.ingress.annotations }}
     {{- toYaml . | nindent 4 }}

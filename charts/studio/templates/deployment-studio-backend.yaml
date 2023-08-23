@@ -104,8 +104,10 @@ spec:
             failureThreshold: 5
             timeoutSeconds: 60
           volumeMounts:
+            {{ if not .Values.global.blobvault.bucket }}
             - name: blobvault
               mountPath: /blobvault
+            {{- end }}
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
           resources:
@@ -163,9 +165,11 @@ spec:
               memory: 256Mi
           {{- end }}
       volumes:
+        {{ if not .Values.global.blobvault.bucket }}
         - name: blobvault
           persistentVolumeClaim:
             claimName: blobvault
+        {{- end }}
         - name: studio-ca-certificates
           configMap:
             name: studio-ca-certificates
