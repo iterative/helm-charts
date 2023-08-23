@@ -6,7 +6,11 @@ metadata:
     {{- include "studio-dvcx-worker.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.studioDvcxWorker.autoscaling.enabled }}
+  {{- if ((.Values.dvcx).udfEnabled) }}
   replicas: {{ .Values.studioDvcxWorker.replicaCount }}
+  {{- else }}
+  replicas: 0
+  {{- end }}
   {{- end }}
   selector:
     matchLabels:

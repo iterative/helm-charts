@@ -483,10 +483,6 @@ studioUi:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
 
-  nameOverride: ""
-
-  fullnameOverride: ""
-
   podAnnotations: {}
 
   podSecurityContext: {}
@@ -547,10 +543,6 @@ studioBackend:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
 
-  nameOverride: ""
-
-  fullnameOverride: ""
-
   podAnnotations: {}
 
   podSecurityContext: {}
@@ -599,10 +591,6 @@ studioBeat:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
 
-  nameOverride: ""
-
-  fullnameOverride: ""
-
   podAnnotations: {}
 
   podSecurityContext: {}
@@ -620,6 +608,73 @@ studioBeat:
 
   tolerations: []
 
+  affinity: {}
+
+# -- Studio Leo settings group
+studioLeo:
+    # -- Leo image settings
+  image:
+    # -- Leo image repository
+    repository: docker.iterative.ai/leo-server
+    # -- Leo image pull policy
+    pullPolicy: IfNotPresent
+    # -- Leo image tag
+    tag: "v0.0.13"
+
+  # -- Additional environment variables for leo pods
+  envVars: {}
+  # Example:
+  # envVars:
+  #   DEBUG: "True"
+
+  # -- The name of an existing Secret that contains sensitive environment variables
+  # passed to leo pods.
+  envFromSecret: ""
+
+  # -- Leo replica count
+  replicaCount: 1
+
+  # -- Leo service configuration
+  service:
+    # -- Leo service type
+    type: ClusterIP
+    # -- Leo service port
+    port: 8181
+
+  # -- Leo resources configuration
+  resources:
+    # -- Leo resource requests
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    # -- Leo resource limits
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+  # -- Additional annotations for leo pods
+  podAnnotations: {}
+
+  # -- Leo pod security context configuration
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  # -- Leo security context configuration
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  # -- Leo node selector configuration
+  nodeSelector: {}
+
+  # -- Leo tolerations configuration
+  tolerations: []
+
+  # -- Leo affinity configuration
   affinity: {}
 
 # -- Studio worker settings group
@@ -757,7 +812,7 @@ studioDvcxWorker:
 
   # -- DVCx worker pod security context configuration
   podSecurityContext: {}
-  # fsGroup: 2000
+    # fsGroup: 2000
 
   # -- DVCx worker pod security context configuration
   securityContext: {}
@@ -766,7 +821,7 @@ studioDvcxWorker:
     #   - ALL
     # readOnlyRootFilesystem: true
     # runAsNonRoot: true
-  # runAsUser: 1000
+    # runAsUser: 1000
 
   # -- DVCx worker pod node selector configuration
   nodeSelector: {}
