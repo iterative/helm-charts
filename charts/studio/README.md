@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.4.5](https://img.shields.io/badge/Version-0.4.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.29.0](https://img.shields.io/badge/AppVersion-v2.29.0-informational?style=flat-square)
+![Version: 0.4.6](https://img.shields.io/badge/Version-0.4.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.29.0](https://img.shields.io/badge/AppVersion-v2.29.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -136,11 +136,11 @@ A Helm chart for Kubernetes
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `false` |  |
 | serviceAccount.name | string | `""` |  |
-| studioBackend | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"fullnameOverride":"","image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-backend"},"nameOverride":"","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":8000,"type":"ClusterIP"},"tolerations":[]}` | Studio Backend settings group |
+| studioBackend | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-backend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":8000,"type":"ClusterIP"},"tolerations":[]}` | Studio Backend settings group |
 | studioBackend.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to backend pods. |
 | studioBackend.envVars | object | `{}` | Additional environment variables for backend pods |
 | studioBackend.replicaCount | int | `1` | Number of replicas of backend pods |
-| studioBeat | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"fullnameOverride":"","nameOverride":"","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"200m","memory":"256Mi"},"requests":{"cpu":"100m","memory":"128Mi"}},"securityContext":{},"tolerations":[]}` | Studio Beat settings group |
+| studioBeat | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"200m","memory":"256Mi"},"requests":{"cpu":"100m","memory":"128Mi"}},"securityContext":{},"tolerations":[]}` | Studio Beat settings group |
 | studioBeat.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to beat pods. |
 | studioBeat.envVars | object | `{}` | Additional environment variables for beat pods |
 | studioDvcxWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"storageClass":""},"size":"1Gi","type":"emptyDir"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"8000m","ephemeral-storage":"10Gi","memory":"16Gi"},"requests":{"cpu":"500m","ephemeral-storage":"500Mi","memory":"512Mi"}},"securityContext":{},"tolerations":[]}` | Studio DVCx Worker settings group |
@@ -168,7 +168,27 @@ A Helm chart for Kubernetes
 | studioDvcxWorker.resources.requests | object | `{"cpu":"500m","ephemeral-storage":"500Mi","memory":"512Mi"}` | DVCx worker requests configuration |
 | studioDvcxWorker.securityContext | object | `{}` | DVCx worker pod security context configuration |
 | studioDvcxWorker.tolerations | list | `[]` | DVCx worker pod tolerations configuration |
-| studioUi | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"fullnameOverride":"","image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-frontend"},"nameOverride":"","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":3000,"type":"ClusterIP"},"tolerations":[]}` | Studio UI settings group |
+| studioLeo | object | `{"affinity":{},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/leo-server","tag":"v0.0.13"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"500m","memory":"1Gi"},"requests":{"cpu":"100m","memory":"512Mi"}},"securityContext":{},"service":{"port":8181,"type":"ClusterIP"},"tolerations":[]}` | Studio Leo settings group |
+| studioLeo.affinity | object | `{}` | Leo affinity configuration |
+| studioLeo.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to leo pods. |
+| studioLeo.envVars | object | `{}` | Additional environment variables for leo pods |
+| studioLeo.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/leo-server","tag":"v0.0.13"}` | Leo image settings |
+| studioLeo.image.pullPolicy | string | `"IfNotPresent"` | Leo image pull policy |
+| studioLeo.image.repository | string | `"docker.iterative.ai/leo-server"` | Leo image repository |
+| studioLeo.image.tag | string | `"v0.0.13"` | Leo image tag |
+| studioLeo.nodeSelector | object | `{}` | Leo node selector configuration |
+| studioLeo.podAnnotations | object | `{}` | Additional annotations for leo pods |
+| studioLeo.podSecurityContext | object | `{}` | Leo pod security context configuration |
+| studioLeo.replicaCount | int | `1` | Leo replica count |
+| studioLeo.resources | object | `{"limits":{"cpu":"500m","memory":"1Gi"},"requests":{"cpu":"100m","memory":"512Mi"}}` | Leo resources configuration |
+| studioLeo.resources.limits | object | `{"cpu":"500m","memory":"1Gi"}` | Leo resource limits |
+| studioLeo.resources.requests | object | `{"cpu":"100m","memory":"512Mi"}` | Leo resource requests |
+| studioLeo.securityContext | object | `{}` | Leo security context configuration |
+| studioLeo.service | object | `{"port":8181,"type":"ClusterIP"}` | Leo service configuration |
+| studioLeo.service.port | int | `8181` | Leo service port |
+| studioLeo.service.type | string | `"ClusterIP"` | Leo service type |
+| studioLeo.tolerations | list | `[]` | Leo tolerations configuration |
+| studioUi | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-frontend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":3000,"type":"ClusterIP"},"tolerations":[]}` | Studio UI settings group |
 | studioUi.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to UI pods. |
 | studioUi.envVars | object | `{}` | Additional environment variables for ui pods |
 | studioWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-backend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"500m","memory":"512Mi"}},"securityContext":{},"tolerations":[]}` | Studio worker settings group |
