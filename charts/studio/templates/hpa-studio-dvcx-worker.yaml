@@ -10,7 +10,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: studio-dvcx-worker
-  {{- if ((.Values.dvcx).udfEnabled) }}
+  {{- if ((.Values.global.dvcx).udfEnabled) }}
   minReplicas: {{ .Values.studioDvcxWorker.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.studioDvcxWorker.autoscaling.maxReplicas }}
   {{- else }}
