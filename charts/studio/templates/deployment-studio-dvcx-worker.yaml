@@ -6,7 +6,7 @@ metadata:
     {{- include "studio-dvcx-worker.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.studioDvcxWorker.autoscaling.enabled }}
-  {{- if ((.Values.dvcx).udfEnabled) }}
+  {{- if ((.Values.global.dvcx).udfEnabled) }}
   replicas: {{ .Values.studioDvcxWorker.replicaCount }}
   {{- else }}
   replicas: 0
