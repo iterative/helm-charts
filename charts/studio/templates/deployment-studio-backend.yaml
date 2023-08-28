@@ -134,7 +134,7 @@ spec:
             {{- end }}
         {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
         - name: nginx-sidecar
-          image: "{{ .Values.studioBlobvault.image.repository }}:{{ .Values.studioBlobvault.image.tag | default "1.25.1-alpine" }}"
+          image: "{{ .Values.studioBlobvault.image.repository }}:{{ .Values.studioBlobvault.image.tag }"
           imagePullPolicy: "IfNotPresent"
           ports:
             - name: nginx-http

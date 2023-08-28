@@ -37,7 +37,7 @@ spec:
         - name: nginx
           securityContext:
             {{- toYaml .Values.studioBlobvault.securityContext | nindent 12 }}
-          image: "{{ .Values.studioBlobvault.image.repository }}:{{ .Values.studioBlobvault.image.tag | default "1.25.1-alpine" }}"
+          image: "{{ .Values.studioBlobvault.image.repository }}:{{ .Values.studioBlobvault.image.tag }}"
           imagePullPolicy: "IfNotPresent"
           ports:
             - name: http
