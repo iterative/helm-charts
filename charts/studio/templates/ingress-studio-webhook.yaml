@@ -20,9 +20,6 @@ metadata:
   annotations:
     meta.helm.sh/release-name: {{ .Release.Name }}
     meta.helm.sh/release-namespace: {{.Release.Namespace}}
-    helm.sh/hook: post-install,post-upgrade
-    helm.sh/resource-policy: "delete"
-    argocd.argoproj.io/hook: PostSync
   {{- with .Values.global.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}

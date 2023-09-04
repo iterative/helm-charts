@@ -2,9 +2,6 @@
 
 ## Installation
 
-## Pre-installation steps
-
-
 ### Create namespace
 
 We'll install Studio and related components in a dedicated `studio` namespace. 
@@ -131,6 +128,19 @@ global:
         -----END RSA PRIVATE KEY-----
 ```
 
+
+## Upgrading to 0.60.x and above
+
+This  0.60.0 fixes the issue with Ingress objects not being cleaned up.  
+To upgrade to 0.60.0 and above, you need to manually delete the Ingress object before upgrading:
+
+```bash
+kubectl delete ingress -l app.kubernetes.io/managed-by=Helm --namespace studio
+kubectl delete ingress blobvault --namespace studio
+```
+
+The rest of upgrade process is the same as described below.
+
 ## Update Studio Version
 
 Studio's `studio-values.yaml` file points to the `latest` image tag, instructing Helm to always pull
@@ -168,3 +178,4 @@ $ helm uninstall studio --namespace studio
 ### Available Configuration
 
 See [values file](charts/studio/values.yaml) with all available configuration flags.
+
