@@ -124,11 +124,6 @@ app.kubernetes.io/name: {{ include "studio.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "studio-ui.selectorLabels" -}}
-app.kubernetes.io/name: studio-ui
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end }}
-
 {{- define "studio-blobvault-nginx.selectorLabels" -}}
 app.kubernetes.io/name: studio-blobvault-nginx
 app.kubernetes.io/instance: {{ .Release.Name }}

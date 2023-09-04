@@ -17,8 +17,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/configmap-studio-nginx-config: {{ include (print $.Template.BasePath "/configmap-studio-nginx-config.yaml") . | sha256sum }}
-        checksum/configmap-studio-blobvault-nginx: {{ include (print $.Template.BasePath "/configmap-studio-blobvault-nginx.yaml") . | sha256sum }}
+        checksum/configmap-studio-nginx: {{ include (print $.Template.BasePath "/configmap-studio-nginx.yaml") . | sha256sum }}
         {{- include "studio.checksum" . | indent 8 }}
         {{- with .Values.studioBlobvault.podAnnotations }}
         {{- toYaml . | nindent 8 }}
@@ -56,9 +55,9 @@ spec:
             - name: studio-nginx-config
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
-            - name: studio-blobvault-nginx-config
+            - name: studio-nginx-config
               mountPath: /etc/nginx/conf.d/default.conf
-              subPath: default.conf
+              subPath: backend-sidecar.conf
             - name: blobvault-pvc
               mountPath: /blobvault
               readOnly: true
@@ -72,10 +71,7 @@ spec:
       volumes:
         - name: studio-nginx-config
           configMap:
-            name: {{.Release.Name}}-nginx-config
-        - name: studio-blobvault-nginx-config
-          configMap:
-            name: {{.Release.Name}}-blobvault-nginx
+            name: {{.Release.Name}}-nginx
         - name: blobvault-pvc
           persistentVolumeClaim:
             claimName: blobvault

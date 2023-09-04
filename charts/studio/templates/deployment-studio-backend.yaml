@@ -19,8 +19,7 @@ spec:
     metadata:
       annotations:
         checksum/configmap-studio-backend: {{ include (print $.Template.BasePath "/configmap-studio-backend.yaml") . | sha256sum }}
-        checksum/configmap-studio-backend-nginx-sidecar: {{ include (print $.Template.BasePath "/configmap-studio-backend-nginx-sidecar.yaml") . | sha256sum }}
-        checksum/configmap-studio-nginx-config: {{ include (print $.Template.BasePath "/configmap-studio-nginx-config.yaml") . | sha256sum }}
+        checksum/configmap-studio-nginx: {{ include (print $.Template.BasePath "/configmap-studio-nginx.yaml") . | sha256sum }}
         {{- include "studio.checksum" . | indent 8 }}
 
         {{- with .Values.studioBackend.podAnnotations }}
@@ -134,7 +133,7 @@ spec:
             {{- end }}
         {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
         - name: nginx-sidecar
-          image: "{{ .Values.studioBlobvault.image.repository }}:{{ .Values.studioBlobvault.image.tag }"
+          image: "{{ .Values.studioBlobvault.image.repository }}:{{ .Values.studioBlobvault.image.tag }}"
           imagePullPolicy: "IfNotPresent"
           ports:
             - name: nginx-http
@@ -155,7 +154,7 @@ spec:
               subPath: nginx.conf
             - name: studio-nginx-sidecar
               mountPath: /etc/nginx/conf.d/default.conf
-              subPath: default.conf
+              subPath: backend-sidecar.conf
           resources:
             requests:
               cpu: 10m
@@ -176,10 +175,10 @@ spec:
         {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
         - name: studio-nginx-config
           configMap:
-            name: {{ .Release.Name }}-nginx-config
+            name: {{ .Release.Name }}-nginx
         - name: studio-nginx-sidecar
           configMap:
-            name: {{ .Release.Name }}-backend-nginx-sidecar
+            name: {{ .Release.Name }}-nginx
         {{- end }}
       {{- with .Values.studioBackend.nodeSelector }}
       nodeSelector:
