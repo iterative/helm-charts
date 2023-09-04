@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-nginx
 data:
-{{( tpl (.Files.Glob "nginx/*").AsConfig . ) | indent 2 }}
+{{ ( tpl (.Files.Glob "nginx/*").AsConfig . ) | indent 2 }}

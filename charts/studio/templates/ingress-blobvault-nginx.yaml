@@ -14,7 +14,7 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: {{.Release.Name}}-blobvault-nginx
+  name: {{.Release.Name}}-blobvault
   labels:
     "app.kubernetes.io/managed-by": "Helm"
   annotations:
@@ -51,11 +51,11 @@ spec:
             backend:
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: {{ .Release.Name }}-blobvault-nginx
+                name: {{ .Release.Name }}-blobvault
                 port:
                   name: http
               {{- else }}
-              serviceName: {{ .Release.Name }}-blobvault-nginx
+              serviceName: {{ .Release.Name }}-blobvault
               servicePort: {{ .Values.studioBlobvault.service.port | default 80 }}
               {{- end }}
       {{- if .Values.global.ingress.hostnameEnabled }}
