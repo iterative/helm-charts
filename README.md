@@ -131,15 +131,15 @@ global:
 
 ## Upgrading to 0.60.x and above
 
-This  0.60.0 fixes the issue with Ingress objects not being cleaned up.  
-To upgrade to 0.60.0 and above, you need to manually delete the Ingress object before upgrading:
+Version 0.60.0 fixes an issue with Ingress objects not getting cleaned up.  
+To upgrade to 0.60.0 and above, you need to manually delete the existing Ingress object before upgrading:
 
 ```bash
 kubectl delete ingress -l app.kubernetes.io/managed-by=Helm --namespace studio
 kubectl delete ingress blobvault --namespace studio
 ```
 
-The rest of upgrade process is the same as described below.
+The rest of the upgrade process is the same as described below.
 
 ## Update Studio Version
 
