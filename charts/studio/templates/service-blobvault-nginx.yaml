@@ -1,0 +1,17 @@
+{{ if not .Values.global.blobvault.bucket }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-blobvault
+  labels:
+    {{- include "studio-blobvault.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.studioBackend.service.type }}
+  ports:
+    - port: {{ .Values.studioBlobvault.service.port | default 80 }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "studio-blobvault.selectorLabels" . | nindent 4 }}
+{{- end }}
