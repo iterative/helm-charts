@@ -395,7 +395,7 @@ studioUi:
       cpu: 1000m
       memory: 2Gi
 
-  deploymentStrategy:
+  strategy:
     rollingUpdate:
       maxUnavailable: 0
       maxSurge: 50%
@@ -464,7 +464,7 @@ studioBackend:
       cpu: 1000m
       memory: 2Gi
 
-  deploymentStrategy:
+  strategy:
     rollingUpdate:
       maxUnavailable: 0
       maxSurge: 50%
@@ -521,7 +521,7 @@ studioBeat:
       cpu: 200m
       memory: 256Mi
 
-  deploymentStrategy:
+  strategy:
     rollingUpdate:
       maxUnavailable: 0
       maxSurge: 50%
@@ -591,7 +591,7 @@ studioWorker:
       memory: 1Gi
 
   # -- Worker deployment strategy
-  deploymentStrategy:
+  strategy:
     rollingUpdate:
       maxUnavailable: 0
       maxSurge: 50%
@@ -681,7 +681,7 @@ studioDvcxWorker:
       storageClass: ""
 
   # -- DVCx worker deployment strategy
-  deploymentStrategy:
+  strategy:
     rollingUpdate:
       maxUnavailable: 0
       maxSurge: 50%

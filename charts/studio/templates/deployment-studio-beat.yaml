@@ -8,7 +8,7 @@ spec:
   {{- if not .Values.studioBeat.autoscaling.enabled }}
   replicas: {{ .Values.studioBeat.replicaCount }}
   {{- end }}
-  {{- with .Values.studioBackend.deploymentStrategy }}
+  {{- with .Values.studioBackend.strategy }}
   strategy:
     {{- toYaml . | nindent 4 }}
   {{- end }}
