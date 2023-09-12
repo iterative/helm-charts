@@ -8,6 +8,10 @@ spec:
   {{- if not .Values.studioBeat.autoscaling.enabled }}
   replicas: {{ .Values.studioBeat.replicaCount }}
   {{- end }}
+  {{- with .Values.studioBackend.deploymentStrategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "studio-beat.selectorLabels" . | nindent 6 }}
