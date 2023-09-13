@@ -390,6 +390,11 @@ studioUi:
       cpu: 1000m
       memory: 2Gi
 
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 50%
+
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -450,6 +455,11 @@ studioBackend:
       cpu: 1000m
       memory: 2Gi
 
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 50%
+
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -497,6 +507,11 @@ studioBeat:
     limits:
       cpu: 200m
       memory: 256Mi
+
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 50%
 
   autoscaling:
     enabled: false
@@ -624,6 +639,13 @@ studioWorker:
     limits:
       cpu: 1000m
       memory: 1Gi
+
+  # -- Worker deployment strategy
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 50%
+
   # -- Worker autoscaling configuration
   autoscaling:
     # -- Worker autoscaling enabled flag
@@ -707,6 +729,12 @@ studioDvcxWorker:
     persistentVolumeClaim:
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`
       storageClass: ""
+
+  # -- DVCx worker deployment strategy
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 50%
 
   # -- DVCx worker autoscaling configuration
   autoscaling:

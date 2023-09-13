@@ -8,6 +8,10 @@ spec:
   {{- if not .Values.studioWorker.autoscaling.enabled }}
   replicas: {{ .Values.studioWorker.replicaCount }}
   {{- end }}
+  {{- with .Values.studioBackend.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "studio-worker.selectorLabels" . | nindent 6 }}

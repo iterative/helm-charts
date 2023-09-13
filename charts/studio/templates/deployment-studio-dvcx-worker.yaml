@@ -12,6 +12,10 @@ spec:
   replicas: 0
   {{- end }}
   {{- end }}
+  {{- with .Values.studioBackend.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "studio-dvcx-worker.selectorLabels" . | nindent 6 }}
