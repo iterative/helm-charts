@@ -67,14 +67,18 @@ spec:
                 name: {{ .Values.studioWorker.envFromSecret }}
             {{- end }}
           volumeMounts:
+            {{- if not .Values.global.blobvault.bucket }}
             - name: blobvault
               mountPath: /blobvault
+            {{- end }}
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
       volumes:
+        {{- if not .Values.global.blobvault.bucket }}
         - name: blobvault
           persistentVolumeClaim:
             claimName: blobvault
+        {{- end }}
         - name: studio-ca-certificates
           configMap:
             name: studio-ca-certificates

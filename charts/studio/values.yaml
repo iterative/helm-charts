@@ -49,6 +49,7 @@ global:
 
   blobvault:
     # -- Blobvault local backing store settings.
+    # Not used when `global.blobvault.bucket` is set.
     persistentVolume:
       # -- Blobvault local backing store access mode.
       # @default -- ReadWriteOnce
@@ -190,93 +191,6 @@ global:
 
       # -- (DEPRECATED) BitBucket Webhook URL
       webhookUrl: ""
-nginx:
-  service:
-    type: ClusterIP
-
-  ingress:
-    enabled: false
-
-  extraVolumes:
-  - name: blobvault
-    persistentVolumeClaim:
-      claimName: blobvault
-
-  extraVolumeMounts:
-  - name: blobvault
-    mountPath: /blobvault
-
-  # -- Nginx for blobvault configuration
-  # @default -- see in `values.yaml`
-  serverBlock: |-
-    server {
-        listen       8080;
-        server_name  _;
-
-        root /blobvault;
-
-        location ~ \.gz$ {
-            if ($request_method = 'OPTIONS') {
-                add_header 'Access-Control-Allow-Origin' '*';
-                #
-                # Cookies
-                #
-                add_header 'Access-Control-Allow-Credentials' 'true';
-                add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-                #
-                # Custom headers and headers various browsers *should* be OK with but aren't
-                #
-                add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Studio-Trace-Id';
-                #
-                # Tell client that this pre-flight info is valid for 20 days
-                #
-                add_header 'Access-Control-Max-Age' 1728000;
-                add_header 'Content-Type' 'text/plain charset=UTF-8';
-                add_header 'Content-Length' 0;
-                return 204;
-            }
-            if ($request_method = 'GET') {
-                add_header 'Access-Control-Allow-Origin' '*';
-                add_header 'Access-Control-Allow-Credentials' 'true';
-                add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-                add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Studio-Trace-Id';
-                add_header Content-Encoding gzip;
-            }
-            gzip off;
-            types { } default_type "application/json";
-        }
-
-
-        location / {
-            if ($request_method = 'OPTIONS') {
-                add_header 'Access-Control-Allow-Origin' '*';
-                #
-                # Cookies
-                #
-                add_header 'Access-Control-Allow-Credentials' 'true';
-                add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-                #
-                # Custom headers and headers various browsers *should* be OK with but aren't
-                #
-                add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Studio-Trace-Id';
-                #
-                # Tell client that this pre-flight info is valid for 20 days
-                #
-                add_header 'Access-Control-Max-Age' 1728000;
-                add_header 'Content-Type' 'text/plain charset=UTF-8';
-                add_header 'Content-Length' 0;
-                return 204;
-            }
-            if ($request_method = 'GET') {
-                add_header 'Access-Control-Allow-Origin' '*';
-                add_header 'Access-Control-Allow-Credentials' 'true';
-                add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-                add_header 'Access-Control-Allow-Headers' 'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-Studio-Trace-Id';
-            }
-
-            try_files $uri $uri/ =404;
-        }
-    }
 
 redis:
   # -- Redis enabled
@@ -363,6 +277,87 @@ ray:
       minimum: 1
       maximum: 4
 
+# -- PgBouncer settings group
+pgBouncer:
+  enabled: false
+
+  # -- PgBouncer image settings
+  image:
+    # -- PgBouncer image repository
+    repository: docker.io/bitnami/pgbouncer
+    # -- PgBouncer image pull policy
+    pullPolicy: IfNotPresent
+    # -- PgBouncer image tag
+    tag: "1.20.1"
+
+  service:
+    type: ClusterIP
+    port: 6432
+
+  # -- Additional environment variables for PgBouncer pods
+  envVars: {}
+  # Example:
+  # envVars:
+  #   DEBUG: "True"
+
+  # -- The name of an existing Secret that contains sensitive environment variables passed to DVCx
+  # worker pods.
+  envFromSecret: ""
+
+  replicaCount: 1
+
+  # -- PgBouncer resources configuration
+  resources:
+    # -- PgBouncer requests configuration
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    # -- PgBouncer limits configuration
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+
+  # -- PgBouncer autoscaling configuration
+  autoscaling:
+    # -- PgBouncer autoscaling enabled flag
+    enabled: false
+    # -- PgBouncer autoscaling min replicas
+    minReplicas: 1
+    # -- PgBouncer autoscaling max replicas
+    maxReplicas: 5
+    # -- PgBouncer autoscaling target CPU utilization percentage
+    targetCPUUtilizationPercentage: 80
+    # -- PgBouncer autoscaling target memory utilization percentage
+    # targetMemoryUtilizationPercentage: 80
+
+  # -- Additional PgBouncer pod annotations
+  podAnnotations: {}
+
+  # -- PgBouncer pod security context configuration
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  # -- PgBouncer pod security context configuration
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+  # runAsUser: 1000
+
+  # -- PgBouncer service account name
+  serviceAccountName: ""
+
+  # -- PgBouncer pod node selector configuration
+  nodeSelector: {}
+
+  # -- PgBouncer pod tolerations configuration
+  tolerations: []
+
+  # -- PgBouncer pod affinity configuration
+  affinity: {}
+
 # -- Studio UI settings group
 studioUi:
   # -- Additional environment variables for ui pods
@@ -406,10 +401,6 @@ studioUi:
     maxReplicas: 5
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
-
-  nameOverride: ""
-
-  fullnameOverride: ""
 
   podAnnotations: {}
 
@@ -476,10 +467,6 @@ studioBackend:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
 
-  nameOverride: ""
-
-  fullnameOverride: ""
-
   podAnnotations: {}
 
   podSecurityContext: {}
@@ -533,10 +520,6 @@ studioBeat:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
 
-  nameOverride: ""
-
-  fullnameOverride: ""
-
   podAnnotations: {}
 
   podSecurityContext: {}
@@ -554,6 +537,73 @@ studioBeat:
 
   tolerations: []
 
+  affinity: {}
+
+# -- Studio Leo settings group
+studioLeo:
+    # -- Leo image settings
+  image:
+    # -- Leo image repository
+    repository: docker.iterative.ai/leo-server
+    # -- Leo image pull policy
+    pullPolicy: IfNotPresent
+    # -- Leo image tag
+    tag: "v0.0.13"
+
+  # -- Additional environment variables for leo pods
+  envVars: {}
+  # Example:
+  # envVars:
+  #   DEBUG: "True"
+
+  # -- The name of an existing Secret that contains sensitive environment variables
+  # passed to leo pods.
+  envFromSecret: ""
+
+  # -- Leo replica count
+  replicaCount: 1
+
+  # -- Leo service configuration
+  service:
+    # -- Leo service type
+    type: ClusterIP
+    # -- Leo service port
+    port: 8181
+
+  # -- Leo resources configuration
+  resources:
+    # -- Leo resource requests
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    # -- Leo resource limits
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+  # -- Additional annotations for leo pods
+  podAnnotations: {}
+
+  # -- Leo pod security context configuration
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  # -- Leo security context configuration
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  # -- Leo node selector configuration
+  nodeSelector: {}
+
+  # -- Leo tolerations configuration
+  tolerations: []
+
+  # -- Leo affinity configuration
   affinity: {}
 
 # -- Studio worker settings group
@@ -673,8 +723,8 @@ studioDvcxWorker:
   ephemeralStorage:
     # -- Ephemeral Storage type. Possible values: `emptyDir`, `pvc`
     type: emptyDir
-    # -- Ephemeral Storage size limit
-    sizeLimit: 1Gi
+    # -- Ephemeral Storage size
+    size: 1Gi
     # -- Persistent Volume Claim configuration for ephemeral storage
     persistentVolumeClaim:
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`
@@ -704,7 +754,7 @@ studioDvcxWorker:
 
   # -- DVCx worker pod security context configuration
   podSecurityContext: {}
-  # fsGroup: 2000
+    # fsGroup: 2000
 
   # -- DVCx worker pod security context configuration
   securityContext: {}
@@ -713,7 +763,7 @@ studioDvcxWorker:
     #   - ALL
     # readOnlyRootFilesystem: true
     # runAsNonRoot: true
-  # runAsUser: 1000
+    # runAsUser: 1000
 
   # -- DVCx worker pod node selector configuration
   nodeSelector: {}
@@ -723,6 +773,31 @@ studioDvcxWorker:
 
   # -- DVCx worker pod affinity configuration
   affinity: {}
+
+# -- Studio: Additional service to expose the blobvault files generated by the worker
+# It is enabled automatically if the worker is scaled to 1 replica and no bucket is configured
+studioBlobvault:
+
+  # -- Image to use for the blobvault service
+  image:
+    # -- Image repository
+    repository: nginx
+    # -- Image tag
+    tag: 1.25.1-alpine
+
+  service:
+    port: 80
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
 
 serviceAccount:
   # Specifies whether a service account should be created

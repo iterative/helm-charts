@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.4.2](https://img.shields.io/badge/Version-0.4.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.27.0](https://img.shields.io/badge/AppVersion-v2.27.0-informational?style=flat-square)
+![Version: 0.6.0](https://img.shields.io/badge/Version-0.6.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.29.0](https://img.shields.io/badge/AppVersion-v2.29.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -14,7 +14,6 @@ A Helm chart for Kubernetes
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | nginx | 13.2.30 |
 | https://charts.bitnami.com/bitnami | postgresql | 11.9.13 |
 | https://charts.bitnami.com/bitnami | redis | 17.14.3 |
 | https://ray-project.github.io/kuberay-helm | kuberay-operator | 0.6.0 |
@@ -27,7 +26,7 @@ A Helm chart for Kubernetes
 | global.blobvault.accessKeyId | string | `""` | Blobvault S3 access key ID |
 | global.blobvault.bucket | string | `""` | Blobvault S3 bucket name |
 | global.blobvault.endpointUrl | string | `""` | Blobvault S3 endpoint URL |
-| global.blobvault.persistentVolume | object | `{"accessModes":["ReadWriteOnce"],"size":"30Gi","storageClassName":""}` | Blobvault local backing store settings. |
+| global.blobvault.persistentVolume | object | `{"accessModes":["ReadWriteOnce"],"size":"30Gi","storageClassName":""}` | Blobvault local backing store settings. Not used when `global.blobvault.bucket` is set. |
 | global.blobvault.persistentVolume.accessModes | list | ReadWriteOnce | Blobvault local backing store access mode. |
 | global.blobvault.persistentVolume.size | string | `"30Gi"` | Blobvault local backing store size. |
 | global.blobvault.persistentVolume.storageClassName | string | default storage class in the cluster. | Blobvault local backing store storage class. |
@@ -84,13 +83,28 @@ A Helm chart for Kubernetes
 | global.scmProviders.webhookHost | string | `$global.host` value. | Custom hostname for incoming webhook (if Studio runs on a private network and you use SaaS versions of GitHub, GitLab, or Bitbucket) |
 | global.secretKey | string | `""` | Studio: Secret key for signing Webhook payloads We recommend you set this externally. If left empty, a random key will be generated. |
 | imagePullSecrets | list | `[]` | Secret containing Docker registry credentials |
-| nginx.extraVolumeMounts[0].mountPath | string | `"/blobvault"` |  |
-| nginx.extraVolumeMounts[0].name | string | `"blobvault"` |  |
-| nginx.extraVolumes[0].name | string | `"blobvault"` |  |
-| nginx.extraVolumes[0].persistentVolumeClaim.claimName | string | `"blobvault"` |  |
-| nginx.ingress.enabled | bool | `false` |  |
-| nginx.serverBlock | string | see in `values.yaml` | Nginx for blobvault configuration |
-| nginx.service.type | string | `"ClusterIP"` |  |
+| pgBouncer | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"enabled":false,"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.io/bitnami/pgbouncer","tag":"1.20.1"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"1024Mi"},"requests":{"cpu":"500m","memory":"512Mi"}},"securityContext":{},"service":{"port":6432,"type":"ClusterIP"},"serviceAccountName":"","tolerations":[]}` | PgBouncer settings group |
+| pgBouncer.affinity | object | `{}` | PgBouncer pod affinity configuration |
+| pgBouncer.autoscaling | object | `{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | PgBouncer autoscaling configuration |
+| pgBouncer.autoscaling.enabled | bool | `false` | PgBouncer autoscaling enabled flag |
+| pgBouncer.autoscaling.maxReplicas | int | `5` | PgBouncer autoscaling max replicas |
+| pgBouncer.autoscaling.minReplicas | int | `1` | PgBouncer autoscaling min replicas |
+| pgBouncer.autoscaling.targetCPUUtilizationPercentage | int | `80` | PgBouncer autoscaling target CPU utilization percentage |
+| pgBouncer.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to DVCx worker pods. |
+| pgBouncer.envVars | object | `{}` | Additional environment variables for PgBouncer pods |
+| pgBouncer.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.io/bitnami/pgbouncer","tag":"1.20.1"}` | PgBouncer image settings |
+| pgBouncer.image.pullPolicy | string | `"IfNotPresent"` | PgBouncer image pull policy |
+| pgBouncer.image.repository | string | `"docker.io/bitnami/pgbouncer"` | PgBouncer image repository |
+| pgBouncer.image.tag | string | `"1.20.1"` | PgBouncer image tag |
+| pgBouncer.nodeSelector | object | `{}` | PgBouncer pod node selector configuration |
+| pgBouncer.podAnnotations | object | `{}` | Additional PgBouncer pod annotations |
+| pgBouncer.podSecurityContext | object | `{}` | PgBouncer pod security context configuration |
+| pgBouncer.resources | object | `{"limits":{"cpu":"1000m","memory":"1024Mi"},"requests":{"cpu":"500m","memory":"512Mi"}}` | PgBouncer resources configuration |
+| pgBouncer.resources.limits | object | `{"cpu":"1000m","memory":"1024Mi"}` | PgBouncer limits configuration |
+| pgBouncer.resources.requests | object | `{"cpu":"500m","memory":"512Mi"}` | PgBouncer requests configuration |
+| pgBouncer.securityContext | object | `{}` | PgBouncer pod security context configuration |
+| pgBouncer.serviceAccountName | string | `""` | PgBouncer service account name |
+| pgBouncer.tolerations | list | `[]` | PgBouncer pod tolerations configuration |
 | postgresql.enabled | bool | `true` | Postgres enabled |
 | postgresql.fullnameOverride | string | `"studio-postgresql"` | Postgres name override |
 | postgresql.global.postgresql.auth.database | string | `"iterativeai"` | Postgres database |
@@ -114,14 +128,18 @@ A Helm chart for Kubernetes
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `false` |  |
 | serviceAccount.name | string | `""` |  |
-| studioBackend | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"fullnameOverride":"","image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-backend"},"nameOverride":"","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":8000,"type":"ClusterIP"},"tolerations":[]}` | Studio Backend settings group |
+| studioBackend | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-backend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":8000,"type":"ClusterIP"},"tolerations":[]}` | Studio Backend settings group |
 | studioBackend.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to backend pods. |
 | studioBackend.envVars | object | `{}` | Additional environment variables for backend pods |
 | studioBackend.replicaCount | int | `1` | Number of replicas of backend pods |
-| studioBeat | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"fullnameOverride":"","nameOverride":"","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"200m","memory":"256Mi"},"requests":{"cpu":"100m","memory":"128Mi"}},"securityContext":{},"tolerations":[]}` | Studio Beat settings group |
+| studioBeat | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"200m","memory":"256Mi"},"requests":{"cpu":"100m","memory":"128Mi"}},"securityContext":{},"tolerations":[]}` | Studio Beat settings group |
 | studioBeat.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to beat pods. |
 | studioBeat.envVars | object | `{}` | Additional environment variables for beat pods |
-| studioDvcxWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"storageClass":""},"sizeLimit":"1Gi","type":"emptyDir"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"8000m","ephemeral-storage":"10Gi","memory":"16Gi"},"requests":{"cpu":"500m","ephemeral-storage":"500Mi","memory":"512Mi"}},"securityContext":{},"tolerations":[]}` | Studio DVCx Worker settings group |
+| studioBlobvault | object | `{"image":{"repository":"nginx","tag":"1.25.1-alpine"},"podSecurityContext":{},"securityContext":{},"service":{"port":80}}` | Studio: Additional service to expose the blobvault files generated by the worker It is enabled automatically if the worker is scaled to 1 replica and no bucket is configured |
+| studioBlobvault.image | object | `{"repository":"nginx","tag":"1.25.1-alpine"}` | Image to use for the blobvault service |
+| studioBlobvault.image.repository | string | `"nginx"` | Image repository |
+| studioBlobvault.image.tag | string | `"1.25.1-alpine"` | Image tag |
+| studioDvcxWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"storageClass":""},"size":"1Gi","type":"emptyDir"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"8000m","ephemeral-storage":"10Gi","memory":"16Gi"},"requests":{"cpu":"500m","ephemeral-storage":"500Mi","memory":"512Mi"}},"securityContext":{},"tolerations":[]}` | Studio DVCx Worker settings group |
 | studioDvcxWorker.affinity | object | `{}` | DVCx worker pod affinity configuration |
 | studioDvcxWorker.autoscaling | object | `{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | DVCx worker autoscaling configuration |
 | studioDvcxWorker.autoscaling.enabled | bool | `false` | DVCx worker autoscaling enabled flag |
@@ -130,10 +148,10 @@ A Helm chart for Kubernetes
 | studioDvcxWorker.autoscaling.targetCPUUtilizationPercentage | int | `80` | DVCx worker autoscaling target CPU utilization percentage |
 | studioDvcxWorker.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to DVCx worker pods. |
 | studioDvcxWorker.envVars | object | `{}` | Additional environment variables for DVCx worker pods |
-| studioDvcxWorker.ephemeralStorage | object | `{"persistentVolumeClaim":{"storageClass":""},"sizeLimit":"1Gi","type":"emptyDir"}` | Ephemeral storage configuration |
+| studioDvcxWorker.ephemeralStorage | object | `{"persistentVolumeClaim":{"storageClass":""},"size":"1Gi","type":"emptyDir"}` | Ephemeral storage configuration |
 | studioDvcxWorker.ephemeralStorage.persistentVolumeClaim | object | `{"storageClass":""}` | Persistent Volume Claim configuration for ephemeral storage |
 | studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass` |
-| studioDvcxWorker.ephemeralStorage.sizeLimit | string | `"1Gi"` | Ephemeral Storage size limit |
+| studioDvcxWorker.ephemeralStorage.size | string | `"1Gi"` | Ephemeral Storage size |
 | studioDvcxWorker.ephemeralStorage.type | string | `"emptyDir"` | Ephemeral Storage type. Possible values: `emptyDir`, `pvc` |
 | studioDvcxWorker.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"}` | DVCx worker image settings |
 | studioDvcxWorker.image.pullPolicy | string | `"IfNotPresent"` | DVCx worker image pull policy |
@@ -146,7 +164,27 @@ A Helm chart for Kubernetes
 | studioDvcxWorker.resources.requests | object | `{"cpu":"500m","ephemeral-storage":"500Mi","memory":"512Mi"}` | DVCx worker requests configuration |
 | studioDvcxWorker.securityContext | object | `{}` | DVCx worker pod security context configuration |
 | studioDvcxWorker.tolerations | list | `[]` | DVCx worker pod tolerations configuration |
-| studioUi | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"fullnameOverride":"","image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-frontend"},"nameOverride":"","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":3000,"type":"ClusterIP"},"tolerations":[]}` | Studio UI settings group |
+| studioLeo | object | `{"affinity":{},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/leo-server","tag":"v0.0.13"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"500m","memory":"1Gi"},"requests":{"cpu":"100m","memory":"512Mi"}},"securityContext":{},"service":{"port":8181,"type":"ClusterIP"},"tolerations":[]}` | Studio Leo settings group |
+| studioLeo.affinity | object | `{}` | Leo affinity configuration |
+| studioLeo.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to leo pods. |
+| studioLeo.envVars | object | `{}` | Additional environment variables for leo pods |
+| studioLeo.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/leo-server","tag":"v0.0.13"}` | Leo image settings |
+| studioLeo.image.pullPolicy | string | `"IfNotPresent"` | Leo image pull policy |
+| studioLeo.image.repository | string | `"docker.iterative.ai/leo-server"` | Leo image repository |
+| studioLeo.image.tag | string | `"v0.0.13"` | Leo image tag |
+| studioLeo.nodeSelector | object | `{}` | Leo node selector configuration |
+| studioLeo.podAnnotations | object | `{}` | Additional annotations for leo pods |
+| studioLeo.podSecurityContext | object | `{}` | Leo pod security context configuration |
+| studioLeo.replicaCount | int | `1` | Leo replica count |
+| studioLeo.resources | object | `{"limits":{"cpu":"500m","memory":"1Gi"},"requests":{"cpu":"100m","memory":"512Mi"}}` | Leo resources configuration |
+| studioLeo.resources.limits | object | `{"cpu":"500m","memory":"1Gi"}` | Leo resource limits |
+| studioLeo.resources.requests | object | `{"cpu":"100m","memory":"512Mi"}` | Leo resource requests |
+| studioLeo.securityContext | object | `{}` | Leo security context configuration |
+| studioLeo.service | object | `{"port":8181,"type":"ClusterIP"}` | Leo service configuration |
+| studioLeo.service.port | int | `8181` | Leo service port |
+| studioLeo.service.type | string | `"ClusterIP"` | Leo service type |
+| studioLeo.tolerations | list | `[]` | Leo tolerations configuration |
+| studioUi | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-frontend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":3000,"type":"ClusterIP"},"tolerations":[]}` | Studio UI settings group |
 | studioUi.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to UI pods. |
 | studioUi.envVars | object | `{}` | Additional environment variables for ui pods |
 | studioWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-backend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"500m","memory":"512Mi"}},"securityContext":{},"tolerations":[]}` | Studio worker settings group |

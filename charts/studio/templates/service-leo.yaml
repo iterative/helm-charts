@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name}}-studio-leo
+  labels:
+    {{- include "studio-leo.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.studioLeo.service.type }}
+  ports:
+    - port: {{ .Values.studioLeo.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "studio-leo.selectorLabels" . | nindent 4 }}

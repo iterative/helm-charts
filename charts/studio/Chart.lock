@@ -1,7 +1,4 @@
 dependencies:
-- name: nginx
-  repository: https://charts.bitnami.com/bitnami
-  version: 13.2.30
 - name: redis
   repository: https://charts.bitnami.com/bitnami
   version: 17.14.3
@@ -11,5 +8,5 @@ dependencies:
 - name: kuberay-operator
   repository: https://ray-project.github.io/kuberay-helm
   version: 0.6.0
-digest: sha256:3b2dc8c1ca3e1841605034aca0e0dd7119c1fbcf17eecc47c997bf4510bce4cf
-generated: "2023-08-16T00:49:28.269211675Z"
+digest: sha256:11e47f1d691977c00cf3dd4454365b63ebdb81db484e837a1f720616a50fec63
+generated: "2023-08-18T21:39:06.308367+02:00"

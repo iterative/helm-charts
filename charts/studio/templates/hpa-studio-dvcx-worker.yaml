@@ -10,8 +10,13 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: studio-dvcx-worker
+  {{- if ((.Values.global.dvcx).udfEnabled) }}
   minReplicas: {{ .Values.studioDvcxWorker.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.studioDvcxWorker.autoscaling.maxReplicas }}
+  {{- else }}
+  minReplicas: 0
+  maxReplicas: 0
+  {{- end}}
   metrics:
     {{- if .Values.studioDvcxWorker.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
