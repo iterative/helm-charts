@@ -15,7 +15,7 @@ kind: Ingress
 metadata:
   name: {{ .Release.Name }}-studio-api
   labels:
-    {{- include "studio-ui.labels" . | nindent 4 }}
+    {{- include "studio-backend.labels" . | nindent 4 }}
   annotations:
     meta.helm.sh/release-name: {{ .Release.Name }}
     meta.helm.sh/release-namespace: {{.Release.Namespace}}
