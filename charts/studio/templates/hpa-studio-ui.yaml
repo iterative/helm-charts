@@ -13,14 +13,6 @@ spec:
   minReplicas: {{ .Values.studioUi.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.studioUi.autoscaling.maxReplicas }}
   metrics:
-    {{- if .Values.studioUi.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.studioUi.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
     {{- if .Values.studioUi.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
@@ -28,5 +20,13 @@ spec:
         target:
           type: Utilization
           averageUtilization: {{ .Values.studioUi.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.studioUi.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.studioUi.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
 {{- end }}
