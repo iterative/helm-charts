@@ -18,14 +18,6 @@ spec:
   maxReplicas: 0
   {{- end}}
   metrics:
-    {{- if .Values.studioDvcxWorker.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.studioDvcxWorker.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
     {{- if .Values.studioDvcxWorker.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
@@ -33,5 +25,13 @@ spec:
         target:
           type: Utilization
           averageUtilization: {{ .Values.studioDvcxWorker.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.studioDvcxWorker.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.studioDvcxWorker.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
 {{- end }}
