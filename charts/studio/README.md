@@ -56,14 +56,13 @@ A Helm chart for Kubernetes
 | global.postgres.password | string | `"postgres"` | Postgres password |
 | global.postgres.port | string | `"5432"` | Postgres port |
 | global.postgres.user | string | `"postgres"` | Postgres user |
-| global.scmProviders.bitbucket | object | `{"apiUrl":"","clientId":"","enabled":false,"secretKey":"","url":"","webhookUrl":""}` | BitBucket App integration with Studio. |
+| global.scmProviders.bitbucket | object | `{"apiUrl":"","clientId":"","enabled":false,"secretKey":"","url":""}` | BitBucket App integration with Studio. |
 | global.scmProviders.bitbucket.apiUrl | string | `""` | Bitbucket Server API URL Set this if you're using the selfhosted version |
 | global.scmProviders.bitbucket.clientId | string | `""` | Bitbucket OAuth App Client ID |
 | global.scmProviders.bitbucket.enabled | bool | `false` | Bitbucket enabled |
 | global.scmProviders.bitbucket.secretKey | string | `""` | Bitbucket OAuth App Secret Key |
 | global.scmProviders.bitbucket.url | string | `""` | Bitbucket Server URL Set this if you're using the selfhosted version |
-| global.scmProviders.bitbucket.webhookUrl | DEPRECATED | `""` | BitBucket Webhook URL |
-| global.scmProviders.github | object | `{"apiUrl":"","appId":"","appName":"","clientId":"","clientSecret":"","enabled":false,"privateKey":"","url":"","webhookUrl":""}` | GitHub App integration with Studio. |
+| global.scmProviders.github | object | `{"apiUrl":"","appId":"","appName":"","clientId":"","clientSecret":"","enabled":false,"privateKey":"","url":""}` | GitHub App integration with Studio. |
 | global.scmProviders.github.apiUrl | string | `""` | GitHub Enterprise API URL Set this if you're using the selfhosted version |
 | global.scmProviders.github.appId | string | `""` | GitHub OAuth App ID |
 | global.scmProviders.github.appName | string | `""` | GitHub OAuth App Name |
@@ -72,14 +71,12 @@ A Helm chart for Kubernetes
 | global.scmProviders.github.enabled | bool | `false` | GitHub enabled |
 | global.scmProviders.github.privateKey | string | `""` | GitHub OAuth App Private Key |
 | global.scmProviders.github.url | string | `""` | GitHub Enterprise URL Set this if you're using the selfhosted version |
-| global.scmProviders.github.webhookUrl | DEPRECATED | `""` | GitHub Webhook URL |
-| global.scmProviders.gitlab | object | `{"clientId":"","enabled":false,"secretKey":"","url":"","webhookSecret":"","webhookUrl":""}` | GitLab App integration with Studio. |
+| global.scmProviders.gitlab | object | `{"clientId":"","enabled":false,"secretKey":"","url":"","webhookSecret":""}` | GitLab App integration with Studio. |
 | global.scmProviders.gitlab.clientId | string | `""` | GitLab OAuth App Client ID |
 | global.scmProviders.gitlab.enabled | bool | `false` | GitLab enabled |
 | global.scmProviders.gitlab.secretKey | string | `""` | GitLab OAuth App Secret Key |
 | global.scmProviders.gitlab.url | string | `""` | GitLab Enterprise Edition URL Set this if you're using the selfhosted version |
 | global.scmProviders.gitlab.webhookSecret | string | `""` | GitLab Webhook Secret |
-| global.scmProviders.gitlab.webhookUrl | DEPRECATED | `""` | GitLab Webhook URL |
 | global.scmProviders.webhookHost | string | `$global.host` value. | Custom hostname for incoming webhook (if Studio runs on a private network and you use SaaS versions of GitHub, GitLab, or Bitbucket) |
 | global.secretKey | string | `""` | Studio: Secret key for signing Webhook payloads We recommend you set this externally. If left empty, a random key will be generated. |
 | imagePullSecrets | list | `[]` | Secret containing Docker registry credentials |
