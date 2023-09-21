@@ -191,6 +191,6 @@ checksum/secret-studio: {{ include (print $.Template.BasePath "/secret-studio.ya
 {{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" .Values.dockerServer (printf "%s:%s" .Values.dockerUsername .Values.dockerPassword | b64enc) }}
 {{- end }}
 
-{{- define "ingress.protocol" -}}
-http{{- if $.Values.global.ingress.tlsEnabled }}s{{- end}}
+{{- define "schema" -}}
+http{{- if $.Values.global.ingress.tlsEnabled }}s{{- end }}
 {{- end }}
