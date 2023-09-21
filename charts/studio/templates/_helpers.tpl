@@ -176,6 +176,22 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
+{{- define "studio-worker.serviceAccountName" -}}
+{{- if .Values.studioWorker.serviceAccount.create }}
+{{- default (include "studio.fullname" .) .Values.studioWorker.serviceAccount.name }}-worker
+{{- else }}
+{{- default "default" .Values.studioWorker.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{- define "studio-dvcx-worker.serviceAccountName" -}}
+{{- if .Values.studioDvcxWorker.serviceAccount.create }}
+{{- default (include "studio.fullname" .) .Values.studioDvcxWorker.serviceAccount.name }}-dvcx-worker
+{{- else }}
+{{- default "default" .Values.studioDvcxWorker.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
 {{- define "studio.checksum" }}
 checksum/configmap-studio: {{ include (print $.Template.BasePath "/configmap-studio.yaml") . | sha256sum }}
 checksum/configmap-ca-cert: {{ include (print $.Template.BasePath "/configmap-ca-cert.yaml") . | sha256sum }}
