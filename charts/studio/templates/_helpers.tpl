@@ -178,7 +178,7 @@ Create the name of the service account to use
 
 {{- define "studio-worker.serviceAccountName" -}}
 {{- if .Values.studioWorker.serviceAccount.create }}
-{{- default (include "studio.fullname" .) .Values.studioWorker.serviceAccount.name }}-worker
+{{- default (printf "%s%s" (include "studio.fullname" .) "-worker") .Values.studioWorker.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.studioWorker.serviceAccount.name }}
 {{- end }}
@@ -186,7 +186,7 @@ Create the name of the service account to use
 
 {{- define "studio-dvcx-worker.serviceAccountName" -}}
 {{- if .Values.studioDvcxWorker.serviceAccount.create }}
-{{- default (include "studio.fullname" .) .Values.studioDvcxWorker.serviceAccount.name }}-dvcx-worker
+{{- default (printf "%s%s" (include "studio.fullname" .) "-dvcx-worker") .Values.studioDvcxWorker.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.studioDvcxWorker.serviceAccount.name }}
 {{- end }}
