@@ -32,7 +32,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "studio.serviceAccountName" . }}
+      serviceAccountName: {{ include "studio-backend.serviceAccountName" . }}
       securityContext:
         fsGroup: 103
         fsGroupChangePolicy: "OnRootMismatch"

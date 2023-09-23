@@ -176,6 +176,14 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
+{{- define "studio-backend.serviceAccountName" -}}
+{{- if .Values.studioWorker.serviceAccount.create }}
+{{- default (printf "%s%s" (include "studio.fullname" .) "-backend") .Values.studioWorker.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.studioWorker.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
 {{- define "studio-worker.serviceAccountName" -}}
 {{- if .Values.studioWorker.serviceAccount.create }}
 {{- default (printf "%s%s" (include "studio.fullname" .) "-worker") .Values.studioWorker.serviceAccount.name }}
