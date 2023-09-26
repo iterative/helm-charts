@@ -177,7 +177,7 @@ Create the name of the service account to use
 {{- end }}
 
 {{- define "studio-backend.serviceAccountName" -}}
-{{- if .Values.studioWorker.serviceAccount.create }}
+{{- if ((.Values.studioBackend).serviceAccount).create }}
 {{- default (printf "%s%s" (include "studio.fullname" .) "-backend") .Values.studioWorker.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.studioWorker.serviceAccount.name }}
@@ -185,7 +185,7 @@ Create the name of the service account to use
 {{- end }}
 
 {{- define "studio-worker.serviceAccountName" -}}
-{{- if .Values.studioWorker.serviceAccount.create }}
+{{- if ((.Values.studioWorker).serviceAccount).create }}
 {{- default (printf "%s%s" (include "studio.fullname" .) "-worker") .Values.studioWorker.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.studioWorker.serviceAccount.name }}
@@ -193,7 +193,7 @@ Create the name of the service account to use
 {{- end }}
 
 {{- define "studio-dvcx-worker.serviceAccountName" -}}
-{{- if .Values.studioDvcxWorker.serviceAccount.create }}
+{{- if ((.Values.studioDvcxWorker).serviceAccount).create }}
 {{- default (printf "%s%s" (include "studio.fullname" .) "-dvcx-worker") .Values.studioDvcxWorker.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.studioDvcxWorker.serviceAccount.name }}
@@ -215,6 +215,6 @@ checksum/secret-studio: {{ include (print $.Template.BasePath "/secret-studio.ya
 {{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" .Values.dockerServer (printf "%s:%s" .Values.dockerUsername .Values.dockerPassword | b64enc) }}
 {{- end }}
 
-{{- define "schema" -}}
+{{- define "scheme" -}}
 http{{- if $.Values.global.ingress.tlsEnabled }}s{{- end }}
 {{- end }}
