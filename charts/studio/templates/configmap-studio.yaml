@@ -16,6 +16,9 @@ data:
   BASE_PATH: /{{ include "studio.basePath" . }}
   {{- end }}
 
+  {{- if .Values.global.scmProviders.bitbucket.enabled }}
+  BITBUCKET_ENABLED: {{ .Values.global.scmProviders.bitbucket.enabled | default false | quote | title }}
+  {{- end }}
   {{- if .Values.global.scmProviders.bitbucket.url }}
   BITBUCKET_URL: {{.Values.global.scmProviders.bitbucket.url | quote }}
   {{- end }}
@@ -62,6 +65,9 @@ data:
   REDIS_URL: "redis://{{ .Values.redis.fullnameOverride }}-master.{{ .Release.Namespace }}.svc.cluster.local:6379"
   {{- end }}
 
+  {{- if .Values.global.scmProviders.github.enabled }}
+  GITHUB_ENABLED: {{ .Values.global.scmProviders.github.enabled | default false | quote | title }}
+  {{- end }}
   {{- if .Values.global.scmProviders.github.apiUrl }}
   GITHUB_API_URL: {{ .Values.global.scmProviders.github.apiUrl | quote }}
   {{- end }}
@@ -81,6 +87,9 @@ data:
   GITHUB_APP_NAME: {{ .Values.global.scmProviders.github.appName | quote }}
   {{- end }}
 
+  {{- if .Values.global.scmProviders.gitlab.enabled }}
+  GITLAB_ENABLED: {{ .Values.global.scmProviders.gitlab.enabled | default false | quote | title }}
+  {{- end }}
   {{- if .Values.global.scmProviders.gitlab.url }}
   GITLAB_URL: {{ .Values.global.scmProviders.gitlab.url | quote}}
   {{- end }}
