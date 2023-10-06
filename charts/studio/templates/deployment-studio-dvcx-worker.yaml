@@ -34,7 +34,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "studio.serviceAccountName" . }}
+      serviceAccountName: {{ include "studio-dvcx-worker.serviceAccountName" . }}
       terminationGracePeriodSeconds: 150
       securityContext:
         fsGroup: 103
@@ -71,6 +71,15 @@ spec:
             - secretRef:
                 name: {{ .Values.studioDvcxWorker.envFromSecret }}
             {{- end }}
+          livenessProbe:
+            exec:
+              command:
+                - python
+                - -c
+                - 'from viewer.utils import sqlalchemy_liveness_probe; sqlalchemy_liveness_probe()'
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 10
           volumeMounts:
             {{- if not .Values.global.blobvault.bucket }}
             - name: blobvault

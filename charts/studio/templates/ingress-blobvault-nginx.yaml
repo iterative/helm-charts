@@ -35,7 +35,6 @@ spec:
       secretName: {{ .tlsSecretName }}
   {{- end }}
   {{- end }}
-
   rules:
     - http:
         paths:

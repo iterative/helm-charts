@@ -45,6 +45,13 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
+          startupProbe:
+            exec:
+              command:
+                - /app/bin/startup-probe.sh
+            initialDelaySeconds: 2
+            periodSeconds: 1
+            failureThreshold: 60
           livenessProbe:
             tcpSocket:
               port: 3000

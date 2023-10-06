@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.6.7](https://img.shields.io/badge/Version-0.6.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.29.0](https://img.shields.io/badge/AppVersion-v2.29.0-informational?style=flat-square)
+![Version: 0.7.0](https://img.shields.io/badge/Version-0.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.40.0](https://img.shields.io/badge/AppVersion-v2.40.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -56,14 +56,13 @@ A Helm chart for Kubernetes
 | global.postgres.password | string | `"postgres"` | Postgres password |
 | global.postgres.port | string | `"5432"` | Postgres port |
 | global.postgres.user | string | `"postgres"` | Postgres user |
-| global.scmProviders.bitbucket | object | `{"apiUrl":"","clientId":"","enabled":false,"secretKey":"","url":"","webhookUrl":""}` | BitBucket App integration with Studio. |
+| global.scmProviders.bitbucket | object | `{"apiUrl":"","clientId":"","enabled":false,"secretKey":"","url":""}` | BitBucket App integration with Studio. |
 | global.scmProviders.bitbucket.apiUrl | string | `""` | Bitbucket Server API URL Set this if you're using the selfhosted version |
 | global.scmProviders.bitbucket.clientId | string | `""` | Bitbucket OAuth App Client ID |
 | global.scmProviders.bitbucket.enabled | bool | `false` | Bitbucket enabled |
 | global.scmProviders.bitbucket.secretKey | string | `""` | Bitbucket OAuth App Secret Key |
 | global.scmProviders.bitbucket.url | string | `""` | Bitbucket Server URL Set this if you're using the selfhosted version |
-| global.scmProviders.bitbucket.webhookUrl | DEPRECATED | `""` | BitBucket Webhook URL |
-| global.scmProviders.github | object | `{"apiUrl":"","appId":"","appName":"","clientId":"","clientSecret":"","enabled":false,"privateKey":"","url":"","webhookUrl":""}` | GitHub App integration with Studio. |
+| global.scmProviders.github | object | `{"apiUrl":"","appId":"","appName":"","clientId":"","clientSecret":"","enabled":false,"privateKey":"","url":""}` | GitHub App integration with Studio. |
 | global.scmProviders.github.apiUrl | string | `""` | GitHub Enterprise API URL Set this if you're using the selfhosted version |
 | global.scmProviders.github.appId | string | `""` | GitHub OAuth App ID |
 | global.scmProviders.github.appName | string | `""` | GitHub OAuth App Name |
@@ -72,14 +71,12 @@ A Helm chart for Kubernetes
 | global.scmProviders.github.enabled | bool | `false` | GitHub enabled |
 | global.scmProviders.github.privateKey | string | `""` | GitHub OAuth App Private Key |
 | global.scmProviders.github.url | string | `""` | GitHub Enterprise URL Set this if you're using the selfhosted version |
-| global.scmProviders.github.webhookUrl | DEPRECATED | `""` | GitHub Webhook URL |
-| global.scmProviders.gitlab | object | `{"clientId":"","enabled":false,"secretKey":"","url":"","webhookSecret":"","webhookUrl":""}` | GitLab App integration with Studio. |
+| global.scmProviders.gitlab | object | `{"clientId":"","enabled":false,"secretKey":"","url":"","webhookSecret":""}` | GitLab App integration with Studio. |
 | global.scmProviders.gitlab.clientId | string | `""` | GitLab OAuth App Client ID |
 | global.scmProviders.gitlab.enabled | bool | `false` | GitLab enabled |
 | global.scmProviders.gitlab.secretKey | string | `""` | GitLab OAuth App Secret Key |
 | global.scmProviders.gitlab.url | string | `""` | GitLab Enterprise Edition URL Set this if you're using the selfhosted version |
 | global.scmProviders.gitlab.webhookSecret | string | `""` | GitLab Webhook Secret |
-| global.scmProviders.gitlab.webhookUrl | DEPRECATED | `""` | GitLab Webhook URL |
 | global.scmProviders.webhookHost | string | `$global.host` value. | Custom hostname for incoming webhook (if Studio runs on a private network and you use SaaS versions of GitHub, GitLab, or Bitbucket) |
 | global.secretKey | string | `""` | Studio: Secret key for signing Webhook payloads We recommend you set this externally. If left empty, a random key will be generated. |
 | imagePullSecrets | list | `[]` | Secret containing Docker registry credentials |
@@ -139,7 +136,7 @@ A Helm chart for Kubernetes
 | studioBlobvault.image | object | `{"repository":"nginx","tag":"1.25.1-alpine"}` | Image to use for the blobvault service |
 | studioBlobvault.image.repository | string | `"nginx"` | Image repository |
 | studioBlobvault.image.tag | string | `"1.25.1-alpine"` | Image tag |
-| studioDvcxWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"storageClass":""},"size":"1Gi","type":"emptyDir"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"8000m","ephemeral-storage":"10Gi","memory":"16Gi"},"requests":{"cpu":"500m","ephemeral-storage":"500Mi","memory":"512Mi"}},"securityContext":{},"strategy":{"rollingUpdate":{"maxSurge":"50%","maxUnavailable":0}},"tolerations":[]}` | Studio DVCx Worker settings group |
+| studioDvcxWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"storageClass":""},"size":"1Gi","type":"emptyDir"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"8000m","ephemeral-storage":"10Gi","memory":"16Gi"},"requests":{"cpu":"500m","ephemeral-storage":"500Mi","memory":"512Mi"}},"securityContext":{},"serviceAccount":{"annotations":{},"create":false,"name":""},"strategy":{"rollingUpdate":{"maxSurge":"50%","maxUnavailable":0}},"tolerations":[]}` | Studio DVCx Worker settings group |
 | studioDvcxWorker.affinity | object | `{}` | DVCx worker pod affinity configuration |
 | studioDvcxWorker.autoscaling | object | `{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | DVCx worker autoscaling configuration |
 | studioDvcxWorker.autoscaling.enabled | bool | `false` | DVCx worker autoscaling enabled flag |
@@ -188,7 +185,7 @@ A Helm chart for Kubernetes
 | studioUi | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-frontend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":3000,"type":"ClusterIP"},"strategy":{"rollingUpdate":{"maxSurge":"50%","maxUnavailable":0}},"tolerations":[]}` | Studio UI settings group |
 | studioUi.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to UI pods. |
 | studioUi.envVars | object | `{}` | Additional environment variables for ui pods |
-| studioWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-backend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"500m","memory":"512Mi"}},"securityContext":{},"strategy":{"rollingUpdate":{"maxSurge":"50%","maxUnavailable":0}},"tolerations":[]}` | Studio worker settings group |
+| studioWorker | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-backend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"500m","memory":"512Mi"}},"securityContext":{},"serviceAccount":{"annotations":{},"create":false,"name":""},"strategy":{"rollingUpdate":{"maxSurge":"50%","maxUnavailable":0}},"tolerations":[]}` | Studio worker settings group |
 | studioWorker.affinity | object | `{}` | Worker affinity |
 | studioWorker.autoscaling | object | `{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | Worker autoscaling configuration |
 | studioWorker.autoscaling.enabled | bool | `false` | Worker autoscaling enabled flag |
