@@ -71,6 +71,15 @@ spec:
             - secretRef:
                 name: {{ .Values.studioDvcxWorker.envFromSecret }}
             {{- end }}
+          livenessProbe:
+            exec:
+              command:
+                - python
+                - -c
+                - 'from viewer.utils import sqlalchemy_liveness_probe; sqlalchemy_liveness_probe()'
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 10
           volumeMounts:
             {{- if not .Values.global.blobvault.bucket }}
             - name: blobvault
