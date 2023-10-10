@@ -619,6 +619,9 @@ studioWorker:
 
   replicaCount: 1
 
+  # -- Worker log level
+  logLevel: "info"
+
   # -- Worker resources configuration
   resources:
     # -- Worker resource requests configuration
@@ -705,6 +708,9 @@ studioDvcxWorker:
   envFromSecret: ""
 
   replicaCount: 1
+
+  # -- DVCx worker log level
+  logLevel: "info"
 
   # -- DVCx worker resources configuration
   resources:
