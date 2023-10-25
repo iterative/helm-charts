@@ -7,7 +7,7 @@ data:
 {{-  toYaml . | nindent 2 }}
 {{- end }}
 
-  LEO_SERVICE_HOST: "{{ .Release.Name }}-leo"
+  LEO_SERVICE_HOST: "{{ .Release.Name }}-studio-leo"
   LEO_SERVICE_PORT: "{{ .Values.studioLeo.service.port }}"
   LEO_ENCODING: "utf-8"
 
