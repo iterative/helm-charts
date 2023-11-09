@@ -4,7 +4,7 @@ metadata:
   name: studio-ui
 data:
 
-  INTERNAL_API_URL: "http://studio-backend:8080{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/api"
+  INTERNAL_API_URL: "http://studio-backend:{{ .Values.studioBackend.service.port }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/api"
 
 {{- with .Values.studioUi.envVars}}
 {{-  toYaml . | nindent 2 }}
