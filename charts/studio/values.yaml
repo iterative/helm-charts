@@ -384,7 +384,7 @@ studioUi:
   strategy:
     rollingUpdate:
       maxUnavailable: 0
-      maxSurge: 50%
+      maxSurge: 1
 
   autoscaling:
     enabled: false
