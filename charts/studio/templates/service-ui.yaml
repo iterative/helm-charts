@@ -11,5 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: 80
+      targetPort: nginx-http
+      protocol: TCP
+      name: nginx-http
   selector:
     {{- include "studio-ui.selectorLabels" . | nindent 4 }}
