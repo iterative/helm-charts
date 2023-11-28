@@ -8,7 +8,7 @@ spec:
   {{- if not .Values.studioUi.autoscaling.enabled }}
   replicas: {{ .Values.studioUi.replicaCount }}
   {{- end }}
-  {{- with .Values.studioBackend.strategy }}
+  {{- with .Values.studioUi.strategy }}
   strategy:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -49,8 +49,8 @@ spec:
             exec:
               command:
                 - /app/bin/startup-probe.sh
-            initialDelaySeconds: 2
-            periodSeconds: 1
+            initialDelaySeconds: 5
+            periodSeconds: 2
             failureThreshold: 60
           livenessProbe:
             tcpSocket:
@@ -66,7 +66,8 @@ spec:
             {{- end }}
               port: 3000
             initialDelaySeconds: 5
-            periodSeconds: 25
+            periodSeconds: 10
+            successThreshold: 3
             timeoutSeconds: 10
           envFrom:
             - configMapRef:
