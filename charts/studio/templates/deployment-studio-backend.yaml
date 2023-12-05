@@ -48,6 +48,7 @@ spec:
           args:
             - |
               ./manage.py migrate
+              ./manage.py migrate --database dvcx
           {{- if and .Release.IsUpgrade (not .Values.ci) }}
               ./manage.py migrate phonenumber --fake-initial
               ./manage.py migrate
