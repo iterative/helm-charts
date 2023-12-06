@@ -305,7 +305,6 @@ pgBouncer:
       memory: 512Mi
     # -- PgBouncer limits configuration
     limits:
-      cpu: 1000m
       memory: 1024Mi
 
   # -- PgBouncer autoscaling configuration
@@ -378,7 +377,6 @@ studioUi:
       cpu: 500m
       memory: 1Gi
     limits:
-      cpu: 1000m
       memory: 2Gi
 
   strategy:
@@ -442,13 +440,12 @@ studioBackend:
       cpu: 500m
       memory: 1Gi
     limits:
-      cpu: 1000m
       memory: 2Gi
 
   strategy:
     rollingUpdate:
       maxUnavailable: 0
-      maxSurge: 50%
+      maxSurge: 1
 
   autoscaling:
     enabled: false
@@ -495,13 +492,12 @@ studioBeat:
       cpu: 100m
       memory: 128Mi
     limits:
-      cpu: 200m
       memory: 256Mi
 
   strategy:
     rollingUpdate:
       maxUnavailable: 0
-      maxSurge: 50%
+      maxSurge: 1
 
   autoscaling:
     enabled: false
@@ -568,7 +564,6 @@ studioLeo:
       memory: 512Mi
     # -- Leo resource limits
     limits:
-      cpu: 500m
       memory: 1Gi
 
   # -- Additional annotations for leo pods
@@ -630,14 +625,13 @@ studioWorker:
       memory: 512Mi
     # -- Worker resource limits configuration
     limits:
-      cpu: 1000m
       memory: 1Gi
 
   # -- Worker deployment strategy
   strategy:
     rollingUpdate:
       maxUnavailable: 0
-      maxSurge: 50%
+      maxSurge: 1
 
   # -- Worker autoscaling configuration
   autoscaling:
@@ -721,7 +715,6 @@ studioDvcxWorker:
       ephemeral-storage: 500Mi
     # -- DVCx worker limits configuration
     limits:
-      cpu: 8000m
       memory: 16Gi
       ephemeral-storage: 10Gi
 
@@ -740,7 +733,7 @@ studioDvcxWorker:
   strategy:
     rollingUpdate:
       maxUnavailable: 0
-      maxSurge: 50%
+      maxSurge: 1
 
   # -- DVCx worker autoscaling configuration
   autoscaling:
