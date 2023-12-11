@@ -76,7 +76,6 @@ spec:
               mountPath: /usr/local/share/ca-certificates
             - name: custom-script
               mountPath: /worker_runners/script.sh
-              defaultMode: 0777
               subPath: script.sh
               readOnly: true
       volumes:
@@ -88,6 +87,7 @@ spec:
         - name: custom-script
           configMap:
             name: studio-worker-debug-script
+            defaultMode: 0777
         - name: studio-ca-certificates
           configMap:
             name: studio-ca-certificates
