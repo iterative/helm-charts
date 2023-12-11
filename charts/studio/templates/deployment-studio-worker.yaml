@@ -74,12 +74,23 @@ spec:
             {{- end }}
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
+            - name: script-a
+              mountPath: /worker_scripts/script.sh
+              subPath: script.sh
+              readOnly: true
+            - name: script-b
+              mountPath: /worker_scripts/script_upload.sh
+              subPath: script_upload.sh
+              readOnly: true
       volumes:
         {{- if not .Values.global.blobvault.bucket }}
         - name: blobvault
           persistentVolumeClaim:
             claimName: blobvault
         {{- end }}
+        - name: script
+          configMap:
+            name: script
         - name: studio-ca-certificates
           configMap:
             name: studio-ca-certificates
