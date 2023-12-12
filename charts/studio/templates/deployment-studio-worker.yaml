@@ -78,6 +78,8 @@ spec:
               mountPath: /worker_runners/script.sh
               subPath: script.sh
               readOnly: true
+            - name: tmp-ephemeral
+              mountPath: /tmp
       volumes:
         {{- if not .Values.global.blobvault.bucket }}
         - name: blobvault
@@ -91,6 +93,18 @@ spec:
         - name: studio-ca-certificates
           configMap:
             name: studio-ca-certificates
+        - name: tmp-ephemeral
+          ephemeral:
+            volumeClaimTemplate:
+              metadata:
+                labels:
+                  type: {{.Release.Name}}-worker-tmp-ephemeral
+              spec:
+                accessModes: [ "ReadWriteOnce" ]
+                storageClassName: encrypted-gp2
+                resources:
+                  requests:
+                    storage: 10Gi
       {{- with .Values.studioWorker.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
