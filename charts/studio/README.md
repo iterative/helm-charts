@@ -163,26 +163,6 @@ A Helm chart for Kubernetes
 | studioDvcxWorker.securityContext | object | `{}` | DVCx worker pod security context configuration |
 | studioDvcxWorker.strategy | object | `{"rollingUpdate":{"maxSurge":1,"maxUnavailable":0}}` | DVCx worker deployment strategy |
 | studioDvcxWorker.tolerations | list | `[]` | DVCx worker pod tolerations configuration |
-| studioLeo | object | `{"affinity":{},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/leo-server","tag":"v0.0.13"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"memory":"1Gi"},"requests":{"cpu":"100m","memory":"512Mi"}},"securityContext":{},"service":{"port":8181,"type":"ClusterIP"},"tolerations":[]}` | Studio Leo settings group |
-| studioLeo.affinity | object | `{}` | Leo affinity configuration |
-| studioLeo.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to leo pods. |
-| studioLeo.envVars | object | `{}` | Additional environment variables for leo pods |
-| studioLeo.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/leo-server","tag":"v0.0.13"}` | Leo image settings |
-| studioLeo.image.pullPolicy | string | `"IfNotPresent"` | Leo image pull policy |
-| studioLeo.image.repository | string | `"docker.iterative.ai/leo-server"` | Leo image repository |
-| studioLeo.image.tag | string | `"v0.0.13"` | Leo image tag |
-| studioLeo.nodeSelector | object | `{}` | Leo node selector configuration |
-| studioLeo.podAnnotations | object | `{}` | Additional annotations for leo pods |
-| studioLeo.podSecurityContext | object | `{}` | Leo pod security context configuration |
-| studioLeo.replicaCount | int | `1` | Leo replica count |
-| studioLeo.resources | object | `{"limits":{"memory":"1Gi"},"requests":{"cpu":"100m","memory":"512Mi"}}` | Leo resources configuration |
-| studioLeo.resources.limits | object | `{"memory":"1Gi"}` | Leo resource limits |
-| studioLeo.resources.requests | object | `{"cpu":"100m","memory":"512Mi"}` | Leo resource requests |
-| studioLeo.securityContext | object | `{}` | Leo security context configuration |
-| studioLeo.service | object | `{"port":8181,"type":"ClusterIP"}` | Leo service configuration |
-| studioLeo.service.port | int | `8181` | Leo service port |
-| studioLeo.service.type | string | `"ClusterIP"` | Leo service type |
-| studioLeo.tolerations | list | `[]` | Leo tolerations configuration |
 | studioUi | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-frontend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":3000,"type":"ClusterIP"},"strategy":{"rollingUpdate":{"maxSurge":1,"maxUnavailable":0}},"tolerations":[]}` | Studio UI settings group |
 | studioUi.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to UI pods. |
 | studioUi.envVars | object | `{}` | Additional environment variables for ui pods |
