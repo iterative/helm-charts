@@ -28,11 +28,6 @@ jobs:
         with:
           token: ${{ steps.generate_token.outputs.token }}
 
-      - name: Run helm-docs from go
-        working-directory: charts/studio/
-        run: |
-          go run github.com/norwoodj/helm-docs/...@v1.11.0
-
       - name: Run helm-docs
         working-directory: charts/studio/
         run: |

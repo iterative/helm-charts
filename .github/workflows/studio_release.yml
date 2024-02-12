@@ -20,6 +20,12 @@ jobs:
           do
             go run github.com/mikefarah/yq/v4@v4.34.1 eval --inplace "$expression" charts/studio/Chart.yaml
           done
+
+      - name: Run helm-docs
+        working-directory: charts/studio/
+        run: |
+          docker run --pull always --rm --volume "$(pwd):/helm-docs" -u $(id -u) jnorwood/helm-docs:latest
+
       - uses: iterative/setup-cml@v1
       - run: >
           cml pr create .
