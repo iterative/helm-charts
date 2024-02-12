@@ -99,12 +99,12 @@ spec:
           configMap:
             name: studio-ca-certificates
         - name: tmp-ephemeral
-          {{- if eq .Values.studioDvcxWorker.ephemeralStorage.type "pvc" }}
+          {{- if eq .Values.studioDvcxWorker.ephemeralStorage.type "ephemeral" }}
           ephemeral:
             volumeClaimTemplate:
               metadata:
                 labels:
-                  type: {{.Release.Name}}-dvcx-worker
+                  type: {{.Release.Name}}-{{ .Values.studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
               spec:
                 accessModes: [ "ReadWriteOnce" ]
                 {{- if .Values.studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
@@ -113,7 +113,13 @@ spec:
                 resources:
                   requests:
                     storage: {{ .Values.studioDvcxWorker.ephemeralStorage.size }}
-          {{- else }}
+          {{- else if eq .Values.studioDvcxWorker.ephemeralStorage.type "pvc" }}
+          persistentVolumeClaim:
+              claimName: {{ .Values.studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
+          {{- else if eq .Values.studioDvcxWorker.ephemeralStorage.type "pvcRWX" }}
+          persistentVolumeClaim:
+              claimName: {{.Release.Name}}-studio-dvcx-worker-ephemeral-rwx
+          {{- else if eq .Values.studioDvcxWorker.ephemeralStorage.type "emptyDir"}}
           emptyDir:
             sizeLimit: {{ .Values.studioDvcxWorker.ephemeralStorage.size }}
           {{- end }}

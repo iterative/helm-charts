@@ -654,13 +654,15 @@ studioDvcxWorker:
 
   # -- Ephemeral storage configuration
   ephemeralStorage:
-    # -- Ephemeral Storage type. Possible values: `emptyDir`, `pvc`
-    type: emptyDir
+    # -- Ephemeral Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc`, `pvcRWX`
+    type: ephemeral
     # -- Ephemeral Storage size
     size: 20Gi
     # -- Persistent Volume Claim configuration for ephemeral storage
     persistentVolumeClaim:
-      # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`
+      # -- Persistent Volume Claim name, to mount externally managed PVC (`ephemeralStorage.type` has to be set to `pvc`)
+      claimName: "dvcx-worker"
+      # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
       storageClass: ""
 
   # -- DVCx worker deployment strategy
