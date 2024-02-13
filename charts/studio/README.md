@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.10.2](https://img.shields.io/badge/Version-0.10.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.85.5](https://img.shields.io/badge/AppVersion-v2.85.5-informational?style=flat-square)
+![Version: 0.10.3](https://img.shields.io/badge/Version-0.10.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.85.5](https://img.shields.io/badge/AppVersion-v2.85.5-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -15,7 +15,7 @@ A Helm chart for Kubernetes
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | postgresql | 11.9.13 |
-| https://charts.bitnami.com/bitnami | redis | 17.14.3 |
+| https://charts.bitnami.com/bitnami | redis | 18.12.1 |
 | https://ray-project.github.io/kuberay-helm | kuberay-operator | 0.6.0 |
 
 ## Values
