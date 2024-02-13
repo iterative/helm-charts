@@ -164,7 +164,7 @@ To update the existing Studio deployment, run the following commands
 
 ```bash
 $ helm dependency update
-$ helm upgrade --install --atomic studio studio/ --namespace studio -f override.yaml
+$ helm upgrade --install studio studio/ --namespace studio -f override.yaml
 ```
 
 ## Uninstall Studio
