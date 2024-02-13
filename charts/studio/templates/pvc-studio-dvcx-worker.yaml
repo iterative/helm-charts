@@ -1,0 +1,15 @@
+{{- if eq .Values.studioDvcxWorker.ephemeralStorage.type "pvcRWX" }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{.Release.Name}}-studio-dvcx-worker-ephemeral-rwx
+  labels:
+    {{- include "studio-dvcx-worker.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: {{ .Values.studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
+  resources:
+    requests:
+      storage:  {{ .Values.studioDvcxWorker.ephemeralStorage.size }}
+{{- end }}
