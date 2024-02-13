@@ -644,20 +644,20 @@ studioDvcxWorker:
   resources:
     # -- DVCx worker requests configuration
     requests:
-      cpu: 500m
-      memory: 512Mi
-      ephemeral-storage: 500Mi
+      cpu: 1000m
+      memory: 3Gi
+      ephemeral-storage: 10Gi
     # -- DVCx worker limits configuration
     limits:
       memory: 16Gi
-      ephemeral-storage: 10Gi
+      ephemeral-storage: 20Gi
 
   # -- Ephemeral storage configuration
   ephemeralStorage:
     # -- Ephemeral Storage type. Possible values: `emptyDir`, `pvc`
     type: emptyDir
     # -- Ephemeral Storage size
-    size: 1Gi
+    size: 20Gi
     # -- Persistent Volume Claim configuration for ephemeral storage
     persistentVolumeClaim:
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`
