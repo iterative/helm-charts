@@ -4,6 +4,8 @@ metadata:
   name: {{ .Release.Name }}-dvcx-worker
 data:
   CELERY_LOG_LEVEL: "{{ .Values.studioDvcxWorker.logLevel | default "info" | lower }}"
+  PYTHONUSERBASE: "{{ .Values.studioDvcxWorker.pythonUserBase | default "/tmp/.pip/local" }}"
+
 {{- with .Values.studioDvcxWorker.envVars}}
 {{-  toYaml . | nindent 2 }}
 {{- end }}
