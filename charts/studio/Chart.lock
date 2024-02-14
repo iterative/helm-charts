@@ -4,9 +4,9 @@ dependencies:
   version: 18.12.1
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 11.9.13
+  version: 14.0.5
 - name: kuberay-operator
   repository: https://ray-project.github.io/kuberay-helm
   version: 0.6.0
-digest: sha256:f94abcda2079d7d57e920eacfe530f333050f628b2a31a0d17198be53a7f3d54
-generated: "2024-02-13T13:20:18.321969182Z"
+digest: sha256:e802c69fbfb24d47e8253dd4bdcdb93f54443e03db765c6e2e44181a0b97b543
+generated: "2024-02-14T12:05:35.109970454Z"
