@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.10.3](https://img.shields.io/badge/Version-0.10.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.85.5](https://img.shields.io/badge/AppVersion-v2.85.5-informational?style=flat-square)
+![Version: 0.10.4](https://img.shields.io/badge/Version-0.10.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.85.5](https://img.shields.io/badge/AppVersion-v2.85.5-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -158,7 +158,7 @@ A Helm chart for Kubernetes
 | studioDvcxWorker.nodeSelector | object | `{}` | DVCx worker pod node selector configuration |
 | studioDvcxWorker.podAnnotations | object | `{}` | Additional DVCx worker pod annotations |
 | studioDvcxWorker.podSecurityContext | object | `{}` | DVCx worker pod security context configuration |
-| studioDvcxWorker.pythonUserBase | string | `"/tmp/.pip/local"` | DVCx worker libraries base path |
+| studioDvcxWorker.pythonUserBase | string | `"/tmp/.pip/local"` | DVCx worker path to the base directory for the user site-packages. |
 | studioDvcxWorker.resources | object | `{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}}` | DVCx worker resources configuration |
 | studioDvcxWorker.resources.limits | object | `{"ephemeral-storage":"20Gi","memory":"16Gi"}` | DVCx worker limits configuration |
 | studioDvcxWorker.resources.requests | object | `{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}` | DVCx worker requests configuration |
