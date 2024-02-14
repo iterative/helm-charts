@@ -16,7 +16,7 @@ A Helm chart for Kubernetes
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | postgresql | 11.9.13 |
 | https://charts.bitnami.com/bitnami | redis | 18.12.1 |
-| https://ray-project.github.io/kuberay-helm | kuberay-operator | 0.6.0 |
+| https://ray-project.github.io/kuberay-helm | kuberay-operator | 1.0.0 |
 
 ## Values
 
