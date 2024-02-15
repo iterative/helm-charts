@@ -73,10 +73,7 @@ spec:
             {{- end }}
           livenessProbe:
             exec:
-              command:
-                - python
-                - -c
-                - 'from viewer.utils import sqlalchemy_liveness_probe; sqlalchemy_liveness_probe()'
+              command: /app/bin/liveness-probe.sh
             initialDelaySeconds: 10
             periodSeconds: 10
             timeoutSeconds: 10
