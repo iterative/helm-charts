@@ -640,9 +640,6 @@ studioDvcxWorker:
   # -- DVCx worker log level
   logLevel: "info"
 
-  # -- DVCx worker path to the base directory for the user site-packages.
-  pythonUserBase: "/tmp/.pip/local"
-
   # -- DVCx worker resources configuration
   resources:
     # -- DVCx worker requests configuration
