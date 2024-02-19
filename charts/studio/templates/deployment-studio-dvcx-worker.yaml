@@ -48,7 +48,7 @@ spec:
             {{- toYaml .Values.studioDvcxWorker.securityContext | nindent 12 }}
           image: "{{ .Values.studioDvcxWorker.image.repository }}:{{ .Values.studioDvcxWorker.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.studioDvcxWorker.image.pullPolicy }}
-          args: ["/app/bin/run_celery_worker_udf.sh"]
+          args: [ "/app/bin/run_celery_worker_udf.sh" ]
           resources:
             {{- toYaml .Values.studioDvcxWorker.resources | nindent 12 }}
           env:
@@ -73,7 +73,7 @@ spec:
             {{- end }}
           livenessProbe:
             exec:
-              command: /app/bin/liveness-probe.sh
+              command: [ "/app/bin/liveness-probe.sh" ]
             initialDelaySeconds: 10
             periodSeconds: 10
             timeoutSeconds: 10
@@ -112,10 +112,10 @@ spec:
                     storage: {{ .Values.studioDvcxWorker.ephemeralStorage.size }}
           {{- else if eq .Values.studioDvcxWorker.ephemeralStorage.type "pvc" }}
           persistentVolumeClaim:
-              claimName: {{ .Values.studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
+            claimName: {{ .Values.studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
           {{- else if eq .Values.studioDvcxWorker.ephemeralStorage.type "pvcRWX" }}
           persistentVolumeClaim:
-              claimName: {{.Release.Name}}-studio-dvcx-worker-ephemeral-rwx
+            claimName: {{.Release.Name}}-studio-dvcx-worker-ephemeral-rwx
           {{- else if eq .Values.studioDvcxWorker.ephemeralStorage.type "emptyDir"}}
           emptyDir:
             sizeLimit: {{ .Values.studioDvcxWorker.ephemeralStorage.size }}
