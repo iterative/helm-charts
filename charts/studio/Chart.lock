@@ -1,12 +1,12 @@
 dependencies:
 - name: redis
   repository: https://charts.bitnami.com/bitnami
-  version: 17.14.3
+  version: 18.14.0
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 11.9.13
 - name: kuberay-operator
   repository: https://ray-project.github.io/kuberay-helm
   version: 0.6.0
-digest: sha256:11e47f1d691977c00cf3dd4454365b63ebdb81db484e837a1f720616a50fec63
-generated: "2023-08-18T21:39:06.308367+02:00"
+digest: sha256:9ccd23c452da39b08b14478830b318b77f4ef760f50cd8505559b344e69250ed
+generated: "2024-02-21T00:47:02.748839352Z"
