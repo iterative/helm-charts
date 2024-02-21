@@ -727,7 +727,7 @@ studioBlobvault:
     # -- Image repository
     repository: nginx
     # -- Image tag
-    tag: 1.25.1-alpine
+    tag: 1.25.4-alpine
 
   service:
     port: 80
