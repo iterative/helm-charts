@@ -576,9 +576,45 @@ studioWorker:
     # -- Worker autoscaling maximum replicas
     maxReplicas: 5
     # -- Worker autoscaling target CPU utilization percentage
-    targetCPUUtilizationPercentage: 80
+    # targetCPUUtilizationPercentage: 80
     # -- Worker autoscaling target memory utilization percentage
     # targetMemoryUtilizationPercentage: 80
+
+    # -- Worker autoscaling annotation
+    annotations: {}
+
+    # -- Worker Custom or additional autoscaling metrics
+    # Custom or additional autoscaling metrics
+    # ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-custom-metrics
+    template: []
+    # - type: External
+    #   external:
+    #     metric:
+    #       name: celery-queue-length
+    #       selector:
+    #         matchLabels:
+    #           type: prometheus
+    #     target:
+    #       type: Value
+    #       value: "1"
+
+    # -- Worker autoscaling behavior
+    behavior: {}
+    # scaleUp:
+    #   stabilizationWindowSeconds: 15
+    #   policies:
+    #     - type: Percent
+    #       value: 100
+    #       periodSeconds: 1
+    #     - type: Pods
+    #       value: 2
+    #       periodSeconds: 1
+    # scaleDown:
+    #   stabilizationWindowSeconds: 120
+    #   policies:
+    #     - type: Pods
+    #       value: 1
+    #       periodSeconds: 60
 
   # -- Additional worker pod annotations
   podAnnotations: {}
@@ -683,6 +719,42 @@ studioDvcxWorker:
     targetCPUUtilizationPercentage: 80
     # -- DVCx worker autoscaling target memory utilization percentage
     # targetMemoryUtilizationPercentage: 80
+
+    # -- Worker autoscaling annotation
+    annotations: {}
+
+    # -- DVCx worker Custom or additional autoscaling metrics
+    # Custom or additional autoscaling metrics
+    # ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-custom-metrics
+    template: []
+    # - type: External
+    #   external:
+    #     metric:
+    #       name: celery-queue-length
+    #       selector:
+    #         matchLabels:
+    #           type: prometheus
+    #     target:
+    #       type: Value
+    #       value: "1"
+
+    # -- DVCx worker autoscaling behavior
+    behavior: {}
+    # scaleUp:
+    #   stabilizationWindowSeconds: 15
+    #   policies:
+    #     - type: Percent
+    #       value: 100
+    #       periodSeconds: 1
+    #     - type: Pods
+    #       value: 2
+    #       periodSeconds: 1
+    # scaleDown:
+    #   stabilizationWindowSeconds: 120
+    #   policies:
+    #     - type: Pods
+    #       value: 1
+    #       periodSeconds: 60
 
   # -- Additional DVCx worker pod annotations
   podAnnotations: {}
