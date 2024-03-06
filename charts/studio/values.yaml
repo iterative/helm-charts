@@ -249,7 +249,7 @@ ray:
   version: 2.4.0
 
   # -- Container image used for Ray nodes
-  image: rayproject/ray:2.4.0-py310-cpu
+  image: rayproject/ray:2.9.3-py310-cpu
 
   # Recommendation: adjust resources (i.e. combined requests & limits) so a
   # single Ray node (e.g. head or worker) is scheduled on each Kubernetes node,
