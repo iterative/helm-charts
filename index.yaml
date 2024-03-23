@@ -2,6 +2,33 @@ apiVersion: v1
 entries:
   studio:
   - apiVersion: v2
+    appVersion: v2.101.0
+    created: "2024-03-23T00:45:27.062981077Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.14.3
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.9.13
+    - condition: ray.enabled
+      name: kuberay-operator
+      repository: https://ray-project.github.io/kuberay-helm
+      version: 0.6.0
+    description: A Helm chart for Kubernetes
+    digest: 36235475facc379cc9c032421545f74acf830005e88277e71f42a42e761a628f
+    icon: https://static.iterative.ai/logo/studio.svg
+    maintainers:
+    - email: support@iterative.ai
+      name: iterative
+    name: studio
+    type: application
+    urls:
+    - https://github.com/iterative/helm-charts/releases/download/studio-0.12.4/studio-0.12.4.tgz
+    version: 0.12.4
+  - apiVersion: v2
     appVersion: v2.100.0
     created: "2024-03-22T04:10:09.498236754Z"
     dependencies:
@@ -4530,4 +4557,4 @@ entries:
     urls:
     - https://github.com/iterative/helm-charts/releases/download/studio-0.1.0/studio-0.1.0.tgz
     version: 0.1.0
-generated: "2024-03-22T04:10:09.498707113Z"
+generated: "2024-03-23T00:45:27.063378978Z"
