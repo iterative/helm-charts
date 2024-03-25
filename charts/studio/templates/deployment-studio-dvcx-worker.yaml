@@ -89,6 +89,8 @@ spec:
               mountPath: /usr/local/share/ca-certificates
             - name: tmp-ephemeral
               mountPath: /tmp
+            - name: tmp-local
+              mountPath: /tmp/local
       volumes:
         {{- if not .Values.global.blobvault.bucket }}
         - name: blobvault
@@ -122,6 +124,28 @@ spec:
           {{- else if eq .Values.studioDvcxWorker.ephemeralStorage.type "emptyDir"}}
           emptyDir:
             sizeLimit: {{ .Values.studioDvcxWorker.ephemeralStorage.size }}
+          {{- end }}
+        - name: tmp-local
+          {{- if eq .Values.studioDvcxWorker.localStorage.type "ephemeral" }}
+          ephemeral:
+            volumeClaimTemplate:
+              metadata:
+                labels:
+                  type: {{.Release.Name}}-{{ .Values.studioDvcxWorker.localStorage.persistentVolumeClaim.claimName }}
+              spec:
+                accessModes: [ "ReadWriteOnce" ]
+                {{- if .Values.studioDvcxWorker.localStorage.persistentVolumeClaim.storageClass }}
+                storageClassName: {{ .Values.studioDvcxWorker.localStorage.persistentVolumeClaim.storageClass }}
+                {{- end }}
+                resources:
+                  requests:
+                    storage: {{ .Values.studioDvcxWorker.localStorage.size }}
+          {{- else if eq .Values.studioDvcxWorker.localStorage.type "pvc" }}
+          persistentVolumeClaim:
+              claimName: {{ .Values.studioDvcxWorker.localStorage.persistentVolumeClaim.claimName }}
+          {{- else if eq .Values.studioDvcxWorker.localStorage.type "emptyDir"}}
+          emptyDir:
+            sizeLimit: {{ .Values.studioDvcxWorker.localStorage.size }}
           {{- end }}
       {{- with .Values.studioDvcxWorker.nodeSelector }}
       nodeSelector:
