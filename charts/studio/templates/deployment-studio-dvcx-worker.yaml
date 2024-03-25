@@ -125,28 +125,30 @@ spec:
           emptyDir:
             sizeLimit: {{ .Values.studioDvcxWorker.ephemeralStorage.size }}
           {{- end }}
+        {{- with .Values.studioDvcxWorker.localStorage }}
         - name: tmp-local
-          {{- if eq .Values.studioDvcxWorker.localStorage.type "ephemeral" }}
+          {{- if eq .type "ephemeral" }}
           ephemeral:
             volumeClaimTemplate:
               metadata:
                 labels:
-                  type: {{.Release.Name}}-{{ .Values.studioDvcxWorker.localStorage.persistentVolumeClaim.claimName }}
+                  type: {{.Release.Name}}-{{ .persistentVolumeClaim.claimName }}
               spec:
                 accessModes: [ "ReadWriteOnce" ]
-                {{- if .Values.studioDvcxWorker.localStorage.persistentVolumeClaim.storageClass }}
-                storageClassName: {{ .Values.studioDvcxWorker.localStorage.persistentVolumeClaim.storageClass }}
+                {{- if .persistentVolumeClaim.storageClass }}
+                storageClassName: {{ .persistentVolumeClaim.storageClass }}
                 {{- end }}
                 resources:
                   requests:
-                    storage: {{ .Values.studioDvcxWorker.localStorage.size }}
-          {{- else if eq .Values.studioDvcxWorker.localStorage.type "pvc" }}
+                    storage: {{ .size }}
+          {{- else if eq .type "pvc" }}
           persistentVolumeClaim:
-              claimName: {{ .Values.studioDvcxWorker.localStorage.persistentVolumeClaim.claimName }}
-          {{- else if eq .Values.studioDvcxWorker.localStorage.type "emptyDir"}}
+              claimName: {{ .persistentVolumeClaim.claimName }}
+          {{- else if eq .type "emptyDir"}}
           emptyDir:
-            sizeLimit: {{ .Values.studioDvcxWorker.localStorage.size }}
+            sizeLimit: {{ .size }}
           {{- end }}
+        {{- end }}
       {{- with .Values.studioDvcxWorker.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
