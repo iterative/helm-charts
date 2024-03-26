@@ -75,7 +75,7 @@ jobs:
           gh project item-list --owner iterative 331 -L 3000 --format=json > items.json
           echo "PR_CARD_ID=$(jq -r '.items[] | select(.content.number==${{ github.event.number }} and .content.repository=="${{ github.repository }}") | .id' items.json)" >> $GITHUB_ENV
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: gh_output
           path: ./*.json
