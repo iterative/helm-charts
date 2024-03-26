@@ -132,7 +132,7 @@ spec:
             volumeClaimTemplate:
               metadata:
                 labels:
-                  type: {{.Release.Name}}-{{ .persistentVolumeClaim.claimName }}
+                  type: {{ $.Release.Name }}-{{ .persistentVolumeClaim.claimName }}
               spec:
                 accessModes: [ "ReadWriteOnce" ]
                 {{- if .persistentVolumeClaim.storageClass }}
