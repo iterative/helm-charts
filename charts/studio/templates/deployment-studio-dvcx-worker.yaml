@@ -12,7 +12,7 @@ spec:
   replicas: 0
   {{- end }}
   {{- end }}
-  {{- with .Values.studioBackend.strategy }}
+  {{- with .Values.studioDvcxWorker.strategy }}
   strategy:
     {{- toYaml . | nindent 4 }}
   {{- end }}

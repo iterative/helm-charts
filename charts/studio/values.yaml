@@ -718,7 +718,7 @@ studioDvcxWorker:
   strategy:
     rollingUpdate:
       maxUnavailable: 0
-      maxSurge: 1
+      maxSurge: 25%
 
   # -- DVCx worker autoscaling configuration
   autoscaling:
