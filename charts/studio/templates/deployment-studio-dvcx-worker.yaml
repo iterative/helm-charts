@@ -88,7 +88,7 @@ spec:
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
             - name: tmp-ephemeral
-              mountPath: /tmp
+              mountPath: /tmp/shared
             - name: tmp-local
               mountPath: /tmp/local
       volumes:
