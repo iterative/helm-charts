@@ -5,6 +5,9 @@ metadata:
   name: {{.Release.Name}}-dvcx-worker
   labels:
     {{- include "studio-dvcx-worker.labels" . | nindent 4 }}
+  {{- with .Values.studioDvcxWorker.autoscaling.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -34,4 +37,11 @@ spec:
           type: Utilization
           averageUtilization: {{ .Values.studioDvcxWorker.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
+    {{- with .Values.studioDvcxWorker.autoscaling.template }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.studioDvcxWorker.autoscaling.behavior }}
+  behavior:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{- end }}

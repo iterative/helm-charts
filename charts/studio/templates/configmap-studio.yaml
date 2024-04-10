@@ -126,17 +126,11 @@ data:
 
   {{- $dvcx := .Values.global.dvcx | default dict }}
   {{- $dvcxClickhouse := $dvcx.clickHouse | default dict }}
-  DQL_ENABLED: {{ $dvcx.enabled | default false | quote | title }}
-  DQL_UDF_ENABLED: {{ $dvcx.udfEnabled | default false | quote | title }}
   DVCX_ENABLED: {{ $dvcx.enabled | default false | quote | title }}
   DVCX_UDF_ENABLED: {{ $dvcx.udfEnabled | default false | quote | title }}
   {{- if ((.Values.ray).enabled) }}
   DVCX_RAY_URL: "http://{{ .Release.Name }}-ray-head-svc.{{ .Release.Namespace }}.svc.cluster.local:8265"
   {{- end }}
 
-  DQL_ROOT_DIR: {{ $dvcx.rootDir | default "/tmp" | quote }}
-  DQL_CH_HOST: {{ $dvcxClickhouse.host | default "" | quote }}
-  DQL_CH_DATABASE: {{ $dvcxClickhouse.database | default "" | quote }}
-  DVCX_ROOT_DIR: {{ $dvcx.rootDir | default "/tmp" | quote }}
   DVCX_CH_HOST: {{ $dvcxClickhouse.host | default "" | quote }}
   DVCX_CH_DATABASE: {{ $dvcxClickhouse.database | default "" | quote }}
