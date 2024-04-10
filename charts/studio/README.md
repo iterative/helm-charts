@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.13.4](https://img.shields.io/badge/Version-0.13.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.105.5](https://img.shields.io/badge/AppVersion-v2.105.5-informational?style=flat-square)
+![Version: 0.13.5](https://img.shields.io/badge/Version-0.13.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.105.5](https://img.shields.io/badge/AppVersion-v2.105.5-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -106,9 +106,9 @@ A Helm chart for Kubernetes
 | postgresql.fullnameOverride | string | `"studio-postgresql"` | Postgres name override |
 | postgresql.global.postgresql.auth.database | string | `"iterativeai"` | Postgres database |
 | postgresql.global.postgresql.auth.postgresPassword | string | `"postgres"` | Postgres password |
-| ray | object | `{"enabled":false,"head":{"resources":{"cpu":"500m","memory":"512M"}},"image":"rayproject/ray:2.4.0-py310-cpu","version":"2.4.0","worker":{"replicas":{"maximum":4,"minimum":1},"resources":{"cpu":"500m","memory":"512M"}}}` | Ray cluster settings group used by DVCx |
+| ray | object | `{"enabled":false,"head":{"resources":{"cpu":"500m","memory":"512M"}},"image":"rayproject/ray:2.9.3-py310-cpu","version":"2.4.0","worker":{"replicas":{"maximum":4,"minimum":1},"resources":{"cpu":"500m","memory":"512M"}}}` | Ray cluster settings group used by DVCx |
 | ray.enabled | bool | `false` | Ray enabled |
-| ray.image | string | `"rayproject/ray:2.4.0-py310-cpu"` | Container image used for Ray nodes |
+| ray.image | string | `"rayproject/ray:2.9.3-py310-cpu"` | Container image used for Ray nodes |
 | ray.version | string | `"2.4.0"` | Ray version |
 | redis.auth | object | `{"enabled":false}` | Redis authentication settings |
 | redis.auth.enabled | bool | `false` | Redis authentication disabled |
