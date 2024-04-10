@@ -2,9 +2,12 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: studio-worker
+  name: {{.Release.Name}}-studio-worker
   labels:
     {{- include "studio-worker.labels" . | nindent 4 }}
+  {{- with .Values.studioWorker.autoscaling.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -29,4 +32,11 @@ spec:
           type: Utilization
           averageUtilization: {{ .Values.studioWorker.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
+    {{- with .Values.studioWorker.autoscaling.template }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.studioWorker.autoscaling.behavior }}
+  behavior:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{- end }}
