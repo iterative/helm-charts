@@ -131,6 +131,3 @@ data:
   {{- if ((.Values.ray).enabled) }}
   DVCX_RAY_URL: "http://{{ .Release.Name }}-ray-head-svc.{{ .Release.Namespace }}.svc.cluster.local:8265"
   {{- end }}
-
-  DVCX_CH_HOST: {{ $dvcxClickhouse.host | default "" | quote }}
-  DVCX_CH_DATABASE: {{ $dvcxClickhouse.database | default "" | quote }}
