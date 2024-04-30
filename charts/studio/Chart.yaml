@@ -17,7 +17,3 @@ dependencies:
     condition: postgresql.enabled
     version: "11.9.13"
     repository: "https://charts.bitnami.com/bitnami"
-  - name: kuberay-operator
-    condition: ray.enabled
-    version: "0.6.0"
-    repository: "https://ray-project.github.io/kuberay-helm"

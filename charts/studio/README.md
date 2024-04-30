@@ -16,7 +16,6 @@ A Helm chart for Kubernetes
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | postgresql | 11.9.13 |
 | https://charts.bitnami.com/bitnami | redis | 17.14.3 |
-| https://ray-project.github.io/kuberay-helm | kuberay-operator | 0.6.0 |
 
 ## Values
 
@@ -106,10 +105,6 @@ A Helm chart for Kubernetes
 | postgresql.fullnameOverride | string | `"studio-postgresql"` | Postgres name override |
 | postgresql.global.postgresql.auth.database | string | `"iterativeai"` | Postgres database |
 | postgresql.global.postgresql.auth.postgresPassword | string | `"postgres"` | Postgres password |
-| ray | object | `{"enabled":false,"head":{"resources":{"cpu":"500m","memory":"512M"}},"image":"rayproject/ray:2.9.3-py310-cpu","version":"2.4.0","worker":{"replicas":{"maximum":4,"minimum":1},"resources":{"cpu":"500m","memory":"512M"}}}` | Ray cluster settings group used by DVCx |
-| ray.enabled | bool | `false` | Ray enabled |
-| ray.image | string | `"rayproject/ray:2.9.3-py310-cpu"` | Container image used for Ray nodes |
-| ray.version | string | `"2.4.0"` | Ray version |
 | redis.auth | object | `{"enabled":false}` | Redis authentication settings |
 | redis.auth.enabled | bool | `false` | Redis authentication disabled |
 | redis.commonConfiguration | string | `"timeout 20"` | Redis common configuration to be added into the ConfigMap |
