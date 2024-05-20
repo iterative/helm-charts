@@ -47,6 +47,7 @@ spec:
           command: [ "/bin/sh", "-c" ]
           args:
             - |
+              ./manage.py showmigrations || exit 1
               ./manage.py migrate
           {{- if not (hasPrefix "sha-" (.Values.studioBackend.image.tag | default "")) }}
           {{- if semverCompare "<=2.103.0" (.Values.studioBackend.image.tag | default .Chart.AppVersion) }}
@@ -58,6 +59,7 @@ spec:
           {{- end }}
           {{- if  hasPrefix "sha-" (.Values.studioBackend.image.tag | default "") }}
               ./manage.py migrate --fake dqlapp 0047
+              ./manage.py migrate
           {{- end }}
           {{- if and .Release.IsUpgrade (not .Values.ci) }}
               ./manage.py migrate phonenumber --fake-initial
