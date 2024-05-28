@@ -618,6 +618,19 @@ studioWorker:
     # If not set and create is true, a name is generated using the fullname template
     name: ""
 
+  # -- Ephemeral storage configuration
+  ephemeralStorage:
+    # -- Ephemeral Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc`, `pvcRWX`
+    type: ephemeral
+    # -- Ephemeral Storage size
+    size: 1Gi
+    # -- Persistent Volume Claim configuration for ephemeral storage (if type is set `pvc`)
+    persistentVolumeClaim:
+      # -- Persistent Volume Claim name, to mount externally managed PVC (`ephemeralStorage.type` has to be set to `pvc`)
+      claimName: "worker"
+      # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
+      storageClass: ""
+
 
 # -- Studio DVCx Worker settings group
 studioDvcxWorker:
@@ -664,7 +677,7 @@ studioDvcxWorker:
     type: ephemeral
     # -- Ephemeral Storage size
     size: 20Gi
-    # -- Persistent Volume Claim configuration for ephemeral storage
+    # -- Persistent Volume Claim configuration for ephemeral storage (if type is set `pvc`)
     persistentVolumeClaim:
       # -- Persistent Volume Claim name, to mount externally managed PVC (`ephemeralStorage.type` has to be set to `pvc`)
       claimName: "dvcx-worker"
