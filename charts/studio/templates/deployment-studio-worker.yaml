@@ -100,16 +100,16 @@ spec:
                 resources:
                   requests:
                     storage: {{ .Values.studioWorker.ephemeralStorage.size }}
-                {{- else if eq .Values.studioWorker.ephemeralStorage.type "pvc" }}
+          {{- else if eq .Values.studioWorker.ephemeralStorage.type "pvc" }}
           persistentVolumeClaim:
             claimName: {{ .Values.studioWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
-                {{- else if eq .Values.studioWorker.ephemeralStorage.type "pvcRWX" }}
+          {{- else if eq .Values.studioWorker.ephemeralStorage.type "pvcRWX" }}
           persistentVolumeClaim:
             claimName: {{.Release.Name}}-studio-worker-ephemeral-rwx
-                {{- else if eq .Values.studioWorker.ephemeralStorage.type "emptyDir"}}
+          {{- else if eq .Values.studioWorker.ephemeralStorage.type "emptyDir"}}
           emptyDir:
             sizeLimit: {{ .Values.studioWorker.ephemeralStorage.size }}
-                {{- end }}
+          {{- end }}
       {{- with .Values.studioWorker.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
