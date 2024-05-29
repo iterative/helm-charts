@@ -74,6 +74,8 @@ spec:
             {{- end }}
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
+            - name: tmp-ephemeral
+              mountPath: /tmp
       volumes:
         {{- if not .Values.global.blobvault.bucket }}
         - name: blobvault
@@ -83,6 +85,31 @@ spec:
         - name: studio-ca-certificates
           configMap:
             name: studio-ca-certificates
+        - name: tmp-ephemeral
+          {{- if eq .Values.studioWorker.ephemeralStorage.type "ephemeral" }}
+          ephemeral:
+            volumeClaimTemplate:
+              metadata:
+                labels:
+                  type: {{.Release.Name}}-{{ .Values.studioWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
+              spec:
+                accessModes: [ "ReadWriteOnce" ]
+                      {{- if .Values.studioWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
+                storageClassName: {{ .Values.studioWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
+                      {{- end }}
+                resources:
+                  requests:
+                    storage: {{ .Values.studioWorker.ephemeralStorage.size }}
+          {{- else if eq .Values.studioWorker.ephemeralStorage.type "pvc" }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.studioWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
+          {{- else if eq .Values.studioWorker.ephemeralStorage.type "pvcRWX" }}
+          persistentVolumeClaim:
+            claimName: {{.Release.Name}}-studio-worker-ephemeral-rwx
+          {{- else if eq .Values.studioWorker.ephemeralStorage.type "emptyDir"}}
+          emptyDir:
+            sizeLimit: {{ .Values.studioWorker.ephemeralStorage.size }}
+          {{- end }}
       {{- with .Values.studioWorker.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
