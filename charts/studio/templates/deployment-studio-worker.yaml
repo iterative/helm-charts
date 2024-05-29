@@ -105,7 +105,7 @@ spec:
             claimName: {{ .Values.studioWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
                 {{- else if eq .Values.studioWorker.ephemeralStorage.type "pvcRWX" }}
           persistentVolumeClaim:
-            claimName: {{.Release.Name}}-studio-dvcx-worker-ephemeral-rwx
+            claimName: {{.Release.Name}}-studio-worker-ephemeral-rwx
                 {{- else if eq .Values.studioWorker.ephemeralStorage.type "emptyDir"}}
           emptyDir:
             sizeLimit: {{ .Values.studioWorker.ephemeralStorage.size }}
