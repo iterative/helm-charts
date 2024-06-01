@@ -246,7 +246,9 @@ clickhouse:
 
   # Change this before deploying
   auth:
+    # -- ClickHouse username
     username: default
+    # -- ClickHouse password
     password: clickhouse
 
 # -- PgBouncer settings group
