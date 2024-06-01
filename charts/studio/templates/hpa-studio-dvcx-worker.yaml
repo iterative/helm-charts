@@ -1,46 +1,46 @@
-{{- if .Values.studioDvcxWorker.autoscaling.enabled }}
+{{- if .Values.studioDatachainWorker.autoscaling.enabled }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{.Release.Name}}-dvcx-worker
+  name: {{.Release.Name}}-datachain-worker
   labels:
-    {{- include "studio-dvcx-worker.labels" . | nindent 4 }}
-  {{- with .Values.studioDvcxWorker.autoscaling.annotations }}
+    {{- include "studio-datachain-worker.labels" . | nindent 4 }}
+  {{- with .Values.studioDatachainWorker.autoscaling.annotations }}
   annotations: {{ toYaml . | nindent 4 }}
   {{- end }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: studio-dvcx-worker
-  {{- if ((.Values.global.dvcx).udfEnabled) }}
-  minReplicas: {{ .Values.studioDvcxWorker.autoscaling.minReplicas }}
-  maxReplicas: {{ .Values.studioDvcxWorker.autoscaling.maxReplicas }}
+    name: studio-datachain-worker
+  {{- if ((.Values.global.datachain).udfEnabled) }}
+  minReplicas: {{ .Values.studioDatachainWorker.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.studioDatachainWorker.autoscaling.maxReplicas }}
   {{- else }}
   minReplicas: 0
   maxReplicas: 0
   {{- end}}
   metrics:
-    {{- if .Values.studioDvcxWorker.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- if .Values.studioDatachainWorker.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
         name: memory
         target:
           type: Utilization
-          averageUtilization: {{ .Values.studioDvcxWorker.autoscaling.targetMemoryUtilizationPercentage }}
+          averageUtilization: {{ .Values.studioDatachainWorker.autoscaling.targetMemoryUtilizationPercentage }}
     {{- end }}
-    {{- if .Values.studioDvcxWorker.autoscaling.targetCPUUtilizationPercentage }}
+    {{- if .Values.studioDatachainWorker.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
       resource:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: {{ .Values.studioDvcxWorker.autoscaling.targetCPUUtilizationPercentage }}
+          averageUtilization: {{ .Values.studioDatachainWorker.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
-    {{- with .Values.studioDvcxWorker.autoscaling.template }}
+    {{- with .Values.studioDatachainWorker.autoscaling.template }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-  {{- with .Values.studioDvcxWorker.autoscaling.behavior }}
+  {{- with .Values.studioDatachainWorker.autoscaling.behavior }}
   behavior:
     {{- toYaml . | nindent 4 }}
   {{- end }}

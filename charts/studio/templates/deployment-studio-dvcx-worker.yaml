@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{.Release.Name}}-dvcx-worker
+  name: {{.Release.Name}}-datachain-worker
   labels:
-    {{- include "studio-dvcx-worker.labels" . | nindent 4 }}
+    {{- include "studio-datachain-worker.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.studioDvcxWorker.autoscaling.enabled }}
-  {{- if ((.Values.global.dvcx).udfEnabled) }}
-  replicas: {{ .Values.studioDvcxWorker.replicaCount }}
+  {{- if not .Values.studioDatachainWorker.autoscaling.enabled }}
+  {{- if ((.Values.global.datachain).udfEnabled) }}
+  replicas: {{ .Values.studioDatachainWorker.replicaCount }}
   {{- else }}
   replicas: 0
   {{- end }}
@@ -18,39 +18,39 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "studio-dvcx-worker.selectorLabels" . | nindent 6 }}
+      {{- include "studio-datachain-worker.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
-        checksum/configmap-studio-dvcx-worker: {{ include (print $.Template.BasePath "/configmap-studio-dvcx-worker.yaml") . | sha256sum }}
+        checksum/configmap-studio-datachain-worker: {{ include (print $.Template.BasePath "/configmap-studio-datachain-worker.yaml") . | sha256sum }}
         {{- include "studio.checksum" . | indent 8 }}
-        {{- with .Values.studioDvcxWorker.podAnnotations }}
+        {{- with .Values.studioDatachainWorker.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
-        {{- include "studio-dvcx-worker.selectorLabels" . | nindent 8 }}
+        {{- include "studio-datachain-worker.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "studio-dvcx-worker.serviceAccountName" . }}
+      serviceAccountName: {{ include "studio-datachain-worker.serviceAccountName" . }}
       terminationGracePeriodSeconds: 150
       securityContext:
         fsGroup: 103
         fsGroupChangePolicy: "OnRootMismatch"
-        {{- with .Values.studioDvcxWorker.podSecurityContext }}
+        {{- with .Values.studioDatachainWorker.podSecurityContext }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       containers:
-        - name: studio-dvcx-worker
+        - name: studio-datachain-worker
           securityContext:
-            {{- toYaml .Values.studioDvcxWorker.securityContext | nindent 12 }}
-          image: "{{ .Values.studioDvcxWorker.image.repository }}:{{ .Values.studioDvcxWorker.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.studioDvcxWorker.image.pullPolicy }}
+            {{- toYaml .Values.studioDatachainWorker.securityContext | nindent 12 }}
+          image: "{{ .Values.studioDatachainWorker.image.repository }}:{{ .Values.studioDatachainWorker.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.studioDatachainWorker.image.pullPolicy }}
           args: ["/app/bin/run_celery_worker_udf.sh"]
           resources:
-            {{- toYaml .Values.studioDvcxWorker.resources | nindent 12 }}
+            {{- toYaml .Values.studioDatachainWorker.resources | nindent 12 }}
           env:
             - name: "NO_MIGRATE_DB"
               value: "1"
@@ -60,16 +60,16 @@ spec:
             - configMapRef:
                 name: studio
             - configMapRef:
-                name: {{ .Release.Name }}-dvcx-worker
+                name: {{ .Release.Name }}-datachain-worker
             - secretRef:
                 name: studio
             {{- if .Values.global.envFromSecret }}
             - secretRef:
                 name: {{ .Values.global.envFromSecret }}
             {{- end }}
-            {{- if .Values.studioDvcxWorker.envFromSecret }}
+            {{- if .Values.studioDatachainWorker.envFromSecret }}
             - secretRef:
-                name: {{ .Values.studioDvcxWorker.envFromSecret }}
+                name: {{ .Values.studioDatachainWorker.envFromSecret }}
             {{- end }}
           livenessProbe:
             exec:
@@ -99,39 +99,39 @@ spec:
           configMap:
             name: studio-ca-certificates
         - name: tmp-ephemeral
-          {{- if eq .Values.studioDvcxWorker.ephemeralStorage.type "ephemeral" }}
+          {{- if eq .Values.studioDatachainWorker.ephemeralStorage.type "ephemeral" }}
           ephemeral:
             volumeClaimTemplate:
               metadata:
                 labels:
-                  type: {{.Release.Name}}-{{ .Values.studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
+                  type: {{.Release.Name}}-{{ .Values.studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
               spec:
                 accessModes: [ "ReadWriteOnce" ]
-                {{- if .Values.studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
-                storageClassName: {{ .Values.studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
+                {{- if .Values.studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
+                storageClassName: {{ .Values.studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
                 {{- end }}
                 resources:
                   requests:
-                    storage: {{ .Values.studioDvcxWorker.ephemeralStorage.size }}
-          {{- else if eq .Values.studioDvcxWorker.ephemeralStorage.type "pvc" }}
+                    storage: {{ .Values.studioDatachainWorker.ephemeralStorage.size }}
+          {{- else if eq .Values.studioDatachainWorker.ephemeralStorage.type "pvc" }}
           persistentVolumeClaim:
-              claimName: {{ .Values.studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
-          {{- else if eq .Values.studioDvcxWorker.ephemeralStorage.type "pvcRWX" }}
+              claimName: {{ .Values.studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
+          {{- else if eq .Values.studioDatachainWorker.ephemeralStorage.type "pvcRWX" }}
           persistentVolumeClaim:
-              claimName: {{.Release.Name}}-studio-dvcx-worker-ephemeral-rwx
-          {{- else if eq .Values.studioDvcxWorker.ephemeralStorage.type "emptyDir"}}
+              claimName: {{.Release.Name}}-studio-datachain-worker-ephemeral-rwx
+          {{- else if eq .Values.studioDatachainWorker.ephemeralStorage.type "emptyDir"}}
           emptyDir:
-            sizeLimit: {{ .Values.studioDvcxWorker.ephemeralStorage.size }}
+            sizeLimit: {{ .Values.studioDatachainWorker.ephemeralStorage.size }}
           {{- end }}
-      {{- with .Values.studioDvcxWorker.nodeSelector }}
+      {{- with .Values.studioDatachainWorker.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.studioDvcxWorker.affinity }}
+      {{- with .Values.studioDatachainWorker.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.studioDvcxWorker.tolerations }}
+      {{- with .Values.studioDatachainWorker.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

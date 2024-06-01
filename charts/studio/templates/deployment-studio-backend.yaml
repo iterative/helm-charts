@@ -51,7 +51,7 @@ spec:
               ./manage.py migrate
           {{- if not (hasPrefix "sha-" (.Values.studioBackend.image.tag | default "")) }}
           {{- if semverCompare "<=2.103.0" (.Values.studioBackend.image.tag | default .Chart.AppVersion) }}
-              ./manage.py migrate --database dvcx
+              ./manage.py migrate --database dvcx  # FIXME: do we really still need this?
           {{- end }}
           {{- end }}
           {{- if and .Release.IsUpgrade (not .Values.ci) }}
