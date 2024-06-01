@@ -244,11 +244,6 @@ clickhouse:
   # -- ClickHouse name override
   fullnameOverride: studio-clickhouse
 
-  image:
-    registry: docker.io
-    repository: bitnami/clickhouse
-    tag: 24.4.1-debian-12-r4
-
   # Change this before deploying
   auth:
     username: default
