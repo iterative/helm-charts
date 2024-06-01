@@ -238,6 +238,22 @@ postgresql:
         # -- Postgres database
         database: iterativeai
 
+clickhouse:
+  # -- ClickHouse enabled
+  enabled: false
+  # -- ClickHouse name override
+  fullnameOverride: studio-clickhouse
+
+  image:
+    registry: docker.io
+    repository: bitnami/clickhouse
+    tag: 24.4.1-debian-12-r4
+
+  # Change this before deploying
+  auth:
+    username: default
+    password: clickhouse
+
 # -- PgBouncer settings group
 pgBouncer:
   enabled: false
