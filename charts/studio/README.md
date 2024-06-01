@@ -26,9 +26,6 @@ A Helm chart for Kubernetes
 | clickhouse.auth.username | string | `"default"` |  |
 | clickhouse.enabled | bool | `false` | ClickHouse enabled |
 | clickhouse.fullnameOverride | string | `"studio-clickhouse"` | ClickHouse name override |
-| clickhouse.image.registry | string | `"docker.io"` |  |
-| clickhouse.image.repository | string | `"bitnami/clickhouse"` |  |
-| clickhouse.image.tag | string | `"24.4.1-debian-12-r4"` |  |
 | global.basePath | string | `""` | Studio: Base path (prefix) |
 | global.blobvault.accessKeyId | string | `""` | Blobvault S3 access key ID |
 | global.blobvault.bucket | string | `""` | Blobvault S3 bucket name |
