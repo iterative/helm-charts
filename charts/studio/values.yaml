@@ -238,6 +238,21 @@ postgresql:
         # -- Postgres database
         database: iterativeai
 
+clickhouse:
+  # -- ClickHouse enabled
+  enabled: false
+  # -- ClickHouse name override
+  fullnameOverride: studio-clickhouse
+
+  # Shards / replicas configuration
+  replicaCount: 1
+  shards: 1
+
+  # Change this before deploying
+  auth:
+    # -- ClickHouse password
+    password: "clickhouse"
+
 # -- PgBouncer settings group
 pgBouncer:
   enabled: false

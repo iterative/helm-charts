@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.14.2](https://img.shields.io/badge/Version-0.14.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.119.4](https://img.shields.io/badge/AppVersion-v2.119.4-informational?style=flat-square)
+![Version: 0.14.3](https://img.shields.io/badge/Version-0.14.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.119.4](https://img.shields.io/badge/AppVersion-v2.119.4-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -14,6 +14,7 @@ A Helm chart for Kubernetes
 
 | Repository | Name | Version |
 |------------|------|---------|
+| https://charts.bitnami.com/bitnami | clickhouse | 6.2.0 |
 | https://charts.bitnami.com/bitnami | postgresql | 11.9.13 |
 | https://charts.bitnami.com/bitnami | redis | 17.14.3 |
 
@@ -21,6 +22,11 @@ A Helm chart for Kubernetes
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| clickhouse.auth.password | string | `"clickhouse"` | ClickHouse password |
+| clickhouse.enabled | bool | `false` | ClickHouse enabled |
+| clickhouse.fullnameOverride | string | `"studio-clickhouse"` | ClickHouse name override |
+| clickhouse.replicaCount | int | `1` |  |
+| clickhouse.shards | int | `1` |  |
 | global.basePath | string | `""` | Studio: Base path (prefix) |
 | global.blobvault.accessKeyId | string | `""` | Blobvault S3 access key ID |
 | global.blobvault.bucket | string | `""` | Blobvault S3 bucket name |

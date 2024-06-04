@@ -5,5 +5,8 @@ dependencies:
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 11.9.13
-digest: sha256:4d64be3c68e02f9bf8d4468389b628383c33fc3e1902597f637c49ccf2f777d9
-generated: "2024-04-30T15:57:25.19756706Z"
+- name: clickhouse
+  repository: https://charts.bitnami.com/bitnami
+  version: 6.2.0
+digest: sha256:5764f9714b4d0e478f5ea25796091919f7ca334773989ac86235c7377db85405
+generated: "2024-06-01T16:58:57.386705962Z"
