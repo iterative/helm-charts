@@ -22,7 +22,7 @@ A Helm chart for Kubernetes
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| clickhouse.auth.password | string | `"clickhouse"` | ClickHouse password |
+| clickhouse.auth.password | string | `""` | ClickHouse password |
 | clickhouse.enabled | bool | `false` | ClickHouse enabled |
 | clickhouse.fullnameOverride | string | `"studio-clickhouse"` | ClickHouse name override |
 | clickhouse.replicaCount | int | `1` |  |
