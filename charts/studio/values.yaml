@@ -244,13 +244,14 @@ clickhouse:
   # -- ClickHouse name override
   fullnameOverride: studio-clickhouse
 
+  # Shards / replicas configuration
+  shards: 1
+  replicaCount: 1
+  
   # Change this before deploying
   auth:
     # -- ClickHouse password
     password: clickhouse
-
-  shards: 1
-  replicaCount: 1
 
 # -- PgBouncer settings group
 pgBouncer:
