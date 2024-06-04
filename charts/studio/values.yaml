@@ -249,6 +249,9 @@ clickhouse:
     # -- ClickHouse password
     password: clickhouse
 
+  shards: 1
+  replicaCount: 1
+
 # -- PgBouncer settings group
 pgBouncer:
   enabled: false
