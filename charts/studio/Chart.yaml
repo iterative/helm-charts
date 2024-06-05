@@ -19,5 +19,5 @@ dependencies:
     repository: "https://charts.bitnami.com/bitnami"
   - name: clickhouse
     condition: clickhouse.enabled
-    version: "6.2.0"
+    version: "6.2.1"
     repository: "https://charts.bitnami.com/bitnami"
