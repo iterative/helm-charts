@@ -15,7 +15,7 @@ dependencies:
     repository: "https://charts.bitnami.com/bitnami"
   - name: postgresql
     condition: postgresql.enabled
-    version: "11.9.13"
+    version: "15.5.4"
     repository: "https://charts.bitnami.com/bitnami"
   - name: clickhouse
     condition: clickhouse.enabled
