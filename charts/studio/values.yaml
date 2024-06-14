@@ -124,6 +124,9 @@ global:
     # @default -- `$global.host` value.
     webhookHost: ""
 
+    # -- Enable HTTPS protocol for incoming webhooks (this works only if `global.scmProviders.webhookHost` is set; otherwise is ignored).
+    tlsEnabled: false
+
     # -- GitHub App integration with Studio.
     github:
       # -- GitHub enabled
