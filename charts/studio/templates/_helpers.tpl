@@ -204,3 +204,11 @@ checksum/secret-studio: {{ include (print $.Template.BasePath "/secret-studio.ya
 {{- define "scheme" -}}
 http{{- if $.Values.global.ingress.tlsEnabled }}s{{- end }}
 {{- end }}
+
+{{- define "webhookScheme" -}}
+{{- if $.Values.global.scmProviders.webhookHost -}}
+http{{- if $.Values.global.scmProviders.tlsEnabled }}s{{- end }}
+{{- else -}}
+http{{- if $.Values.global.ingress.tlsEnabled }}s{{- end }}
+{{- end -}}
+{{- end }}

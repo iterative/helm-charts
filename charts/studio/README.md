@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.14.11](https://img.shields.io/badge/Version-0.14.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.123.1](https://img.shields.io/badge/AppVersion-v2.123.1-informational?style=flat-square)
+![Version: 0.14.12](https://img.shields.io/badge/Version-0.14.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.123.1](https://img.shields.io/badge/AppVersion-v2.123.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -82,6 +82,7 @@ A Helm chart for Kubernetes
 | global.scmProviders.gitlab.secretKey | string | `""` | GitLab OAuth App Secret Key |
 | global.scmProviders.gitlab.url | string | `""` | GitLab Enterprise Edition URL Set this if you're using the selfhosted version |
 | global.scmProviders.gitlab.webhookSecret | string | `""` | GitLab Webhook Secret |
+| global.scmProviders.tlsEnabled | bool | `false` | Enable HTTPS protocol for incoming webhooks (this works only if `global.scmProviders.webhookHost` is set; otherwise is ignored). |
 | global.scmProviders.webhookHost | string | `$global.host` value. | Custom hostname for incoming webhook (if Studio runs on a private network and you use SaaS versions of GitHub, GitLab, or Bitbucket) |
 | global.secretKey | string | `""` | Studio: Secret key for signing Webhook payloads We recommend you set this externally. If left empty, a random key will be generated. |
 | imagePullSecrets | list | `[]` | Secret containing Docker registry credentials |
