@@ -13,7 +13,11 @@
       "matchDatasources": [
         "helm"
       ],
-      "matchPackagePrefixes": ["^bitnami/"]
+      "matchPackagePrefixes": [
+        "redis",
+        "postgres",
+        "clickhouse"
+      ]
     }
   ]
 }
