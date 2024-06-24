@@ -708,6 +708,14 @@ studioDvcxWorker:
       maxUnavailable: 0
       maxSurge: 1
 
+#  livenessProbe:
+#    # -- DVCx worker liveness probe `initialDelaySeconds`
+#    initialDelaySeconds: 10
+#    # -- DVCx worker liveness probe `periodSeconds`
+#    periodSeconds: 10
+#    # -- DVCx worker liveness probe `timeoutSeconds`
+#    timeoutSeconds: 10
+
   # -- DVCx worker autoscaling configuration
   autoscaling:
     # -- DVCx worker autoscaling enabled flag

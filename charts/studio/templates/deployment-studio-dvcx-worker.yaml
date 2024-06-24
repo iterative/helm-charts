@@ -77,9 +77,10 @@ spec:
                 - python
                 - -c
                 - 'from viewer.utils import sqlalchemy_liveness_probe; sqlalchemy_liveness_probe()'
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            timeoutSeconds: 10
+            {{- $livenessProbe := .Values.studioDvcxWorker.livenessProbe | default dict }}
+            initialDelaySeconds: {{ $livenessProbe.initialDelaySeconds | default 10 }}
+            periodSeconds: {{ $livenessProbe.periodSeconds | default 10 }}
+            timeoutSeconds: {{ $livenessProbe.timeoutSeconds | default 10 }}
           volumeMounts:
             {{- if not .Values.global.blobvault.bucket }}
             - name: blobvault
