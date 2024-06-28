@@ -2,8 +2,8 @@ apiVersion: v2
 name: studio
 description: A Helm chart for Kubernetes
 type: application
-version: 0.14.3
-appVersion: "v2.119.4"
+version: 0.15.5
+appVersion: "v2.125.0"
 maintainers:
   - name: iterative
     email: support@iterative.ai
@@ -11,11 +11,15 @@ icon: "https://static.iterative.ai/logo/studio.svg"
 dependencies:
   - name: redis
     condition: redis.enabled
-    version: "17.14.3"
+    version: "19.5.5"
     repository: "https://charts.bitnami.com/bitnami"
   - name: postgresql
     condition: postgresql.enabled
-    version: "11.9.13"
+    version: "15.5.7"
+    repository: "https://charts.bitnami.com/bitnami"
+  - name: clickhouse
+    condition: clickhouse.enabled
+    version: "6.2.8"
     repository: "https://charts.bitnami.com/bitnami"
   - name: clickhouse
     condition: clickhouse.enabled

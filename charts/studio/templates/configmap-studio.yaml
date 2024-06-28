@@ -26,7 +26,7 @@ data:
   BITBUCKET_API_URL: {{ .Values.global.scmProviders.bitbucket.apiUrl | quote}}
   {{- end }}
   {{- if and .Values.global.scmProviders.bitbucket.enabled $webhookHost }}
-  BITBUCKET_WEBHOOK_URL: "{{ include "scheme" . }}://{{ $webhookHost }}/webhook/bitbucket/"
+  BITBUCKET_WEBHOOK_URL: "{{ include "webhookScheme" . }}://{{ $webhookHost }}/webhook/bitbucket/"
   {{- end }}
 
   ENABLE_BLOBVAULT: "True"
@@ -75,7 +75,7 @@ data:
   GITHUB_URL: {{ .Values.global.scmProviders.github.url | quote }}
   {{- end }}
   {{- if and .Values.global.scmProviders.github.enabled $webhookHost }}
-  GITHUB_WEBHOOK_URL: "{{ include "scheme" . }}://{{ $webhookHost }}/webhook/github/"
+  GITHUB_WEBHOOK_URL: "{{ include "webhookScheme" . }}://{{ $webhookHost }}/webhook/github/"
   {{- end }}
   {{- if .Values.global.scmProviders.github.clientId }}
   GITHUB_APP_CLIENT_ID: {{ .Values.global.scmProviders.github.clientId | quote }}
@@ -94,7 +94,7 @@ data:
   GITLAB_URL: {{ .Values.global.scmProviders.gitlab.url | quote}}
   {{- end }}
   {{- if and .Values.global.scmProviders.gitlab.enabled $webhookHost }}
-  GITLAB_WEBHOOK_URL: "{{ include "scheme" . }}://{{ $webhookHost }}/webhook/gitlab/"
+  GITLAB_WEBHOOK_URL: "{{ include "webhookScheme" . }}://{{ $webhookHost }}/webhook/gitlab/"
   {{- end }}
 
   {{- if .Values.global.maxViews }}

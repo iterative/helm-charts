@@ -124,6 +124,9 @@ global:
     # @default -- `$global.host` value.
     webhookHost: ""
 
+    # -- Enable HTTPS protocol for incoming webhooks (this works only if `global.scmProviders.webhookHost` is set; otherwise is ignored).
+    tlsEnabled: false
+
     # -- GitHub App integration with Studio.
     github:
       # -- GitHub enabled
@@ -244,10 +247,14 @@ clickhouse:
   # -- ClickHouse name override
   fullnameOverride: studio-clickhouse
 
+  # Shards / replicas configuration
+  replicaCount: 1
+  shards: 1
+
   # Change this before deploying
   auth:
     # -- ClickHouse password
-    password: clickhouse
+    password: "clickhouse"
 
 # -- PgBouncer settings group
 pgBouncer:
@@ -700,6 +707,14 @@ studioDatachainWorker:
       maxUnavailable: 0
       maxSurge: 1
 
+#  livenessProbe:
+#    # -- DataChain worker liveness probe `initialDelaySeconds`
+#    initialDelaySeconds: 10
+#    # -- DataChain worker liveness probe `periodSeconds`
+#    periodSeconds: 10
+#    # -- DataChain worker liveness probe `timeoutSeconds`
+#    timeoutSeconds: 10
+
   # -- DataChain worker autoscaling configuration
   autoscaling:
     # -- DataChain worker autoscaling enabled flag
@@ -792,7 +807,7 @@ studioBlobvault:
     # -- Image repository
     repository: nginx
     # -- Image tag
-    tag: 1.25.1-alpine
+    tag: 1.27.0-alpine
 
   service:
     port: 80
