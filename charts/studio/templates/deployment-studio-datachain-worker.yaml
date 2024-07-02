@@ -56,6 +56,8 @@ spec:
               value: "1"
             - name: "WAIT_FOR_MIGRATIONS"
               value: "1"
+            - name: "IS_DATACHAIN_CLUSTER"
+              value: "True"
           envFrom:
             - configMapRef:
                 name: studio
