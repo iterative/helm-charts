@@ -12,7 +12,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: studio-datachain-worker
+    name: {{.Release.Name}}-datachain-worker
   {{- if ((.Values.global.datachain).udfEnabled) }}
   minReplicas: {{ .Values.studioDatachainWorker.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.studioDatachainWorker.autoscaling.maxReplicas }}
