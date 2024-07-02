@@ -6,3 +6,4 @@ data:
 {{- with .Values.studioBeat.envVars}}
 {{-  toYaml . | nindent 2 }}
 {{- end }}
+IS_DATACHAIN_CLUSTER: {{ (or .Values.studioDatachainWorker.autoscaling.enabled (gt .Values.studioDatachainWorker.replicaCount 0)) | quote | title }}
