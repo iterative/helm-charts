@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.15.6](https://img.shields.io/badge/Version-0.15.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.125.0](https://img.shields.io/badge/AppVersion-v2.125.0-informational?style=flat-square)
+![Version: 0.15.7](https://img.shields.io/badge/Version-0.15.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.125.0](https://img.shields.io/badge/AppVersion-v2.125.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -112,6 +112,7 @@ A Helm chart for Kubernetes
 | postgresql.fullnameOverride | string | `"studio-postgresql"` | Postgres name override |
 | postgresql.global.postgresql.auth.database | string | `"iterativeai"` | Postgres database |
 | postgresql.global.postgresql.auth.postgresPassword | string | `"postgres"` | Postgres password |
+| postgresql.image.tag | string | `"14.5.0-debian-11-r35"` |  |
 | redis.auth | object | `{"enabled":false}` | Redis authentication settings |
 | redis.auth.enabled | bool | `false` | Redis authentication disabled |
 | redis.commonConfiguration | string | `"timeout 20"` | Redis common configuration to be added into the ConfigMap |
