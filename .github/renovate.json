@@ -5,5 +5,19 @@
   "assigneesFromCodeOwners": true,
   "labels": ["dependencies"],
   "rebaseWhen": "conflicted",
-  "configMigration": true
+  "configMigration": true,
+  "packageRules": [
+    {
+      "groupName": "bitnami helm dependencies",
+      "groupSlug": "bitnami-helm",
+      "matchDatasources": [
+        "helm"
+      ],
+      "matchPackagePrefixes": [
+        "redis",
+        "postgres",
+        "clickhouse"
+      ]
+    }
+  ]
 }

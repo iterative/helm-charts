@@ -124,6 +124,9 @@ global:
     # @default -- `$global.host` value.
     webhookHost: ""
 
+    # -- Enable HTTPS protocol for incoming webhooks (this works only if `global.scmProviders.webhookHost` is set; otherwise is ignored).
+    tlsEnabled: false
+
     # -- GitHub App integration with Studio.
     github:
       # -- GitHub enabled
@@ -238,33 +241,20 @@ postgresql:
         # -- Postgres database
         database: iterativeai
 
-# -- Ray cluster settings group used by DVCx
-ray:
-  # -- Ray enabled
+clickhouse:
+  # -- ClickHouse enabled
   enabled: false
+  # -- ClickHouse name override
+  fullnameOverride: studio-clickhouse
 
-  # -- Ray version
-  version: 2.4.0
+  # Shards / replicas configuration
+  replicaCount: 1
+  shards: 1
 
-  # -- Container image used for Ray nodes
-  image: rayproject/ray:2.4.0-py310-cpu
-
-  # Recommendation: adjust resources (i.e. combined requests & limits) so a
-  # single Ray node (e.g. head or worker) is scheduled on each Kubernetes node,
-  # using all the Kubernetes node resources.
-
-  head:
-    resources:
-      cpu: 500m
-      memory: 512M
-
-  worker:
-    resources:
-      cpu: 500m
-      memory: 512M
-    replicas:
-      minimum: 1
-      maximum: 4
+  # Change this before deploying
+  auth:
+    # -- ClickHouse password
+    password: "clickhouse"
 
 # -- PgBouncer settings group
 pgBouncer:
@@ -277,7 +267,7 @@ pgBouncer:
     # -- PgBouncer image pull policy
     pullPolicy: IfNotPresent
     # -- PgBouncer image tag
-    tag: "1.20.1"
+    tag: "1.22.1"
 
   service:
     type: ClusterIP
@@ -731,6 +721,14 @@ studioDvcxWorker:
       maxUnavailable: 0
       maxSurge: 25%
 
+#  livenessProbe:
+#    # -- DVCx worker liveness probe `initialDelaySeconds`
+#    initialDelaySeconds: 10
+#    # -- DVCx worker liveness probe `periodSeconds`
+#    periodSeconds: 10
+#    # -- DVCx worker liveness probe `timeoutSeconds`
+#    timeoutSeconds: 10
+
   # -- DVCx worker autoscaling configuration
   autoscaling:
     # -- DVCx worker autoscaling enabled flag
@@ -823,7 +821,7 @@ studioBlobvault:
     # -- Image repository
     repository: nginx
     # -- Image tag
-    tag: 1.25.1-alpine
+    tag: 1.27.0-alpine
 
   service:
     port: 80

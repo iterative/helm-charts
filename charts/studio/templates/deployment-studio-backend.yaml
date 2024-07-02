@@ -47,6 +47,7 @@ spec:
           command: [ "/bin/sh", "-c" ]
           args:
             - |
+              ./manage.py showmigrations || exit 1
               ./manage.py migrate
           {{- if not (hasPrefix "sha-" (.Values.studioBackend.image.tag | default "")) }}
           {{- if semverCompare "<=2.103.0" (.Values.studioBackend.image.tag | default .Chart.AppVersion) }}
