@@ -80,8 +80,8 @@ global:
     # -- Celery result URL
     resultBackend: ""
 
-  # -- Studio: Settings related to DVCX
-  dvcx: {}
+  # -- Studio: Settings related to DataChain
+  datachain: {}
 
   ingress:
     enabled: true
@@ -281,8 +281,7 @@ pgBouncer:
   # envVars:
   #   DEBUG: "True"
 
-  # -- The name of an existing Secret that contains sensitive environment variables passed to DVCx
-  # worker pods.
+  # -- The name of an existing Secret that contains sensitive environment variables.
   envFromSecret: ""
 
   replicaCount: 1
@@ -652,41 +651,41 @@ studioWorker:
       storageClass: ""
 
 
-# -- Studio DVCx Worker settings group
-studioDvcxWorker:
+# -- Studio DataChain Worker settings group
+studioDatachainWorker:
 
-  # -- DVCx worker image settings
+  # -- DataChain worker image settings
   image:
-    # -- DVCx worker image repository
-    repository: docker.iterative.ai/studio-dvcx-worker
-    # -- DVCx worker image pull policy
+    # -- DataChain worker image repository
+    repository: docker.iterative.ai/studio-datachain-worker
+    # -- DataChain worker image pull policy
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
     # tag: "v1.34.0"
 
-  # -- Additional environment variables for DVCx worker pods
+  # -- Additional environment variables for DataChain worker pods
   envVars: {}
   # Example:
   # envVars:
   #   DEBUG: "True"
 
-  # -- The name of an existing Secret that contains sensitive environment variables passed to DVCx
-  # worker pods.
+  # -- The name of an existing Secret that contains sensitive environment variables passed to
+  # DataChain worker pods.
   envFromSecret: ""
 
   replicaCount: 1
 
-  # -- DVCx worker log level
+  # -- DataChain worker log level
   logLevel: "info"
 
-  # -- DVCx worker resources configuration
+  # -- DataChain worker resources configuration
   resources:
-    # -- DVCx worker requests configuration
+    # -- DataChain worker requests configuration
     requests:
       cpu: 1000m
       memory: 3Gi
       ephemeral-storage: 10Gi
-    # -- DVCx worker limits configuration
+    # -- DataChain worker limits configuration
     limits:
       memory: 16Gi
       ephemeral-storage: 20Gi
@@ -700,7 +699,7 @@ studioDvcxWorker:
     # -- Persistent Volume Claim configuration for ephemeral storage (if type is set `pvc`)
     persistentVolumeClaim:
       # -- Persistent Volume Claim name, to mount externally managed PVC (`ephemeralStorage.type` has to be set to `pvc`)
-      claimName: "dvcx-worker"
+      claimName: "datachain-worker"
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
       storageClass: ""
 
@@ -713,41 +712,41 @@ studioDvcxWorker:
     # -- Persistent Volume Claim configuration for local storage
     persistentVolumeClaim:
       # -- Persistent Volume Claim name, to mount externally managed PVC (`localStorage.type` has to be set to `pvc`)
-      claimName: "dvcx-worker-local"
+      claimName: "datachain-worker-local"
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
       storageClass: ""
 
-  # -- DVCx worker deployment strategy
+  # -- DataChain worker deployment strategy
   strategy:
     rollingUpdate:
       maxUnavailable: 0
       maxSurge: 25%
 
 #  livenessProbe:
-#    # -- DVCx worker liveness probe `initialDelaySeconds`
+#    # -- DataChain worker liveness probe `initialDelaySeconds`
 #    initialDelaySeconds: 10
-#    # -- DVCx worker liveness probe `periodSeconds`
+#    # -- DataChain worker liveness probe `periodSeconds`
 #    periodSeconds: 10
-#    # -- DVCx worker liveness probe `timeoutSeconds`
+#    # -- DataChain worker liveness probe `timeoutSeconds`
 #    timeoutSeconds: 10
 
-  # -- DVCx worker autoscaling configuration
+  # -- DataChain worker autoscaling configuration
   autoscaling:
-    # -- DVCx worker autoscaling enabled flag
+    # -- DataChain worker autoscaling enabled flag
     enabled: false
-    # -- DVCx worker autoscaling min replicas
+    # -- DataChain worker autoscaling min replicas
     minReplicas: 1
-    # -- DVCx worker autoscaling max replicas
+    # -- DataChain worker autoscaling max replicas
     maxReplicas: 5
-    # -- DVCx worker autoscaling target CPU utilization percentage
+    # -- DataChain worker autoscaling target CPU utilization percentage
     targetCPUUtilizationPercentage: 80
-    # -- DVCx worker autoscaling target memory utilization percentage
+    # -- DataChain worker autoscaling target memory utilization percentage
     # targetMemoryUtilizationPercentage: 80
 
     # -- Worker autoscaling annotation
     annotations: {}
 
-    # -- DVCx worker Custom or additional autoscaling metrics
+    # -- DataChain worker Custom or additional autoscaling metrics
     # Custom or additional autoscaling metrics
     # ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-custom-metrics
     template: []
@@ -762,7 +761,7 @@ studioDvcxWorker:
     #       type: Value
     #       value: "1"
 
-    # -- DVCx worker autoscaling behavior
+    # -- DataChain worker autoscaling behavior
     behavior: {}
     # scaleUp:
     #   stabilizationWindowSeconds: 15
@@ -780,14 +779,14 @@ studioDvcxWorker:
     #       value: 1
     #       periodSeconds: 60
 
-  # -- Additional DVCx worker pod annotations
+  # -- Additional DataChain worker pod annotations
   podAnnotations: {}
 
-  # -- DVCx worker pod security context configuration
+  # -- DataChain worker pod security context configuration
   podSecurityContext: {}
     # fsGroup: 2000
 
-  # -- DVCx worker pod security context configuration
+  # -- DataChain worker pod security context configuration
   securityContext: {}
     # capabilities:
     #   drop:
@@ -796,13 +795,13 @@ studioDvcxWorker:
     # runAsNonRoot: true
     # runAsUser: 1000
 
-  # -- DVCx worker pod node selector configuration
+  # -- DataChain worker pod node selector configuration
   nodeSelector: {}
 
-  # -- DVCx worker pod tolerations configuration
+  # -- DataChain worker pod tolerations configuration
   tolerations: []
 
-  # -- DVCx worker pod affinity configuration
+  # -- DataChain worker pod affinity configuration
   affinity: {}
 
   serviceAccount:

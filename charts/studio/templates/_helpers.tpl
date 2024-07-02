@@ -52,9 +52,9 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
-{{- define "studio-dvcx-worker.labels" -}}
+{{- define "studio-datachain-worker.labels" -}}
 helm.sh/chart: {{ include "studio.chart" . }}
-{{ include "studio-dvcx-worker.selectorLabels" . }}
+{{ include "studio-datachain-worker.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -130,8 +130,8 @@ app.kubernetes.io/name: studio-beat
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "studio-dvcx-worker.selectorLabels" -}}
-app.kubernetes.io/name: studio-dvcx-worker
+{{- define "studio-datachain-worker.selectorLabels" -}}
+app.kubernetes.io/name: studio-datachain-worker
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
@@ -178,11 +178,11 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
-{{- define "studio-dvcx-worker.serviceAccountName" -}}
-{{- if ((.Values.studioDvcxWorker).serviceAccount).create }}
-{{- default (printf "%s%s" (include "studio.fullname" .) "-dvcx-worker") .Values.studioDvcxWorker.serviceAccount.name }}
+{{- define "studio-datachain-worker.serviceAccountName" -}}
+{{- if ((.Values.studioDatachainWorker).serviceAccount).create }}
+{{- default (printf "%s%s" (include "studio.fullname" .) "-datachain-worker") .Values.studioDatachainWorker.serviceAccount.name }}
 {{- else }}
-{{- default "default" .Values.studioDvcxWorker.serviceAccount.name }}
+{{- default "default" .Values.studioDatachainWorker.serviceAccount.name }}
 {{- end }}
 {{- end }}
 

@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ .Release.Name }}-dvcx-worker
-data:
-  CELERY_LOG_LEVEL: "{{ .Values.studioDvcxWorker.logLevel | default "info" | lower }}"
-{{- with .Values.studioDvcxWorker.envVars}}
-{{-  toYaml . | nindent 2 }}
-{{- end }}
