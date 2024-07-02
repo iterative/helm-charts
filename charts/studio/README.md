@@ -112,6 +112,7 @@ A Helm chart for Kubernetes
 | postgresql.fullnameOverride | string | `"studio-postgresql"` | Postgres name override |
 | postgresql.global.postgresql.auth.database | string | `"iterativeai"` | Postgres database |
 | postgresql.global.postgresql.auth.postgresPassword | string | `"postgres"` | Postgres password |
+| postgresql.image.tag | string | `"14.5.0-debian-11-r35"` |  |
 | redis.auth | object | `{"enabled":false}` | Redis authentication settings |
 | redis.auth.enabled | bool | `false` | Redis authentication disabled |
 | redis.commonConfiguration | string | `"timeout 20"` | Redis common configuration to be added into the ConfigMap |
