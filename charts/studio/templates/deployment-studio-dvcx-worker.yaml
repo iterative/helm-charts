@@ -12,7 +12,7 @@ spec:
   replicas: 0
   {{- end }}
   {{- end }}
-  {{- with .Values.studioBackend.strategy }}
+  {{- with .Values.studioDvcxWorker.strategy }}
   strategy:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -89,7 +89,11 @@ spec:
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
             - name: tmp-ephemeral
-              mountPath: /tmp
+              mountPath: /tmp/shared
+            {{- if .Values.studioDvcxWorker.localStorage }}
+            - name: tmp-local
+              mountPath: /tmp/local
+            {{- end }}
       volumes:
         {{- if not .Values.global.blobvault.bucket }}
         - name: blobvault
@@ -124,6 +128,30 @@ spec:
           emptyDir:
             sizeLimit: {{ .Values.studioDvcxWorker.ephemeralStorage.size }}
           {{- end }}
+        {{- with .Values.studioDvcxWorker.localStorage }}
+        - name: tmp-local
+          {{- if eq .type "ephemeral" }}
+          ephemeral:
+            volumeClaimTemplate:
+              metadata:
+                labels:
+                  type: {{ $.Release.Name }}-{{ .persistentVolumeClaim.claimName }}
+              spec:
+                accessModes: [ "ReadWriteOnce" ]
+                {{- if .persistentVolumeClaim.storageClass }}
+                storageClassName: {{ .persistentVolumeClaim.storageClass }}
+                {{- end }}
+                resources:
+                  requests:
+                    storage: {{ .size }}
+          {{- else if eq .type "pvc" }}
+          persistentVolumeClaim:
+              claimName: {{ .persistentVolumeClaim.claimName }}
+          {{- else if eq .type "emptyDir"}}
+          emptyDir:
+            sizeLimit: {{ .size }}
+          {{- end }}
+        {{- end }}
       {{- with .Values.studioDvcxWorker.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

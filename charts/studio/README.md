@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.15.5](https://img.shields.io/badge/Version-0.15.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.125.0](https://img.shields.io/badge/AppVersion-v2.125.0-informational?style=flat-square)
+![Version: 0.15.6](https://img.shields.io/badge/Version-0.15.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.125.0](https://img.shields.io/badge/AppVersion-v2.125.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -138,7 +138,7 @@ A Helm chart for Kubernetes
 | studioBlobvault.image | object | `{"repository":"nginx","tag":"1.27.0-alpine"}` | Image to use for the blobvault service |
 | studioBlobvault.image.repository | string | `"nginx"` | Image repository |
 | studioBlobvault.image.tag | string | `"1.27.0-alpine"` | Image tag |
-| studioDvcxWorker | object | `{"affinity":{},"autoscaling":{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80,"template":[]},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"claimName":"dvcx-worker","storageClass":""},"size":"20Gi","type":"ephemeral"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"},"logLevel":"info","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}},"securityContext":{},"serviceAccount":{"annotations":{},"create":false,"name":""},"strategy":{"rollingUpdate":{"maxSurge":1,"maxUnavailable":0}},"tolerations":[]}` | Studio DVCx Worker settings group |
+| studioDvcxWorker | object | `{"affinity":{},"autoscaling":{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80,"template":[]},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"claimName":"dvcx-worker","storageClass":""},"size":"20Gi","type":"ephemeral"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"},"localStorage":{"persistentVolumeClaim":{"claimName":"dvcx-worker-local","storageClass":""},"size":"1Gi","type":"ephemeral"},"logLevel":"info","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}},"securityContext":{},"serviceAccount":{"annotations":{},"create":false,"name":""},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":0}},"tolerations":[]}` | Studio DVCx Worker settings group |
 | studioDvcxWorker.affinity | object | `{}` | DVCx worker pod affinity configuration |
 | studioDvcxWorker.autoscaling | object | `{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80,"template":[]}` | DVCx worker autoscaling configuration |
 | studioDvcxWorker.autoscaling.annotations | object | `{}` | Worker autoscaling annotation |
@@ -159,6 +159,12 @@ A Helm chart for Kubernetes
 | studioDvcxWorker.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"}` | DVCx worker image settings |
 | studioDvcxWorker.image.pullPolicy | string | `"IfNotPresent"` | DVCx worker image pull policy |
 | studioDvcxWorker.image.repository | string | `"docker.iterative.ai/studio-dvcx-worker"` | DVCx worker image repository |
+| studioDvcxWorker.localStorage | object | `{"persistentVolumeClaim":{"claimName":"dvcx-worker-local","storageClass":""},"size":"1Gi","type":"ephemeral"}` | Local storage configuration |
+| studioDvcxWorker.localStorage.persistentVolumeClaim | object | `{"claimName":"dvcx-worker-local","storageClass":""}` | Persistent Volume Claim configuration for local storage |
+| studioDvcxWorker.localStorage.persistentVolumeClaim.claimName | string | `"dvcx-worker-local"` | Persistent Volume Claim name, to mount externally managed PVC (`localStorage.type` has to be set to `pvc`) |
+| studioDvcxWorker.localStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type) |
+| studioDvcxWorker.localStorage.size | string | `"1Gi"` | Local Storage size |
+| studioDvcxWorker.localStorage.type | string | `"ephemeral"` | Local Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc` |
 | studioDvcxWorker.logLevel | string | `"info"` | DVCx worker log level |
 | studioDvcxWorker.nodeSelector | object | `{}` | DVCx worker pod node selector configuration |
 | studioDvcxWorker.podAnnotations | object | `{}` | Additional DVCx worker pod annotations |
@@ -167,7 +173,7 @@ A Helm chart for Kubernetes
 | studioDvcxWorker.resources.limits | object | `{"ephemeral-storage":"20Gi","memory":"16Gi"}` | DVCx worker limits configuration |
 | studioDvcxWorker.resources.requests | object | `{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}` | DVCx worker requests configuration |
 | studioDvcxWorker.securityContext | object | `{}` | DVCx worker pod security context configuration |
-| studioDvcxWorker.strategy | object | `{"rollingUpdate":{"maxSurge":1,"maxUnavailable":0}}` | DVCx worker deployment strategy |
+| studioDvcxWorker.strategy | object | `{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":0}}` | DVCx worker deployment strategy |
 | studioDvcxWorker.tolerations | list | `[]` | DVCx worker pod tolerations configuration |
 | studioUi | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-frontend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":3000,"type":"ClusterIP"},"strategy":{"rollingUpdate":{"maxSurge":1,"maxUnavailable":0}},"tolerations":[]}` | Studio UI settings group |
 | studioUi.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to UI pods. |

@@ -702,11 +702,24 @@ studioDvcxWorker:
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
       storageClass: ""
 
+  # -- Local storage configuration
+  localStorage:
+    # -- Local Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc`
+    type: ephemeral
+    # -- Local Storage size
+    size: 1Gi
+    # -- Persistent Volume Claim configuration for local storage
+    persistentVolumeClaim:
+      # -- Persistent Volume Claim name, to mount externally managed PVC (`localStorage.type` has to be set to `pvc`)
+      claimName: "dvcx-worker-local"
+      # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
+      storageClass: ""
+
   # -- DVCx worker deployment strategy
   strategy:
     rollingUpdate:
       maxUnavailable: 0
-      maxSurge: 1
+      maxSurge: 25%
 
 #  livenessProbe:
 #    # -- DVCx worker liveness probe `initialDelaySeconds`
