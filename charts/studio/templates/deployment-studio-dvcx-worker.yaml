@@ -90,8 +90,10 @@ spec:
               mountPath: /usr/local/share/ca-certificates
             - name: tmp-ephemeral
               mountPath: /tmp/shared
+            {{- if .Values.studioDvcxWorker.localStorage }}
             - name: tmp-local
               mountPath: /tmp/local
+            {{- end }}
       volumes:
         {{- if not .Values.global.blobvault.bucket }}
         - name: blobvault
