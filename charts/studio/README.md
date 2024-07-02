@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.15.6](https://img.shields.io/badge/Version-0.15.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.125.0](https://img.shields.io/badge/AppVersion-v2.125.0-informational?style=flat-square)
+![Version: 0.16.0](https://img.shields.io/badge/Version-0.16.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.125.0](https://img.shields.io/badge/AppVersion-v2.125.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -138,43 +138,43 @@ A Helm chart for Kubernetes
 | studioBlobvault.image | object | `{"repository":"nginx","tag":"1.27.0-alpine"}` | Image to use for the blobvault service |
 | studioBlobvault.image.repository | string | `"nginx"` | Image repository |
 | studioBlobvault.image.tag | string | `"1.27.0-alpine"` | Image tag |
-| studioDvcxWorker | object | `{"affinity":{},"autoscaling":{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80,"template":[]},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"claimName":"dvcx-worker","storageClass":""},"size":"20Gi","type":"ephemeral"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"},"localStorage":{"persistentVolumeClaim":{"claimName":"dvcx-worker-local","storageClass":""},"size":"1Gi","type":"ephemeral"},"logLevel":"info","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}},"securityContext":{},"serviceAccount":{"annotations":{},"create":false,"name":""},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":0}},"tolerations":[]}` | Studio DVCx Worker settings group |
-| studioDvcxWorker.affinity | object | `{}` | DVCx worker pod affinity configuration |
-| studioDvcxWorker.autoscaling | object | `{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80,"template":[]}` | DVCx worker autoscaling configuration |
-| studioDvcxWorker.autoscaling.annotations | object | `{}` | Worker autoscaling annotation |
-| studioDvcxWorker.autoscaling.behavior | object | `{}` | DVCx worker autoscaling behavior |
-| studioDvcxWorker.autoscaling.enabled | bool | `false` | DVCx worker autoscaling enabled flag |
-| studioDvcxWorker.autoscaling.maxReplicas | int | `5` | DVCx worker autoscaling max replicas |
-| studioDvcxWorker.autoscaling.minReplicas | int | `1` | DVCx worker autoscaling min replicas |
-| studioDvcxWorker.autoscaling.targetCPUUtilizationPercentage | int | `80` | DVCx worker autoscaling target CPU utilization percentage |
-| studioDvcxWorker.autoscaling.template | list | `[]` | DVCx worker Custom or additional autoscaling metrics Custom or additional autoscaling metrics ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-custom-metrics |
-| studioDvcxWorker.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to DVCx worker pods. |
-| studioDvcxWorker.envVars | object | `{}` | Additional environment variables for DVCx worker pods |
-| studioDvcxWorker.ephemeralStorage | object | `{"persistentVolumeClaim":{"claimName":"dvcx-worker","storageClass":""},"size":"20Gi","type":"ephemeral"}` | Ephemeral storage configuration |
-| studioDvcxWorker.ephemeralStorage.persistentVolumeClaim | object | `{"claimName":"dvcx-worker","storageClass":""}` | Persistent Volume Claim configuration for ephemeral storage (if type is set `pvc`) |
-| studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.claimName | string | `"dvcx-worker"` | Persistent Volume Claim name, to mount externally managed PVC (`ephemeralStorage.type` has to be set to `pvc`) |
-| studioDvcxWorker.ephemeralStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type) |
-| studioDvcxWorker.ephemeralStorage.size | string | `"20Gi"` | Ephemeral Storage size |
-| studioDvcxWorker.ephemeralStorage.type | string | `"ephemeral"` | Ephemeral Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc`, `pvcRWX` |
-| studioDvcxWorker.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-dvcx-worker"}` | DVCx worker image settings |
-| studioDvcxWorker.image.pullPolicy | string | `"IfNotPresent"` | DVCx worker image pull policy |
-| studioDvcxWorker.image.repository | string | `"docker.iterative.ai/studio-dvcx-worker"` | DVCx worker image repository |
-| studioDvcxWorker.localStorage | object | `{"persistentVolumeClaim":{"claimName":"dvcx-worker-local","storageClass":""},"size":"1Gi","type":"ephemeral"}` | Local storage configuration |
-| studioDvcxWorker.localStorage.persistentVolumeClaim | object | `{"claimName":"dvcx-worker-local","storageClass":""}` | Persistent Volume Claim configuration for local storage |
-| studioDvcxWorker.localStorage.persistentVolumeClaim.claimName | string | `"dvcx-worker-local"` | Persistent Volume Claim name, to mount externally managed PVC (`localStorage.type` has to be set to `pvc`) |
-| studioDvcxWorker.localStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type) |
-| studioDvcxWorker.localStorage.size | string | `"1Gi"` | Local Storage size |
-| studioDvcxWorker.localStorage.type | string | `"ephemeral"` | Local Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc` |
-| studioDvcxWorker.logLevel | string | `"info"` | DVCx worker log level |
-| studioDvcxWorker.nodeSelector | object | `{}` | DVCx worker pod node selector configuration |
-| studioDvcxWorker.podAnnotations | object | `{}` | Additional DVCx worker pod annotations |
-| studioDvcxWorker.podSecurityContext | object | `{}` | DVCx worker pod security context configuration |
-| studioDvcxWorker.resources | object | `{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}}` | DVCx worker resources configuration |
-| studioDvcxWorker.resources.limits | object | `{"ephemeral-storage":"20Gi","memory":"16Gi"}` | DVCx worker limits configuration |
-| studioDvcxWorker.resources.requests | object | `{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}` | DVCx worker requests configuration |
-| studioDvcxWorker.securityContext | object | `{}` | DVCx worker pod security context configuration |
-| studioDvcxWorker.strategy | object | `{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":0}}` | DVCx worker deployment strategy |
-| studioDvcxWorker.tolerations | list | `[]` | DVCx worker pod tolerations configuration |
+| studioDatachainWorker | object | `{"affinity":{},"autoscaling":{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80,"template":[]},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"claimName":"datachain-worker","storageClass":""},"size":"20Gi","type":"ephemeral"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-datachain-worker"},"localStorage":{"persistentVolumeClaim":{"claimName":"datachain-worker-local","storageClass":""},"size":"1Gi","type":"ephemeral"},"logLevel":"info","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}},"securityContext":{},"serviceAccount":{"annotations":{},"create":false,"name":""},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":0}},"tolerations":[]}` | Studio DataChain Worker settings group |
+| studioDatachainWorker.affinity | object | `{}` | DataChain worker pod affinity configuration |
+| studioDatachainWorker.autoscaling | object | `{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80,"template":[]}` | DataChain worker autoscaling configuration |
+| studioDatachainWorker.autoscaling.annotations | object | `{}` | Worker autoscaling annotation |
+| studioDatachainWorker.autoscaling.behavior | object | `{}` | DataChain worker autoscaling behavior |
+| studioDatachainWorker.autoscaling.enabled | bool | `false` | DataChain worker autoscaling enabled flag |
+| studioDatachainWorker.autoscaling.maxReplicas | int | `5` | DataChain worker autoscaling max replicas |
+| studioDatachainWorker.autoscaling.minReplicas | int | `1` | DataChain worker autoscaling min replicas |
+| studioDatachainWorker.autoscaling.targetCPUUtilizationPercentage | int | `80` | DataChain worker autoscaling target CPU utilization percentage |
+| studioDatachainWorker.autoscaling.template | list | `[]` | DataChain worker Custom or additional autoscaling metrics Custom or additional autoscaling metrics ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-custom-metrics |
+| studioDatachainWorker.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to DataChain worker pods. |
+| studioDatachainWorker.envVars | object | `{}` | Additional environment variables for DataChain worker pods |
+| studioDatachainWorker.ephemeralStorage | object | `{"persistentVolumeClaim":{"claimName":"datachain-worker","storageClass":""},"size":"20Gi","type":"ephemeral"}` | Ephemeral storage configuration |
+| studioDatachainWorker.ephemeralStorage.persistentVolumeClaim | object | `{"claimName":"datachain-worker","storageClass":""}` | Persistent Volume Claim configuration for ephemeral storage (if type is set `pvc`) |
+| studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.claimName | string | `"datachain-worker"` | Persistent Volume Claim name, to mount externally managed PVC (`ephemeralStorage.type` has to be set to `pvc`) |
+| studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type) |
+| studioDatachainWorker.ephemeralStorage.size | string | `"20Gi"` | Ephemeral Storage size |
+| studioDatachainWorker.ephemeralStorage.type | string | `"ephemeral"` | Ephemeral Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc`, `pvcRWX` |
+| studioDatachainWorker.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-datachain-worker"}` | DataChain worker image settings |
+| studioDatachainWorker.image.pullPolicy | string | `"IfNotPresent"` | DataChain worker image pull policy |
+| studioDatachainWorker.image.repository | string | `"docker.iterative.ai/studio-datachain-worker"` | DataChain worker image repository |
+| studioDatachainWorker.localStorage | object | `{"persistentVolumeClaim":{"claimName":"datachain-worker-local","storageClass":""},"size":"1Gi","type":"ephemeral"}` | Local storage configuration |
+| studioDatachainWorker.localStorage.persistentVolumeClaim | object | `{"claimName":"datachain-worker-local","storageClass":""}` | Persistent Volume Claim configuration for local storage |
+| studioDatachainWorker.localStorage.persistentVolumeClaim.claimName | string | `"datachain-worker-local"` | Persistent Volume Claim name, to mount externally managed PVC (`localStorage.type` has to be set to `pvc`) |
+| studioDatachainWorker.localStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type) |
+| studioDatachainWorker.localStorage.size | string | `"1Gi"` | Local Storage size |
+| studioDatachainWorker.localStorage.type | string | `"ephemeral"` | Local Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc` |
+| studioDatachainWorker.logLevel | string | `"info"` | DataChain worker log level |
+| studioDatachainWorker.nodeSelector | object | `{}` | DataChain worker pod node selector configuration |
+| studioDatachainWorker.podAnnotations | object | `{}` | Additional DataChain worker pod annotations |
+| studioDatachainWorker.podSecurityContext | object | `{}` | DataChain worker pod security context configuration |
+| studioDatachainWorker.resources | object | `{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}}` | DataChain worker resources configuration |
+| studioDatachainWorker.resources.limits | object | `{"ephemeral-storage":"20Gi","memory":"16Gi"}` | DataChain worker limits configuration |
+| studioDatachainWorker.resources.requests | object | `{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}` | DataChain worker requests configuration |
+| studioDatachainWorker.securityContext | object | `{}` | DataChain worker pod security context configuration |
+| studioDatachainWorker.strategy | object | `{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":0}}` | DataChain worker deployment strategy |
+| studioDatachainWorker.tolerations | list | `[]` | DataChain worker pod tolerations configuration |
 | studioUi | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-frontend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":3000,"type":"ClusterIP"},"strategy":{"rollingUpdate":{"maxSurge":1,"maxUnavailable":0}},"tolerations":[]}` | Studio UI settings group |
 | studioUi.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to UI pods. |
 | studioUi.envVars | object | `{}` | Additional environment variables for ui pods |
