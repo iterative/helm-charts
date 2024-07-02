@@ -714,7 +714,7 @@ studioDvcxWorker:
       claimName: "dvcx-worker-local"
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
       storageClass: ""
-      
+
   # -- DVCx worker deployment strategy
   strategy:
     rollingUpdate:
