@@ -703,7 +703,7 @@ studioDatachainWorker:
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
       storageClass: ""
 
-  # -- Local storage configuration
+  # -- Local storage configuration (used for storing DataChain virtual environments)
   localStorage:
     # -- Local Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc`
     type: ephemeral
