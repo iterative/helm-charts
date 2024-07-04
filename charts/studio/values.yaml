@@ -704,17 +704,17 @@ studioDatachainWorker:
       storageClass: ""
 
   # -- Local storage configuration
-  # localStorage:
+  localStorage:
     # -- Local Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc`
-    # type: ephemeral
+    type: ephemeral
     # -- Local Storage size
-    # size: 1Gi
+    size: 50Gi
     # -- Persistent Volume Claim configuration for local storage
-    # persistentVolumeClaim:
+    persistentVolumeClaim:
       # -- Persistent Volume Claim name, to mount externally managed PVC (`localStorage.type` has to be set to `pvc`)
-      # claimName: "datachain-worker-local"
+      claimName: "datachain-worker-local"
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
-      # storageClass: ""
+      storageClass: ""
 
   # -- DataChain worker deployment strategy
   strategy:
