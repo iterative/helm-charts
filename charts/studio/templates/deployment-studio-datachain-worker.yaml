@@ -55,7 +55,7 @@ spec:
             - name: "NO_MIGRATE_DB"
               value: "1"
             - name: "WAIT_FOR_MIGRATIONS"
-              value: "1"
+              value: "0"
           envFrom:
             - configMapRef:
                 name: studio
