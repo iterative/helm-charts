@@ -71,16 +71,6 @@ spec:
             - secretRef:
                 name: {{ .Values.studioDatachainWorker.envFromSecret }}
             {{- end }}
-          livenessProbe:
-            exec:
-              command:
-                - python
-                - -c
-                - 'from viewer.utils import sqlalchemy_liveness_probe; sqlalchemy_liveness_probe()'
-            {{- $livenessProbe := .Values.studioDatachainWorker.livenessProbe | default dict }}
-            initialDelaySeconds: {{ $livenessProbe.initialDelaySeconds | default 10 }}
-            periodSeconds: {{ $livenessProbe.periodSeconds | default 10 }}
-            timeoutSeconds: {{ $livenessProbe.timeoutSeconds | default 10 }}
           volumeMounts:
             {{- if not .Values.global.blobvault.bucket }}
             - name: blobvault
