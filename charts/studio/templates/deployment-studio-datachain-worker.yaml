@@ -35,7 +35,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "studio-datachain-worker.serviceAccountName" . }}
-      terminationGracePeriodSeconds: 150
+      terminationGracePeriodSeconds: {{ .Values.studioDatachainWorker.terminationGracePeriodSeconds | default 150 }}
       securityContext:
         fsGroup: 103
         fsGroupChangePolicy: "OnRootMismatch"
