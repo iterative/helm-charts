@@ -558,7 +558,7 @@ studioWorker:
 
   # -- Worker termination grace period
   terminationGracePeriodSeconds: 150
-  
+
   # -- Worker autoscaling configuration
   autoscaling:
     # -- Worker autoscaling enabled flag
@@ -734,8 +734,8 @@ studioDatachainWorker:
 #    timeoutSeconds: 10
 
   # -- DataChain worker termination grace period
-  terminationGracePeriodSeconds: 150
-  
+  terminationGracePeriodSeconds: 180
+
   # -- DataChain worker autoscaling configuration
   autoscaling:
     # -- DataChain worker autoscaling enabled flag
