@@ -556,6 +556,9 @@ studioWorker:
       maxUnavailable: 0
       maxSurge: 1
 
+  # -- Worker termination grace period
+  terminationGracePeriodSeconds: 150
+  
   # -- Worker autoscaling configuration
   autoscaling:
     # -- Worker autoscaling enabled flag
@@ -730,6 +733,9 @@ studioDatachainWorker:
 #    # -- DataChain worker liveness probe `timeoutSeconds`
 #    timeoutSeconds: 10
 
+  # -- DataChain worker termination grace period
+  terminationGracePeriodSeconds: 150
+  
   # -- DataChain worker autoscaling configuration
   autoscaling:
     # -- DataChain worker autoscaling enabled flag
