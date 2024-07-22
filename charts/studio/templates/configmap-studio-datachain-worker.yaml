@@ -4,6 +4,7 @@ metadata:
   name: {{ .Release.Name }}-datachain-worker
 data:
   CELERY_LOG_LEVEL: "{{ .Values.studioDatachainWorker.logLevel | default "info" | lower }}"
+  LOG_JSON_FORMATTER: "True"
 {{- with .Values.studioDatachainWorker.envVars}}
 {{-  toYaml . | nindent 2 }}
 {{- end }}
