@@ -5,9 +5,9 @@ metadata:
   labels:
     {{- include "studio-datachain-worker.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.studioDatachainWorker.service.type }}
+  type: {{ (.Values.studioDatachainWorker.service).type }}
   ports:
-    - port: {{ .Values.studioDatachainWorker.service.port | default 80 }}
+    - port: {{ (.Values.studioDatachainWorker.service).port | default 80 }}
       targetPort: http
       protocol: TCP
       name: http
