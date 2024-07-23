@@ -15,7 +15,7 @@ A Helm chart for Kubernetes
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | clickhouse | 6.2.8 |
-| https://charts.bitnami.com/bitnami | postgresql | 15.5.7 |
+| https://charts.bitnami.com/bitnami | postgresql | 15.5.10 |
 | https://charts.bitnami.com/bitnami | redis | 19.5.5 |
 
 ## Values
