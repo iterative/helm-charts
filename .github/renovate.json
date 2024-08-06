@@ -1,9 +1,15 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "schedule": ["on Wednesday"],
+  "extends": [
+    "config:recommended"
+  ],
+  "schedule": [
+    "on Wednesday"
+  ],
   "assigneesFromCodeOwners": true,
-  "labels": ["dependencies"],
+  "labels": [
+    "dependencies"
+  ],
   "rebaseWhen": "conflicted",
   "configMigration": true,
   "packageRules": [
@@ -13,10 +19,10 @@
       "matchDatasources": [
         "helm"
       ],
-      "matchPackagePrefixes": [
-        "redis",
-        "postgres",
-        "clickhouse"
+      "matchPackageNames": [
+        "redis{/,}**",
+        "postgres{/,}**",
+        "clickhouse{/,}**"
       ]
     }
   ]
