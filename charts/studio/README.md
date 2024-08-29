@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.16.27](https://img.shields.io/badge/Version-0.16.27-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.135.1](https://img.shields.io/badge/AppVersion-v2.135.1-informational?style=flat-square)
+![Version: 0.16.28](https://img.shields.io/badge/Version-0.16.28-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.136.0](https://img.shields.io/badge/AppVersion-v2.136.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
