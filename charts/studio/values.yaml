@@ -102,6 +102,22 @@ global:
     # For ALB Ingress Controller leave empty.
     tlsSecretName: chart-example-tls
 
+  # -- (Experimental) Managing Ingress configuration through Istio.
+  istio:
+
+    enabled: false
+    # -- The selector matches the ingress gateway pod labels.
+    #  If you installed Istio using Helm following the standard documentation, this would be "istio=ingressgateway".
+    gatewaySelector:
+      istio: ingressgateway
+
+    # -- HTTP Port number where Istio Gateway will serve traffic.
+    httpPort: 80
+
+    # -- HTTPS Port number where Istio Gateway will serve traffic.
+    # Require enabling `.global.ingress.tlsEnabled`
+    tlsPort: 443
+
   postgres:
     # -- (DEPRECATED) Postgres database URL
     databaseUrl: ""

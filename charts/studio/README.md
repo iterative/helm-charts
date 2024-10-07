@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.16.37](https://img.shields.io/badge/Version-0.16.37-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.138.3](https://img.shields.io/badge/AppVersion-v2.138.3-informational?style=flat-square)
+![Version: 0.17.0](https://img.shields.io/badge/Version-0.17.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.138.3](https://img.shields.io/badge/AppVersion-v2.138.3-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -51,6 +51,10 @@ A Helm chart for Kubernetes
 | global.ingress.hostnameEnabled | bool | `true` | Configure ingress resource to match hostnames to the service |
 | global.ingress.tlsEnabled | bool | `false` | Expose studio under HTTPS protocol |
 | global.ingress.tlsSecretName | string | `"chart-example-tls"` | TLS secret name to use for HTTPS on Ingress For ALB Ingress Controller leave empty. |
+| global.istio | Experimental | `{"enabled":false,"gatewaySelector":{"istio":"ingressgateway"},"httpPort":80,"tlsPort":443}` | Managing Ingress configuration through Istio. |
+| global.istio.gatewaySelector | object | `{"istio":"ingressgateway"}` | The selector matches the ingress gateway pod labels.  If you installed Istio using Helm following the standard documentation, this would be "istio=ingressgateway". |
+| global.istio.httpPort | int | `80` | HTTP Port number where Istio Gateway will serve traffic. |
+| global.istio.tlsPort | int | `443` | HTTPS Port number where Istio Gateway will serve traffic. Require enabling `.global.ingress.tlsEnabled` |
 | global.maxTeams | string | `"10"` | Studio: Maximum number of teams |
 | global.maxViews | string | `"100"` | Studio: Maximum number of views |
 | global.postgres.databaseName | string | `"iterativeai"` | Postgres database name |

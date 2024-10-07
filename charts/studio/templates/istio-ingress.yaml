@@ -1,0 +1,66 @@
+{{ if and .Values.global.istio.enabled (not .Values.global.ingress.enabled )}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{.Release.Name}}-studio
+spec:
+  selector: {{ toYaml .Values.global.istio.gatewaySelector | nindent 4 }}
+  servers:
+    - port:
+        number: {{.Values.global.istio.httpPort}}
+        name: http
+        protocol: HTTP
+      hosts:
+        - {{ .Values.global.host }}
+    {{- if .Values.global.ingress.tlsEnabled }}
+    - port:
+        number: {{.Values.global.istio.tlsPort}}
+        name: https
+        protocol: HTTPS
+      hosts:
+        - {{ .Values.global.host }}
+      tls:
+        mode: SIMPLE # enables HTTPS on this port
+        credentialName: {{.Values.global.ingress.tlsSecretName }}
+    {{- end }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{.Release.Name}}-studio
+  labels: {{ include "studio.labels" . | nindent 4 }}
+spec:
+  hosts:
+    - {{ .Values.global.host }}
+  gateways:
+    - {{.Release.Name}}-studio
+  http:
+    {{- if not .Values.global.blobvault.bucket }}
+    - match:
+        - uri:
+            prefix: /blobvault
+      route:
+        - destination:
+            host: {{ .Release.Name }}-blobvault
+            port:
+              number: {{ .Values.studioBlobvault.service.port | default 80 }}
+    {{- end }}
+    - match:
+        - uri:
+            prefix: /api
+        - uri:
+            prefix: /webhook
+      route:
+        - destination:
+            host: studio-backend
+            port:
+              number: {{ .Values.studioBackend.service.port }}
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: studio-ui
+            port:
+              number: {{ .Values.studioUi.service.port }}
+{{- end -}}
