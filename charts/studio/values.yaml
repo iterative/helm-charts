@@ -14,8 +14,11 @@ global:
   maxViews: "100"
   # -- Studio: Maximum number of teams
   maxTeams: "10"
-  # -- Studio: Secret key for signing Webhook payloads
-  # We recommend you set this externally. If left empty, a random key will be generated.
+  # -- Studio: Django SECRET_KEY to encrypt, DB, sign reaquests, etc
+  # We recommend you set and manage this externally as other secrets (e.g. DB
+  # password, user name, REDIS password, etc).
+  # If left empty, a random key will be generated. If it's not saved and lost
+  # it might be hard to recover the DB.
   secretKey: ""
 
   # -- (DEPRECATED) Studio: Custom CA certificate in PEM format
