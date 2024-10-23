@@ -13,7 +13,7 @@ rules:
   - apiGroups: ["batch"]
     resources: ["jobs"]
     verbs: ["create", "get", "list", "watch"]
-  - apiGroups: [""]
-    resources: ["pods", "deployments"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
     verbs: ["get"]
 {{- end }}
