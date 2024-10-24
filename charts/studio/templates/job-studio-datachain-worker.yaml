@@ -1,0 +1,150 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{.Release.Name}}-datachain-worker
+  labels:
+    {{- include "studio-datachain-worker.labels" . | nindent 4 }}
+spec:
+  suspend: true # we treat this Job as a template only
+  selector:
+    matchLabels:
+      {{- include "studio-datachain-worker.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap-studio-datachain-worker: {{ include (print $.Template.BasePath "/configmap-studio-datachain-worker.yaml") . | sha256sum }}
+        {{- include "studio.checksum" . | indent 8 }}
+        {{- with .Values.studioDatachainWorker.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "studio-datachain-worker.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "studio-datachain-worker.serviceAccountName" . }}
+      terminationGracePeriodSeconds: {{ .Values.studioDatachainWorker.terminationGracePeriodSeconds | default 150 }}
+      securityContext:
+        fsGroup: 103
+        fsGroupChangePolicy: "OnRootMismatch"
+        {{- with .Values.studioDatachainWorker.podSecurityContext }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      containers:
+        - name: studio-datachain-worker
+          securityContext:
+            {{- toYaml .Values.studioDatachainWorker.securityContext | nindent 12 }}
+          image: "{{ .Values.studioDatachainWorker.image.repository }}:{{ .Values.studioDatachainWorker.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.studioDatachainWorker.image.pullPolicy }}
+          args: ["/app/bin/run_celery_worker_udf.sh"]
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.studioDatachainWorker.resources | nindent 12 }}
+          env:
+            - name: "NO_MIGRATE_DB"
+              value: "1"
+            - name: "WAIT_FOR_MIGRATIONS"
+              value: "0"
+          envFrom:
+            - configMapRef:
+                name: studio
+            - configMapRef:
+                name: {{ .Release.Name }}-datachain-worker
+            - secretRef:
+                name: studio
+            {{- if .Values.global.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.global.envFromSecret }}
+            {{- end }}
+            {{- if .Values.studioDatachainWorker.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.studioDatachainWorker.envFromSecret }}
+            {{- end }}
+          volumeMounts:
+            {{- if not .Values.global.blobvault.bucket }}
+            - name: blobvault
+              mountPath: /blobvault
+            {{- end }}
+            - name: studio-ca-certificates
+              mountPath: /usr/local/share/ca-certificates
+            - name: tmp-ephemeral
+              mountPath: /tmp/shared
+            {{- if .Values.studioDatachainWorker.localStorage }}
+            - name: tmp-local
+              mountPath: /tmp/local
+            {{- end }}
+      volumes:
+        {{- if not .Values.global.blobvault.bucket }}
+        - name: blobvault
+          persistentVolumeClaim:
+            claimName: blobvault
+        {{- end }}
+        - name: studio-ca-certificates
+          configMap:
+            name: studio-ca-certificates
+        - name: tmp-ephemeral
+          {{- if eq .Values.studioDatachainWorker.ephemeralStorage.type "ephemeral" }}
+          ephemeral:
+            volumeClaimTemplate:
+              metadata:
+                labels:
+                  type: {{.Release.Name}}-{{ .Values.studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
+              spec:
+                accessModes: [ "ReadWriteOnce" ]
+                {{- if .Values.studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
+                storageClassName: {{ .Values.studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
+                {{- end }}
+                resources:
+                  requests:
+                    storage: {{ .Values.studioDatachainWorker.ephemeralStorage.size }}
+          {{- else if eq .Values.studioDatachainWorker.ephemeralStorage.type "pvc" }}
+          persistentVolumeClaim:
+              claimName: {{ .Values.studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
+          {{- else if eq .Values.studioDatachainWorker.ephemeralStorage.type "pvcRWX" }}
+          persistentVolumeClaim:
+              claimName: {{.Release.Name}}-studio-datachain-worker-ephemeral-rwx
+          {{- else if eq .Values.studioDatachainWorker.ephemeralStorage.type "emptyDir"}}
+          emptyDir:
+            sizeLimit: {{ .Values.studioDatachainWorker.ephemeralStorage.size }}
+          {{- end }}
+        {{- with .Values.studioDatachainWorker.localStorage }}
+        - name: tmp-local
+          {{- if eq .type "ephemeral" }}
+          ephemeral:
+            volumeClaimTemplate:
+              metadata:
+                labels:
+                  type: {{ $.Release.Name }}-{{ .persistentVolumeClaim.claimName }}
+              spec:
+                accessModes: [ "ReadWriteOnce" ]
+                {{- if .persistentVolumeClaim.storageClass }}
+                storageClassName: {{ .persistentVolumeClaim.storageClass }}
+                {{- end }}
+                resources:
+                  requests:
+                    storage: {{ .size }}
+          {{- else if eq .type "pvc" }}
+          persistentVolumeClaim:
+              claimName: {{ .persistentVolumeClaim.claimName }}
+          {{- else if eq .type "emptyDir"}}
+          emptyDir:
+            sizeLimit: {{ .size }}
+          {{- end }}
+        {{- end }}
+      {{- with .Values.studioDatachainWorker.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studioDatachainWorker.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studioDatachainWorker.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
