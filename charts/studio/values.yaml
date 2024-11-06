@@ -685,7 +685,7 @@ studioDatachainWorker:
   logLevel: "info"
 
   # -- DataChain worker job quota
-  jobQuota: 20
+  jobQuota: 10
 
   # -- DataChain worker resources configuration
   resources:
