@@ -1,4 +1,4 @@
-{{- with (.Values.studioDatachainWorker).jobQuota -}}
+{{- if (.Values.studioDatachainWorker).jobQuota -}}
 apiVersion: v1
 kind: ResourceQuota
 metadata:
@@ -7,5 +7,5 @@ metadata:
     {{- include "studio-datachain-worker.labels" . | nindent 4 }}
 spec:
   hard:
-    count/jobs.batch: {{ . }}
+    count/jobs.batch: {{ .Values.studioDatachainWorker.jobQuota }}
 {{- end }}
