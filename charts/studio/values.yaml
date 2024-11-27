@@ -725,10 +725,6 @@ studioDatachainWorker:
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
       storageClass: ""
 
-  service:
-    type: ClusterIP
-    port: 80
-
   # -- DataChain worker deployment strategy
   strategy:
     rollingUpdate:
