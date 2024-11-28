@@ -684,6 +684,9 @@ studioDatachainWorker:
   # -- DataChain worker log level
   logLevel: "info"
 
+  # -- DataChain worker job quota
+  jobQuota: 10
+
   # -- DataChain worker resources configuration
   resources:
     # -- DataChain worker requests configuration
