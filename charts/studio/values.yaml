@@ -684,6 +684,9 @@ studioDatachainWorker:
   # -- DataChain worker log level
   logLevel: "info"
 
+  # -- DataChain worker job quota
+  jobQuota: 10
+
   # -- DataChain worker resources configuration
   resources:
     # -- DataChain worker requests configuration
@@ -721,10 +724,6 @@ studioDatachainWorker:
       claimName: "datachain-worker-local"
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
       storageClass: ""
-
-  service:
-    type: ClusterIP
-    port: 80
 
   # -- DataChain worker deployment strategy
   strategy:
