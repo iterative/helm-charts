@@ -1,11 +1,11 @@
-{{- if (.Values.studioDatachainWorker).jobQuota -}}
+{{- if (.Values.studioDatachainWorkerJob).jobQuota -}}
 apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: studio-datachain-worker-job-quota
   labels:
-    {{- include "studio-datachain-worker.labels" . | nindent 4 }}
+    {{- include "studio-datachain-worker-job.labels" . | nindent 4 }}
 spec:
   hard:
-    count/jobs.batch: {{ .Values.studioDatachainWorker.jobQuota }}
+    count/jobs.batch: {{ .Values.studioDatachainWorkerJob.jobQuota }}
 {{- end }}
