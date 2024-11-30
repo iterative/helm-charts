@@ -923,6 +923,9 @@ studioDatachainWorkerJob:
     # runAsNonRoot: true
     # runAsUser: 1000
 
+  # -- DataChain worker Job security context configuration
+  runtimeClassName: null # gvisor
+
   # -- DataChain worker Job pod node selector configuration
   nodeSelector: {}
 
