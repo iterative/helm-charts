@@ -822,44 +822,44 @@ studioDatachainWorker:
     # If not set and create is true, a name is generated using the fullname template
     name: ""
 
-# -- Studio DataChain Worker settings group
+# -- Studio DataChain Worker Job settings group
 studioDatachainWorkerJob:
 
-  # -- DataChain worker image settings
+  # -- DataChain worker Job image settings
   image:
-    # -- DataChain worker image repository
+    # -- DataChain worker Job image repository
     repository: docker.iterative.ai/studio-datachain-worker
-    # -- DataChain worker image pull policy
+    # -- DataChain worker Job image pull policy
     pullPolicy: IfNotPresent
     # -- Overrides the image tag whose default is the chart appVersion.
     # tag: "v1.34.0"
 
-  # -- Additional environment variables for DataChain worker pods
+  # -- Additional environment variables for DataChain worker Job pods
   envVars: {}
   # Example:
   # envVars:
   #   DEBUG: "True"
 
   # -- The name of an existing Secret that contains sensitive environment variables passed to
-  # DataChain worker pods.
+  # DataChain worker Job pods.
   envFromSecret: ""
 
   replicaCount: 1
 
-  # -- DataChain worker log level
+  # -- DataChain worker Job log level
   logLevel: "info"
 
-  # -- DataChain worker job quota
+  # -- DataChain worker Job quota
   jobQuota: 10
 
-  # -- DataChain worker resources configuration
+  # -- DataChain worker Job resources configuration
   resources:
-    # -- DataChain worker requests configuration
+    # -- DataChain worker Job requests configuration
     requests:
       cpu: 1000m
       memory: 3Gi
       ephemeral-storage: 10Gi
-    # -- DataChain worker limits configuration
+    # -- DataChain worker Job limits configuration
     limits:
       memory: 16Gi
       ephemeral-storage: 20Gi
@@ -890,80 +890,31 @@ studioDatachainWorkerJob:
       # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
       storageClass: ""
 
-  # -- DataChain worker deployment strategy
-  strategy:
-    rollingUpdate:
-      maxUnavailable: 0
-      maxSurge: 25%
-
 #  livenessProbe:
-#    # -- DataChain worker liveness probe `initialDelaySeconds`
+#    # -- DataChain worker Job liveness probe `initialDelaySeconds`
 #    initialDelaySeconds: 10
-#    # -- DataChain worker liveness probe `periodSeconds`
+#    # -- DataChain worker Job liveness probe `periodSeconds`
 #    periodSeconds: 10
-#    # -- DataChain worker liveness probe `timeoutSeconds`
+#    # -- DataChain worker Job liveness probe `timeoutSeconds`
 #    timeoutSeconds: 10
 
-  # -- DataChain worker termination grace period
-  terminationGracePeriodSeconds: 180
+  # -- DataChain worker Job active deadline (seconds)
+  activeDeadlineSeconds: 86400
 
-  # -- DataChain worker autoscaling configuration
-  autoscaling:
-    # -- DataChain worker autoscaling enabled flag
-    enabled: false
-    # -- DataChain worker autoscaling min replicas
-    minReplicas: 1
-    # -- DataChain worker autoscaling max replicas
-    maxReplicas: 5
-    # -- DataChain worker autoscaling target CPU utilization percentage
-    targetCPUUtilizationPercentage: 80
-    # -- DataChain worker autoscaling target memory utilization percentage
-    # targetMemoryUtilizationPercentage: 80
+  # -- DataChain worker Job TTL after finished (seconds)
+  ttlSecondsAfterFinished: 5
 
-    # -- Worker autoscaling annotation
-    annotations: {}
+  # -- DataChain worker Job backoff limit
+  backoffLimit: 0
 
-    # -- DataChain worker Custom or additional autoscaling metrics
-    # Custom or additional autoscaling metrics
-    # ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-custom-metrics
-    template: []
-    # - type: External
-    #   external:
-    #     metric:
-    #       name: celery-queue-length
-    #       selector:
-    #         matchLabels:
-    #           type: prometheus
-    #     target:
-    #       type: Value
-    #       value: "1"
-
-    # -- DataChain worker autoscaling behavior
-    behavior: {}
-    # scaleUp:
-    #   stabilizationWindowSeconds: 15
-    #   policies:
-    #     - type: Percent
-    #       value: 100
-    #       periodSeconds: 1
-    #     - type: Pods
-    #       value: 2
-    #       periodSeconds: 1
-    # scaleDown:
-    #   stabilizationWindowSeconds: 120
-    #   policies:
-    #     - type: Pods
-    #       value: 1
-    #       periodSeconds: 60
-
-  # -- Additional DataChain worker pod annotations
+  # -- Additional DataChain worker Job pod annotations
   podAnnotations: {}
 
-  # -- DataChain worker pod security context configuration
+  # -- DataChain worker Job pod security context configuration
   podSecurityContext: {}
     # fsGroup: 2000
 
-  # -- DataChain worker pod security context configuration
+  # -- DataChain worker Job security context configuration
   securityContext: {}
     # capabilities:
     #   drop:
@@ -972,13 +923,13 @@ studioDatachainWorkerJob:
     # runAsNonRoot: true
     # runAsUser: 1000
 
-  # -- DataChain worker pod node selector configuration
+  # -- DataChain worker Job pod node selector configuration
   nodeSelector: {}
 
-  # -- DataChain worker pod tolerations configuration
+  # -- DataChain worker Job pod tolerations configuration
   tolerations: []
 
-  # -- DataChain worker pod affinity configuration
+  # -- DataChain worker Job pod affinity configuration
   affinity: {}
 
   serviceAccount:
