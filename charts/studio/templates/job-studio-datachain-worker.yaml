@@ -9,6 +9,9 @@ spec:
   selector:
     matchLabels:
       {{- include "studio-datachain-worker.selectorLabels" . | nindent 6 }}
+  activeDeadlineSeconds: {{ .Values.studioDatachainWorker.activeDeadlineSeconds }}
+  ttlSecondsAfterFinished: {{ .Values.studioDatachainWorker.ttlSecondsAfterFinished }}
+  backoffLimit: {{ .Values.studioDatachainWorker.backoffLimit }}
   template:
     metadata:
       annotations:
