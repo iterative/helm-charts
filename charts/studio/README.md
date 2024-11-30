@@ -177,39 +177,39 @@ A Helm chart for Kubernetes
 | studioDatachainWorker.strategy | object | `{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":0}}` | DataChain worker deployment strategy |
 | studioDatachainWorker.terminationGracePeriodSeconds | int | `180` | DataChain worker termination grace period |
 | studioDatachainWorker.tolerations | list | `[]` | DataChain worker pod tolerations configuration |
-| studioDatachainWorkerJob | object | `{"activeDeadlineSeconds":86400,"affinity":{},"backoffLimit":0,"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"claimName":"datachain-worker","storageClass":""},"size":"20Gi","type":"ephemeral"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-datachain-worker"},"jobQuota":10,"localStorage":{"persistentVolumeClaim":{"claimName":"datachain-worker-local","storageClass":""},"size":"50Gi","type":"ephemeral"},"logLevel":"info","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}},"runtimeClassName":null,"securityContext":{},"serviceAccount":{"annotations":{},"create":false,"name":""},"tolerations":[],"ttlSecondsAfterFinished":5}` | Studio DataChain Worker Job settings group |
-| studioDatachainWorkerJob.activeDeadlineSeconds | int | `86400` | DataChain worker Job active deadline (seconds) |
-| studioDatachainWorkerJob.affinity | object | `{}` | DataChain worker Job pod affinity configuration |
-| studioDatachainWorkerJob.backoffLimit | int | `0` | DataChain worker Job backoff limit |
-| studioDatachainWorkerJob.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to DataChain worker Job pods. |
-| studioDatachainWorkerJob.envVars | object | `{}` | Additional environment variables for DataChain worker Job pods |
-| studioDatachainWorkerJob.ephemeralStorage | object | `{"persistentVolumeClaim":{"claimName":"datachain-worker","storageClass":""},"size":"20Gi","type":"ephemeral"}` | Ephemeral storage configuration |
-| studioDatachainWorkerJob.ephemeralStorage.persistentVolumeClaim | object | `{"claimName":"datachain-worker","storageClass":""}` | Persistent Volume Claim configuration for ephemeral storage (if type is set `pvc`) |
-| studioDatachainWorkerJob.ephemeralStorage.persistentVolumeClaim.claimName | string | `"datachain-worker"` | Persistent Volume Claim name, to mount externally managed PVC (`ephemeralStorage.type` has to be set to `pvc`) |
-| studioDatachainWorkerJob.ephemeralStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type) |
-| studioDatachainWorkerJob.ephemeralStorage.size | string | `"20Gi"` | Ephemeral Storage size |
-| studioDatachainWorkerJob.ephemeralStorage.type | string | `"ephemeral"` | Ephemeral Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc`, `pvcRWX` |
-| studioDatachainWorkerJob.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-datachain-worker"}` | DataChain worker Job image settings |
-| studioDatachainWorkerJob.image.pullPolicy | string | `"IfNotPresent"` | DataChain worker Job image pull policy |
-| studioDatachainWorkerJob.image.repository | string | `"docker.iterative.ai/studio-datachain-worker"` | DataChain worker Job image repository |
-| studioDatachainWorkerJob.jobQuota | int | `10` | DataChain worker Job quota |
-| studioDatachainWorkerJob.localStorage | object | `{"persistentVolumeClaim":{"claimName":"datachain-worker-local","storageClass":""},"size":"50Gi","type":"ephemeral"}` | Local storage configuration (used for storing DataChain virtual environments) |
-| studioDatachainWorkerJob.localStorage.persistentVolumeClaim | object | `{"claimName":"datachain-worker-local","storageClass":""}` | Persistent Volume Claim configuration for local storage |
-| studioDatachainWorkerJob.localStorage.persistentVolumeClaim.claimName | string | `"datachain-worker-local"` | Persistent Volume Claim name, to mount externally managed PVC (`localStorage.type` has to be set to `pvc`) |
-| studioDatachainWorkerJob.localStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type) |
-| studioDatachainWorkerJob.localStorage.size | string | `"50Gi"` | Local Storage size |
-| studioDatachainWorkerJob.localStorage.type | string | `"ephemeral"` | Local Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc` |
-| studioDatachainWorkerJob.logLevel | string | `"info"` | DataChain worker Job log level |
-| studioDatachainWorkerJob.nodeSelector | object | `{}` | DataChain worker Job pod node selector configuration |
-| studioDatachainWorkerJob.podAnnotations | object | `{}` | Additional DataChain worker Job pod annotations |
-| studioDatachainWorkerJob.podSecurityContext | object | `{}` | DataChain worker Job pod security context configuration |
-| studioDatachainWorkerJob.resources | object | `{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}}` | DataChain worker Job resources configuration |
-| studioDatachainWorkerJob.resources.limits | object | `{"ephemeral-storage":"20Gi","memory":"16Gi"}` | DataChain worker Job limits configuration |
-| studioDatachainWorkerJob.resources.requests | object | `{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}` | DataChain worker Job requests configuration |
-| studioDatachainWorkerJob.runtimeClassName | string | `nil` | DataChain worker Job security context configuration |
-| studioDatachainWorkerJob.securityContext | object | `{}` | DataChain worker Job security context configuration |
-| studioDatachainWorkerJob.tolerations | list | `[]` | DataChain worker Job pod tolerations configuration |
-| studioDatachainWorkerJob.ttlSecondsAfterFinished | int | `5` | DataChain worker Job TTL after finished (seconds) |
+| studioDatachainWorkerJobTemplate | object | `{"activeDeadlineSeconds":86400,"affinity":{},"backoffLimit":0,"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"claimName":"datachain-worker","storageClass":""},"size":"20Gi","type":"ephemeral"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-datachain-worker"},"jobQuota":10,"localStorage":{"persistentVolumeClaim":{"claimName":"datachain-worker-local","storageClass":""},"size":"50Gi","type":"ephemeral"},"logLevel":"info","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}},"runtimeClassName":null,"securityContext":{},"serviceAccount":{"annotations":{},"create":false,"name":""},"tolerations":[],"ttlSecondsAfterFinished":5}` | Studio DataChain Worker Job template settings group |
+| studioDatachainWorkerJobTemplate.activeDeadlineSeconds | int | `86400` | DataChain worker Job active deadline (seconds) |
+| studioDatachainWorkerJobTemplate.affinity | object | `{}` | DataChain worker Job pod affinity configuration |
+| studioDatachainWorkerJobTemplate.backoffLimit | int | `0` | DataChain worker Job backoff limit |
+| studioDatachainWorkerJobTemplate.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to DataChain worker Job pods. |
+| studioDatachainWorkerJobTemplate.envVars | object | `{}` | Additional environment variables for DataChain worker Job pods |
+| studioDatachainWorkerJobTemplate.ephemeralStorage | object | `{"persistentVolumeClaim":{"claimName":"datachain-worker","storageClass":""},"size":"20Gi","type":"ephemeral"}` | Ephemeral storage configuration |
+| studioDatachainWorkerJobTemplate.ephemeralStorage.persistentVolumeClaim | object | `{"claimName":"datachain-worker","storageClass":""}` | Persistent Volume Claim configuration for ephemeral storage (if type is set `pvc`) |
+| studioDatachainWorkerJobTemplate.ephemeralStorage.persistentVolumeClaim.claimName | string | `"datachain-worker"` | Persistent Volume Claim name, to mount externally managed PVC (`ephemeralStorage.type` has to be set to `pvc`) |
+| studioDatachainWorkerJobTemplate.ephemeralStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type) |
+| studioDatachainWorkerJobTemplate.ephemeralStorage.size | string | `"20Gi"` | Ephemeral Storage size |
+| studioDatachainWorkerJobTemplate.ephemeralStorage.type | string | `"ephemeral"` | Ephemeral Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc`, `pvcRWX` |
+| studioDatachainWorkerJobTemplate.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-datachain-worker"}` | DataChain worker Job image settings |
+| studioDatachainWorkerJobTemplate.image.pullPolicy | string | `"IfNotPresent"` | DataChain worker Job image pull policy |
+| studioDatachainWorkerJobTemplate.image.repository | string | `"docker.iterative.ai/studio-datachain-worker"` | DataChain worker Job image repository |
+| studioDatachainWorkerJobTemplate.jobQuota | int | `10` | DataChain worker Job quota |
+| studioDatachainWorkerJobTemplate.localStorage | object | `{"persistentVolumeClaim":{"claimName":"datachain-worker-local","storageClass":""},"size":"50Gi","type":"ephemeral"}` | Local storage configuration (used for storing DataChain virtual environments) |
+| studioDatachainWorkerJobTemplate.localStorage.persistentVolumeClaim | object | `{"claimName":"datachain-worker-local","storageClass":""}` | Persistent Volume Claim configuration for local storage |
+| studioDatachainWorkerJobTemplate.localStorage.persistentVolumeClaim.claimName | string | `"datachain-worker-local"` | Persistent Volume Claim name, to mount externally managed PVC (`localStorage.type` has to be set to `pvc`) |
+| studioDatachainWorkerJobTemplate.localStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type) |
+| studioDatachainWorkerJobTemplate.localStorage.size | string | `"50Gi"` | Local Storage size |
+| studioDatachainWorkerJobTemplate.localStorage.type | string | `"ephemeral"` | Local Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc` |
+| studioDatachainWorkerJobTemplate.logLevel | string | `"info"` | DataChain worker Job log level |
+| studioDatachainWorkerJobTemplate.nodeSelector | object | `{}` | DataChain worker Job pod node selector configuration |
+| studioDatachainWorkerJobTemplate.podAnnotations | object | `{}` | Additional DataChain worker Job pod annotations |
+| studioDatachainWorkerJobTemplate.podSecurityContext | object | `{}` | DataChain worker Job pod security context configuration |
+| studioDatachainWorkerJobTemplate.resources | object | `{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}}` | DataChain worker Job resources configuration |
+| studioDatachainWorkerJobTemplate.resources.limits | object | `{"ephemeral-storage":"20Gi","memory":"16Gi"}` | DataChain worker Job limits configuration |
+| studioDatachainWorkerJobTemplate.resources.requests | object | `{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}` | DataChain worker Job requests configuration |
+| studioDatachainWorkerJobTemplate.runtimeClassName | string | `nil` | DataChain worker Job security context configuration |
+| studioDatachainWorkerJobTemplate.securityContext | object | `{}` | DataChain worker Job security context configuration |
+| studioDatachainWorkerJobTemplate.tolerations | list | `[]` | DataChain worker Job pod tolerations configuration |
+| studioDatachainWorkerJobTemplate.ttlSecondsAfterFinished | int | `5` | DataChain worker Job TTL after finished (seconds) |
 | studioUi | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-frontend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":3000,"type":"ClusterIP"},"strategy":{"rollingUpdate":{"maxSurge":1,"maxUnavailable":0}},"tolerations":[]}` | Studio UI settings group |
 | studioUi.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to UI pods. |
 | studioUi.envVars | object | `{}` | Additional environment variables for ui pods |
