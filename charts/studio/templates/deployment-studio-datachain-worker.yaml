@@ -78,12 +78,6 @@ spec:
             {{- end }}
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
-            - name: tmp-ephemeral
-              mountPath: /tmp/shared
-            {{- if .Values.studioDatachainWorker.localStorage }}
-            - name: tmp-local
-              mountPath: /tmp/local
-            {{- end }}
       volumes:
         {{- if not .Values.global.blobvault.bucket }}
         - name: blobvault
@@ -93,55 +87,6 @@ spec:
         - name: studio-ca-certificates
           configMap:
             name: studio-ca-certificates
-        - name: tmp-ephemeral
-          {{- if eq .Values.studioDatachainWorker.ephemeralStorage.type "ephemeral" }}
-          ephemeral:
-            volumeClaimTemplate:
-              metadata:
-                labels:
-                  type: {{.Release.Name}}-{{ .Values.studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
-              spec:
-                accessModes: [ "ReadWriteOnce" ]
-                {{- if .Values.studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
-                storageClassName: {{ .Values.studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
-                {{- end }}
-                resources:
-                  requests:
-                    storage: {{ .Values.studioDatachainWorker.ephemeralStorage.size }}
-          {{- else if eq .Values.studioDatachainWorker.ephemeralStorage.type "pvc" }}
-          persistentVolumeClaim:
-              claimName: {{ .Values.studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.claimName }}
-          {{- else if eq .Values.studioDatachainWorker.ephemeralStorage.type "pvcRWX" }}
-          persistentVolumeClaim:
-              claimName: {{.Release.Name}}-studio-datachain-worker-ephemeral-rwx
-          {{- else if eq .Values.studioDatachainWorker.ephemeralStorage.type "emptyDir"}}
-          emptyDir:
-            sizeLimit: {{ .Values.studioDatachainWorker.ephemeralStorage.size }}
-          {{- end }}
-        {{- with .Values.studioDatachainWorker.localStorage }}
-        - name: tmp-local
-          {{- if eq .type "ephemeral" }}
-          ephemeral:
-            volumeClaimTemplate:
-              metadata:
-                labels:
-                  type: {{ $.Release.Name }}-{{ .persistentVolumeClaim.claimName }}
-              spec:
-                accessModes: [ "ReadWriteOnce" ]
-                {{- if .persistentVolumeClaim.storageClass }}
-                storageClassName: {{ .persistentVolumeClaim.storageClass }}
-                {{- end }}
-                resources:
-                  requests:
-                    storage: {{ .size }}
-          {{- else if eq .type "pvc" }}
-          persistentVolumeClaim:
-              claimName: {{ .persistentVolumeClaim.claimName }}
-          {{- else if eq .type "emptyDir"}}
-          emptyDir:
-            sizeLimit: {{ .size }}
-          {{- end }}
-        {{- end }}
       {{- with .Values.studioDatachainWorker.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
