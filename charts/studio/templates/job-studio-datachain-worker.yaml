@@ -42,7 +42,7 @@ spec:
             {{- toYaml .Values.studioDatachainWorkerJobTemplate.securityContext | nindent 12 }}
           image: "{{ .Values.studioDatachainWorkerJobTemplate.image.repository }}:{{ .Values.studioDatachainWorkerJobTemplate.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.studioDatachainWorkerJobTemplate.image.pullPolicy }}
-          args: ["/app/bin/run_celery_worker_udf.sh"]
+          args: ["/app/bin/run_celery.sh", "datachain-worker"]
           ports:
             - name: http
               containerPort: 8000
