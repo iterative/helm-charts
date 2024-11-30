@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{.Release.Name}}-datachain-worker
+  name: studio-datachain-worker-template
   labels:
     {{- include "studio-datachain-worker.labels" . | nindent 4 }}
 spec:
@@ -15,8 +15,6 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/configmap-studio-datachain-worker: {{ include (print $.Template.BasePath "/configmap-studio-datachain-worker.yaml") . | sha256sum }}
-        {{- include "studio.checksum" . | indent 8 }}
         {{- with .Values.studioDatachainWorkerJobTemplate.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -28,7 +26,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "studio-datachain-worker.serviceAccountName" . }}
-      terminationGracePeriodSeconds: {{ .Values.studioDatachainWorkerJobTemplate.terminationGracePeriodSeconds | default 150 }}
       runtimeClassName: {{ .Values.studioDatachainWorkerJobTemplate.runtimeClassName }}
       securityContext:
         fsGroup: 103
@@ -43,10 +40,6 @@ spec:
           image: "{{ .Values.studioDatachainWorkerJobTemplate.image.repository }}:{{ .Values.studioDatachainWorkerJobTemplate.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.studioDatachainWorkerJobTemplate.image.pullPolicy }}
           args: ["/app/bin/run_celery.sh", "datachain-worker"]
-          ports:
-            - name: http
-              containerPort: 8000
-              protocol: TCP
           resources:
             {{- toYaml .Values.studioDatachainWorkerJobTemplate.resources | nindent 12 }}
           env:
@@ -54,21 +47,6 @@ spec:
               value: "1"
             - name: "WAIT_FOR_MIGRATIONS"
               value: "0"
-          envFrom:
-            - configMapRef:
-                name: studio
-            - configMapRef:
-                name: {{ .Release.Name }}-datachain-worker
-            - secretRef:
-                name: studio
-            {{- if .Values.global.envFromSecret }}
-            - secretRef:
-                name: {{ .Values.global.envFromSecret }}
-            {{- end }}
-            {{- if .Values.studioDatachainWorkerJobTemplate.envFromSecret }}
-            - secretRef:
-                name: {{ .Values.studioDatachainWorkerJobTemplate.envFromSecret }}
-            {{- end }}
           volumeMounts:
             {{- if not .Values.global.blobvault.bucket }}
             - name: blobvault

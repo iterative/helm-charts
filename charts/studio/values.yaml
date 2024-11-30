@@ -840,12 +840,6 @@ studioDatachainWorkerJobTemplate:
   # envVars:
   #   DEBUG: "True"
 
-  # -- The name of an existing Secret that contains sensitive environment variables passed to
-  # DataChain worker Job pods.
-  envFromSecret: ""
-
-  replicaCount: 1
-
   # -- DataChain worker Job log level
   logLevel: "info"
 
