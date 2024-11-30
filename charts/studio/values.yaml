@@ -822,8 +822,8 @@ studioDatachainWorker:
     # If not set and create is true, a name is generated using the fullname template
     name: ""
 
-# -- Studio DataChain Worker Job settings group
-studioDatachainWorkerJob:
+# -- Studio DataChain Worker Job template settings group
+studioDatachainWorkerJobTemplate:
 
   # -- DataChain worker Job image settings
   image:
