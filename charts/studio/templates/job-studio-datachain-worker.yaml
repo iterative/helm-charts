@@ -48,10 +48,6 @@ spec:
             - name: "WAIT_FOR_MIGRATIONS"
               value: "0"
           volumeMounts:
-            {{- if not .Values.global.blobvault.bucket }}
-            - name: blobvault
-              mountPath: /blobvault
-            {{- end }}
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
             - name: tmp-ephemeral
@@ -61,11 +57,6 @@ spec:
               mountPath: /tmp/local
             {{- end }}
       volumes:
-        {{- if not .Values.global.blobvault.bucket }}
-        - name: blobvault
-          persistentVolumeClaim:
-            claimName: blobvault
-        {{- end }}
         - name: studio-ca-certificates
           configMap:
             name: studio-ca-certificates
