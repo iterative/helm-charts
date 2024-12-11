@@ -79,7 +79,7 @@ spec:
             {{- toYaml .Values.studioBackend.securityContext | nindent 12 }}
           image: "{{ .Values.studioBackend.image.repository }}:{{ .Values.studioBackend.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.studioBackend.image.pullPolicy }}
-          args: [ "uwsgi", "--ini", "uwsgi.ini" ]
+          args: [ "/app/bin/run_studio.sh", "prod", "8000"]
           ports:
             - name: studio-http
               containerPort: 8000
