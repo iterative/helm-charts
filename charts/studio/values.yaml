@@ -689,38 +689,12 @@ studioDatachainWorker:
     # -- DataChain worker requests configuration
     requests:
       cpu: 1000m
-      memory: 3Gi
+      memory: 4Gi
       ephemeral-storage: 10Gi
     # -- DataChain worker limits configuration
     limits:
-      memory: 16Gi
-      ephemeral-storage: 20Gi
-
-  # -- Ephemeral storage configuration
-  ephemeralStorage:
-    # -- Ephemeral Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc`, `pvcRWX`
-    type: ephemeral
-    # -- Ephemeral Storage size
-    size: 20Gi
-    # -- Persistent Volume Claim configuration for ephemeral storage (if type is set `pvc`)
-    persistentVolumeClaim:
-      # -- Persistent Volume Claim name, to mount externally managed PVC (`ephemeralStorage.type` has to be set to `pvc`)
-      claimName: "datachain-worker"
-      # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
-      storageClass: ""
-
-  # -- Local storage configuration (used for storing DataChain virtual environments)
-  localStorage:
-    # -- Local Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc`
-    type: ephemeral
-    # -- Local Storage size
-    size: 50Gi
-    # -- Persistent Volume Claim configuration for local storage
-    persistentVolumeClaim:
-      # -- Persistent Volume Claim name, to mount externally managed PVC (`localStorage.type` has to be set to `pvc`)
-      claimName: "datachain-worker-local"
-      # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
-      storageClass: ""
+      memory: 8Gi
+      ephemeral-storage: 10Gi
 
   # -- DataChain worker deployment strategy
   strategy:
