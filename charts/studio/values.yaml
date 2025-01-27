@@ -840,6 +840,9 @@ studioDatachainWorkerJobTemplate:
   # envVars:
   #   DEBUG: "True"
 
+  # -- DataChain worker idle timeout
+  idleTimeout: 1800 # 30 minutes
+  
   # -- DataChain worker Job log level
   logLevel: "info"
 

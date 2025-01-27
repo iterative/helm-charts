@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "studio-datachain-worker.labels" . | nindent 4 }}
 spec:
-  suspend: true # we treat this Job as a template only
+  suspend: true # this Job will never run; it's a template to create new Jobs
   selector:
     matchLabels:
       {{- include "studio-datachain-worker.selectorLabels" . | nindent 6 }}
@@ -48,6 +48,10 @@ spec:
               value: "1"
             - name: "WAIT_FOR_MIGRATIONS"
               value: "0"
+            - name: "CELERY_WORKER_SINGLE_TASK_MODE"
+              value: "True"
+            - name: "CELERY_WORKER_IDLE_TIMEOUT"
+              value: {{ .Values.studioDatachainWorkerJobTemplate.idleTimeout | quote }}
           volumeMounts:
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
