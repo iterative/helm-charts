@@ -1,4 +1,4 @@
-{{- if eq .Values.studioDatachainWorker.ephemeralStorage.type "pvcRWX" }}
+{{- if eq .Values.studioDatachainWorkerJobTemplate.ephemeralStorage.type "pvcRWX" }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -8,8 +8,8 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: {{ .Values.studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.storageClass }}
+  storageClassName: {{ .Values.studioDatachainWorkerJobTemplate.ephemeralStorage.persistentVolumeClaim.storageClass }}
   resources:
     requests:
-      storage:  {{ .Values.studioDatachainWorker.ephemeralStorage.size }}
+      storage:  {{ .Values.studioDatachainWorkerJobTemplate.ephemeralStorage.size }}
 {{- end }}
