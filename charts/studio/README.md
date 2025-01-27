@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.16.96](https://img.shields.io/badge/Version-0.16.96-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.156.0](https://img.shields.io/badge/AppVersion-v2.156.0-informational?style=flat-square)
+![Version: 0.16.97](https://img.shields.io/badge/Version-0.16.97-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.156.0](https://img.shields.io/badge/AppVersion-v2.156.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -139,7 +139,7 @@ A Helm chart for Kubernetes
 | studioBlobvault.image | object | `{"repository":"nginx","tag":"1.27.0-alpine"}` | Image to use for the blobvault service |
 | studioBlobvault.image.repository | string | `"nginx"` | Image repository |
 | studioBlobvault.image.tag | string | `"1.27.0-alpine"` | Image tag |
-| studioDatachainWorker | object | `{"affinity":{},"autoscaling":{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80,"template":[]},"envFromSecret":"","envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"claimName":"datachain-worker","storageClass":""},"size":"20Gi","type":"ephemeral"},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-datachain-worker"},"localStorage":{"persistentVolumeClaim":{"claimName":"datachain-worker-local","storageClass":""},"size":"50Gi","type":"ephemeral"},"logLevel":"info","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}},"securityContext":{},"serviceAccount":{"annotations":{},"create":false,"name":""},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":0}},"terminationGracePeriodSeconds":180,"tolerations":[]}` | Studio DataChain Worker settings group |
+| studioDatachainWorker | object | `{"affinity":{},"autoscaling":{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80,"template":[]},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-datachain-worker"},"logLevel":"info","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"ephemeral-storage":"10Gi","memory":"8Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"4Gi"}},"securityContext":{},"serviceAccount":{"annotations":{},"create":false,"name":""},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":0}},"terminationGracePeriodSeconds":180,"tolerations":[]}` | Studio DataChain Worker settings group |
 | studioDatachainWorker.affinity | object | `{}` | DataChain worker pod affinity configuration |
 | studioDatachainWorker.autoscaling | object | `{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80,"template":[]}` | DataChain worker autoscaling configuration |
 | studioDatachainWorker.autoscaling.annotations | object | `{}` | Worker autoscaling annotation |
@@ -151,28 +151,16 @@ A Helm chart for Kubernetes
 | studioDatachainWorker.autoscaling.template | list | `[]` | DataChain worker Custom or additional autoscaling metrics Custom or additional autoscaling metrics ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-custom-metrics |
 | studioDatachainWorker.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to DataChain worker pods. |
 | studioDatachainWorker.envVars | object | `{}` | Additional environment variables for DataChain worker pods |
-| studioDatachainWorker.ephemeralStorage | object | `{"persistentVolumeClaim":{"claimName":"datachain-worker","storageClass":""},"size":"20Gi","type":"ephemeral"}` | Ephemeral storage configuration |
-| studioDatachainWorker.ephemeralStorage.persistentVolumeClaim | object | `{"claimName":"datachain-worker","storageClass":""}` | Persistent Volume Claim configuration for ephemeral storage (if type is set `pvc`) |
-| studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.claimName | string | `"datachain-worker"` | Persistent Volume Claim name, to mount externally managed PVC (`ephemeralStorage.type` has to be set to `pvc`) |
-| studioDatachainWorker.ephemeralStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type) |
-| studioDatachainWorker.ephemeralStorage.size | string | `"20Gi"` | Ephemeral Storage size |
-| studioDatachainWorker.ephemeralStorage.type | string | `"ephemeral"` | Ephemeral Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc`, `pvcRWX` |
 | studioDatachainWorker.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-datachain-worker"}` | DataChain worker image settings |
 | studioDatachainWorker.image.pullPolicy | string | `"IfNotPresent"` | DataChain worker image pull policy |
 | studioDatachainWorker.image.repository | string | `"docker.iterative.ai/studio-datachain-worker"` | DataChain worker image repository |
-| studioDatachainWorker.localStorage | object | `{"persistentVolumeClaim":{"claimName":"datachain-worker-local","storageClass":""},"size":"50Gi","type":"ephemeral"}` | Local storage configuration (used for storing DataChain virtual environments) |
-| studioDatachainWorker.localStorage.persistentVolumeClaim | object | `{"claimName":"datachain-worker-local","storageClass":""}` | Persistent Volume Claim configuration for local storage |
-| studioDatachainWorker.localStorage.persistentVolumeClaim.claimName | string | `"datachain-worker-local"` | Persistent Volume Claim name, to mount externally managed PVC (`localStorage.type` has to be set to `pvc`) |
-| studioDatachainWorker.localStorage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type) |
-| studioDatachainWorker.localStorage.size | string | `"50Gi"` | Local Storage size |
-| studioDatachainWorker.localStorage.type | string | `"ephemeral"` | Local Storage type. Possible values: `emptyDir`,  `ephemeral`, `pvc` |
 | studioDatachainWorker.logLevel | string | `"info"` | DataChain worker log level |
 | studioDatachainWorker.nodeSelector | object | `{}` | DataChain worker pod node selector configuration |
 | studioDatachainWorker.podAnnotations | object | `{}` | Additional DataChain worker pod annotations |
 | studioDatachainWorker.podSecurityContext | object | `{}` | DataChain worker pod security context configuration |
-| studioDatachainWorker.resources | object | `{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}}` | DataChain worker resources configuration |
-| studioDatachainWorker.resources.limits | object | `{"ephemeral-storage":"20Gi","memory":"16Gi"}` | DataChain worker limits configuration |
-| studioDatachainWorker.resources.requests | object | `{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}` | DataChain worker requests configuration |
+| studioDatachainWorker.resources | object | `{"limits":{"ephemeral-storage":"10Gi","memory":"8Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"4Gi"}}` | DataChain worker resources configuration |
+| studioDatachainWorker.resources.limits | object | `{"ephemeral-storage":"10Gi","memory":"8Gi"}` | DataChain worker limits configuration |
+| studioDatachainWorker.resources.requests | object | `{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"4Gi"}` | DataChain worker requests configuration |
 | studioDatachainWorker.securityContext | object | `{}` | DataChain worker pod security context configuration |
 | studioDatachainWorker.strategy | object | `{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":0}}` | DataChain worker deployment strategy |
 | studioDatachainWorker.terminationGracePeriodSeconds | int | `180` | DataChain worker termination grace period |
