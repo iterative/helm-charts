@@ -9,13 +9,13 @@ spec:
   selector:
     matchLabels:
       {{- include "studio-datachain-worker.selectorLabels" . | nindent 6 }}
-  activeDeadlineSeconds: {{ .Values.studioDatachainWorkerJobTemplate.activeDeadlineSeconds }}
-  ttlSecondsAfterFinished: {{ .Values.studioDatachainWorkerJobTemplate.ttlSecondsAfterFinished }}
-  backoffLimit: {{ .Values.studioDatachainWorkerJobTemplate.backoffLimit }}
+  activeDeadlineSeconds: {{ (.Values.studioDatachainWorkerJobTemplate).activeDeadlineSeconds }}
+  ttlSecondsAfterFinished: {{ (.Values.studioDatachainWorkerJobTemplate).ttlSecondsAfterFinished }}
+  backoffLimit: {{ (.Values.studioDatachainWorkerJobTemplate).backoffLimit }}
   template:
     metadata:
       annotations:
-        {{- with .Values.studioDatachainWorkerJobTemplate.podAnnotations }}
+        {{- with (.Values.studioDatachainWorkerJobTemplate).podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
@@ -27,22 +27,22 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "studio-datachain-worker.serviceAccountName" . }}
-      runtimeClassName: {{ .Values.studioDatachainWorkerJobTemplate.runtimeClassName }}
+      runtimeClassName: {{ (.Values.studioDatachainWorkerJobTemplate).runtimeClassName }}
       securityContext:
         fsGroup: 103
         fsGroupChangePolicy: "OnRootMismatch"
-        {{- with .Values.studioDatachainWorkerJobTemplate.podSecurityContext }}
+        {{- with (.Values.studioDatachainWorkerJobTemplate).podSecurityContext }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       containers:
         - name: studio-datachain-worker
           securityContext:
-            {{- toYaml .Values.studioDatachainWorkerJobTemplate.securityContext | nindent 12 }}
-          image: "{{ .Values.studioDatachainWorkerJobTemplate.image.repository }}:{{ .Values.studioDatachainWorkerJobTemplate.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.studioDatachainWorkerJobTemplate.image.pullPolicy }}
+            {{- toYaml (.Values.studioDatachainWorkerJobTemplate).securityContext | nindent 12 }}
+          image: "{{ (.Values.studioDatachainWorkerJobTemplate).image.repository }}:{{ (.Values.studioDatachainWorkerJobTemplate).image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ (.Values.studioDatachainWorkerJobTemplate).image.pullPolicy }}
           args: ["/app/bin/run_celery.sh", "datachain-worker"]
           resources:
-            {{- toYaml .Values.studioDatachainWorkerJobTemplate.resources | nindent 12 }}
+            {{- toYaml (.Values.studioDatachainWorkerJobTemplate).resources | nindent 12 }}
           env:
             - name: "NO_MIGRATE_DB"
               value: "1"
@@ -51,13 +51,13 @@ spec:
             - name: "CELERY_WORKER_SINGLE_TASK_MODE"
               value: "True"
             - name: "CELERY_WORKER_IDLE_TIMEOUT"
-              value: {{ .Values.studioDatachainWorkerJobTemplate.idleTimeout | quote }}
+              value: {{ (.Values.studioDatachainWorkerJobTemplate).idleTimeout | quote }}
           volumeMounts:
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
             - name: tmp-ephemeral
               mountPath: /tmp/shared
-            {{- if .Values.studioDatachainWorkerJobTemplate.localStorage }}
+            {{- if (.Values.studioDatachainWorkerJobTemplate).localStorage }}
             - name: tmp-local
               mountPath: /tmp/local
             {{- end }}
@@ -66,31 +66,31 @@ spec:
           configMap:
             name: studio-ca-certificates
         - name: tmp-ephemeral
-          {{- if eq .Values.studioDatachainWorkerJobTemplate.ephemeralStorage.type "ephemeral" }}
+          {{- if eq (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.type "ephemeral" }}
           ephemeral:
             volumeClaimTemplate:
               metadata:
                 labels:
-                  type: {{.Release.Name}}-{{ .Values.studioDatachainWorkerJobTemplate.ephemeralStorage.persistentVolumeClaim.claimName }}
+                  type: {{.Release.Name}}-{{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.persistentVolumeClaim.claimName }}
               spec:
                 accessModes: [ "ReadWriteOnce" ]
-                {{- if .Values.studioDatachainWorkerJobTemplate.ephemeralStorage.persistentVolumeClaim.storageClass }}
-                storageClassName: {{ .Values.studioDatachainWorkerJobTemplate.ephemeralStorage.persistentVolumeClaim.storageClass }}
+                {{- if (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.persistentVolumeClaim.storageClass }}
+                storageClassName: {{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.persistentVolumeClaim.storageClass }}
                 {{- end }}
                 resources:
                   requests:
-                    storage: {{ .Values.studioDatachainWorkerJobTemplate.ephemeralStorage.size }}
-          {{- else if eq .Values.studioDatachainWorkerJobTemplate.ephemeralStorage.type "pvc" }}
+                    storage: {{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.size }}
+          {{- else if eq (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.type "pvc" }}
           persistentVolumeClaim:
-              claimName: {{ .Values.studioDatachainWorkerJobTemplate.ephemeralStorage.persistentVolumeClaim.claimName }}
-          {{- else if eq .Values.studioDatachainWorkerJobTemplate.ephemeralStorage.type "pvcRWX" }}
+              claimName: {{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.persistentVolumeClaim.claimName }}
+          {{- else if eq (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.type "pvcRWX" }}
           persistentVolumeClaim:
               claimName: {{.Release.Name}}-studio-datachain-worker-ephemeral-rwx
-          {{- else if eq .Values.studioDatachainWorkerJobTemplate.ephemeralStorage.type "emptyDir"}}
+          {{- else if eq (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.type "emptyDir"}}
           emptyDir:
-            sizeLimit: {{ .Values.studioDatachainWorkerJobTemplate.ephemeralStorage.size }}
+            sizeLimit: {{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.size }}
           {{- end }}
-        {{- with .Values.studioDatachainWorkerJobTemplate.localStorage }}
+        {{- with (.Values.studioDatachainWorkerJobTemplate).localStorage }}
         - name: tmp-local
           {{- if eq .type "ephemeral" }}
           ephemeral:
@@ -114,15 +114,15 @@ spec:
             sizeLimit: {{ .size }}
           {{- end }}
         {{- end }}
-      {{- with .Values.studioDatachainWorkerJobTemplate.nodeSelector }}
+      {{- with (.Values.studioDatachainWorkerJobTemplate).nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.studioDatachainWorkerJobTemplate.affinity }}
+      {{- with (.Values.studioDatachainWorkerJobTemplate).affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.studioDatachainWorkerJobTemplate.tolerations }}
+      {{- with (.Values.studioDatachainWorkerJobTemplate).tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
