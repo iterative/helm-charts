@@ -48,7 +48,7 @@ spec:
             {{- toYaml .Values.studioDatachainWorker.securityContext | nindent 12 }}
           image: "{{ .Values.studioDatachainWorker.image.repository }}:{{ .Values.studioDatachainWorker.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.studioDatachainWorker.image.pullPolicy }}
-          args: ["/app/bin/run_celery.sh", "datachain-master"]
+          args: ["/app/bin/run_celery_worker_udf.sh"]
           resources:
             {{- toYaml .Values.studioDatachainWorker.resources | nindent 12 }}
           env:
