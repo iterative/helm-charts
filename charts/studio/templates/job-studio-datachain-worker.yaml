@@ -47,6 +47,21 @@ spec:
               value: "True"
             - name: "CELERY_WORKER_IDLE_TIMEOUT"
               value: {{ (.Values.studioDatachainWorkerJobTemplate).idleTimeout | quote }}
+          envFrom:
+            - configMapRef:
+                name: studio
+            - configMapRef:
+                name: {{ .Release.Name }}-datachain-worker
+            - secretRef:
+                name: studio
+            {{- if .Values.global.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.global.envFromSecret }}
+            {{- end }}
+            {{- if .Values.studioDatachainWorker.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.studioDatachainWorker.envFromSecret }}
+            {{- end }}
           volumeMounts:
             - name: studio-ca-certificates
               mountPath: /usr/local/share/ca-certificates
