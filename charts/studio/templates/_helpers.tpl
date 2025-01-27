@@ -61,15 +61,6 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
-{{- define "studio-datachain-worker-job.labels" -}}
-helm.sh/chart: {{ include "studio.chart" . }}
-{{ include "studio-datachain-worker-job.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end }}
-
 {{- define "studio-worker.labels" -}}
 helm.sh/chart: {{ include "studio.chart" . }}
 {{ include "studio-worker.selectorLabels" . }}
@@ -141,11 +132,6 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 
 {{- define "studio-datachain-worker.selectorLabels" -}}
 app.kubernetes.io/name: studio-datachain-worker
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end }}
-
-{{- define "studio-datachain-worker-job.selectorLabels" -}}
-app.kubernetes.io/name: studio-datachain-worker-job
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 

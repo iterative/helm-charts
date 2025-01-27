@@ -6,9 +6,6 @@ metadata:
     {{- include "studio-datachain-worker.labels" . | nindent 4 }}
 spec:
   suspend: true # this Job will never run; it's a template to create new Jobs
-  selector:
-    matchLabels:
-      {{- include "studio-datachain-worker-job.selectorLabels" . | nindent 6 }}
   activeDeadlineSeconds: {{ (.Values.studioDatachainWorkerJobTemplate).activeDeadlineSeconds }}
   ttlSecondsAfterFinished: {{ (.Values.studioDatachainWorkerJobTemplate).ttlSecondsAfterFinished }}
   backoffLimit: {{ (.Values.studioDatachainWorkerJobTemplate).backoffLimit }}
@@ -18,8 +15,6 @@ spec:
         {{- with (.Values.studioDatachainWorkerJobTemplate).podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-      labels:
-        {{- include "studio-datachain-worker-job.selectorLabels" . | nindent 8 }}
     spec:
       restartPolicy: Never
       {{- with .Values.imagePullSecrets }}
