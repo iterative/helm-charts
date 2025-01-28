@@ -4,7 +4,7 @@ kind: ResourceQuota
 metadata:
   name: studio-datachain-worker-job-quota
   labels:
-    {{- include "studio-datachain-worker-job.labels" . | nindent 4 }}
+    {{- include "studio-datachain-worker.labels" . | nindent 4 }}
 spec:
   hard:
     count/jobs.batch: {{ .Values.studioDatachainWorkerJobTemplate.jobQuota }}
