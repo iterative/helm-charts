@@ -1,6 +1,29 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
+  ],
+  "schedule": [
+    "on Wednesday"
+  ],
+  "assigneesFromCodeOwners": true,
+  "labels": [
+    "dependencies"
+  ],
+  "rebaseWhen": "conflicted",
+  "configMigration": true,
+  "packageRules": [
+    {
+      "groupName": "bitnami helm dependencies",
+      "groupSlug": "bitnami-helm",
+      "matchDatasources": [
+        "helm"
+      ],
+      "matchPackageNames": [
+        "redis{/,}**",
+        "postgres{/,}**",
+        "clickhouse{/,}**"
+      ]
+    }
   ]
 }

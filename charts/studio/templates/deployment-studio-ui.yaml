@@ -8,10 +8,10 @@ spec:
   {{- if not .Values.studioUi.autoscaling.enabled }}
   replicas: {{ .Values.studioUi.replicaCount }}
   {{- end }}
+  {{- with .Values.studioUi.strategy }}
   strategy:
-    rollingUpdate:
-      maxSurge: 50%
-      maxUnavailable: 0
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "studio-ui.selectorLabels" . | nindent 6 }}
@@ -32,7 +32,9 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "studio.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.studioUi.podSecurityContext | nindent 8 }}
+        {{- with .Values.studioUi.podSecurityContext }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       containers:
         - name: studio-ui
           securityContext:
@@ -43,6 +45,13 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
+          startupProbe:
+            exec:
+              command:
+                - /app/bin/startup-probe.sh
+            initialDelaySeconds: 5
+            periodSeconds: 2
+            failureThreshold: 60
           livenessProbe:
             tcpSocket:
               port: 3000
@@ -51,13 +60,14 @@ spec:
           readinessProbe:
             httpGet:
             {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
-              path: /{{ include "studio.basePath" . }}/{{- if semverCompare ">=1.78.0" (.Values.studioUi.image.tag | default .Chart.AppVersion) }}f{{end}}api/health
+              path: /{{ include "studio.basePath" . }}/fapi/health
             {{- else }}
-              path: /{{- if semverCompare ">=1.78.0" (.Values.studioUi.image.tag | default .Chart.AppVersion) }}f{{end}}api/health
+              path: /fapi/health
             {{- end }}
               port: 3000
             initialDelaySeconds: 5
-            periodSeconds: 25
+            periodSeconds: 10
+            successThreshold: 3
             timeoutSeconds: 10
           envFrom:
             - configMapRef:

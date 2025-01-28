@@ -9,13 +9,16 @@ data:
 {{- end }}
 
   ALLOWED_HOSTS: "*"
-  API_URL: "{{include "ingress.protocol" . }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/api"
-  UI_URL: "{{include "ingress.protocol" . }}://{{.Values.global.host }}/{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}{{ include "studio.basePath" . }}{{- end }}"
+  API_URL: "{{ include "scheme" . }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/api"
+  UI_URL: "{{ include "scheme" . }}://{{.Values.global.host }}/{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}{{ include "studio.basePath" . }}{{- end }}"
 
   {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
   BASE_PATH: /{{ include "studio.basePath" . }}
   {{- end }}
 
+  {{- if .Values.global.scmProviders.bitbucket.enabled }}
+  BITBUCKET_ENABLED: {{ .Values.global.scmProviders.bitbucket.enabled | default false | quote | title }}
+  {{- end }}
   {{- if .Values.global.scmProviders.bitbucket.url }}
   BITBUCKET_URL: {{.Values.global.scmProviders.bitbucket.url | quote }}
   {{- end }}
@@ -23,7 +26,7 @@ data:
   BITBUCKET_API_URL: {{ .Values.global.scmProviders.bitbucket.apiUrl | quote}}
   {{- end }}
   {{- if and .Values.global.scmProviders.bitbucket.enabled $webhookHost }}
-  BITBUCKET_WEBHOOK_URL: "{{include "ingress.protocol" . }}://{{ $webhookHost }}/webhook/bitbucket/"
+  BITBUCKET_WEBHOOK_URL: "{{ include "webhookScheme" . }}://{{ $webhookHost }}/webhook/bitbucket/"
   {{- end }}
 
   ENABLE_BLOBVAULT: "True"
@@ -40,8 +43,8 @@ data:
   {{- else }}
   BLOBVAULT_LOCAL_ENABLED: "True"
   BLOBVAULT_LOCAL_PATH: "/blobvault"
-  BLOBVAULT_ENDPOINT_URL: "{{include "ingress.protocol" . }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/blobvault"
-  BLOBVAULT_ENDPOINT_URL_FE: "{{include "ingress.protocol" . }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/blobvault"
+  BLOBVAULT_ENDPOINT_URL: "{{ include "scheme" . }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/blobvault"
+  BLOBVAULT_ENDPOINT_URL_FE: "{{ include "scheme" . }}://{{.Values.global.host }}{{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}/{{ include "studio.basePath" . }}{{- end }}/blobvault"
   {{- end }}
 
   {{- if .Values.global.celery.brokerUrl }}
@@ -62,6 +65,9 @@ data:
   REDIS_URL: "redis://{{ .Values.redis.fullnameOverride }}-master.{{ .Release.Namespace }}.svc.cluster.local:6379"
   {{- end }}
 
+  {{- if .Values.global.scmProviders.github.enabled }}
+  GITHUB_ENABLED: {{ .Values.global.scmProviders.github.enabled | default false | quote | title }}
+  {{- end }}
   {{- if .Values.global.scmProviders.github.apiUrl }}
   GITHUB_API_URL: {{ .Values.global.scmProviders.github.apiUrl | quote }}
   {{- end }}
@@ -69,7 +75,7 @@ data:
   GITHUB_URL: {{ .Values.global.scmProviders.github.url | quote }}
   {{- end }}
   {{- if and .Values.global.scmProviders.github.enabled $webhookHost }}
-  GITHUB_WEBHOOK_URL: "{{include "ingress.protocol" . }}://{{ $webhookHost }}/webhook/github/"
+  GITHUB_WEBHOOK_URL: "{{ include "webhookScheme" . }}://{{ $webhookHost }}/webhook/github/"
   {{- end }}
   {{- if .Values.global.scmProviders.github.clientId }}
   GITHUB_APP_CLIENT_ID: {{ .Values.global.scmProviders.github.clientId | quote }}
@@ -81,11 +87,14 @@ data:
   GITHUB_APP_NAME: {{ .Values.global.scmProviders.github.appName | quote }}
   {{- end }}
 
+  {{- if .Values.global.scmProviders.gitlab.enabled }}
+  GITLAB_ENABLED: {{ .Values.global.scmProviders.gitlab.enabled | default false | quote | title }}
+  {{- end }}
   {{- if .Values.global.scmProviders.gitlab.url }}
   GITLAB_URL: {{ .Values.global.scmProviders.gitlab.url | quote}}
   {{- end }}
   {{- if and .Values.global.scmProviders.gitlab.enabled $webhookHost }}
-  GITLAB_WEBHOOK_URL: "{{include "ingress.protocol" . }}://{{ $webhookHost }}/webhook/gitlab/"
+  GITLAB_WEBHOOK_URL: "{{ include "webhookScheme" . }}://{{ $webhookHost }}/webhook/gitlab/"
   {{- end }}
 
   {{- if .Values.global.maxViews }}
@@ -109,9 +118,10 @@ data:
 
   SOCIAL_AUTH_REDIRECT_IS_HTTPS: "False"
 
+  {{- if .Values.global.host }}
   SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }},{{ .Values.global.host }}"
 
-  {{- $dvcx := .Values.global.dvcx | default dict }}
-  DQL_ENABLED: {{ $dvcx.enabled | default "False" | quote }}
-  DVCX_ENABLED: {{ $dvcx.enabled | default "False" | quote }}
-
+  {{- $datachain := .Values.global.datachain | default dict }}
+  {{- $datachainClickhouse := $datachain.clickHouse | default dict }}
+  DATACHAIN_ENABLED: {{ $datachain.enabled | default false | quote | title }}
+  DATACHAIN_UDF_ENABLED: {{ $datachain.udfEnabled | default false | quote | title }}

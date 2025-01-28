@@ -8,7 +8,11 @@ spec:
   type: {{ .Values.studioBackend.service.type }}
   ports:
     - port: {{ .Values.studioBackend.service.port }}
-      targetPort: http
+      {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
+      targetPort: nginx-http
+      {{- else }}
+      targetPort: studio-http
+      {{- end }}
       protocol: TCP
       name: http
   selector:
