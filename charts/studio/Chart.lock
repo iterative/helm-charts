@@ -1,12 +1,12 @@
 dependencies:
-- name: nginx
-  repository: https://charts.bitnami.com/bitnami
-  version: 13.2.30
 - name: redis
   repository: https://charts.bitnami.com/bitnami
-  version: 17.14.3
+  version: 19.5.5
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 11.9.13
-digest: sha256:17b45dd98206bc3856d787b7399053996e6039ec8b52c9e00a501e7fcd896765
-generated: "2023-07-28T20:11:07.578307878Z"
+  version: 15.5.7
+- name: clickhouse
+  repository: https://charts.bitnami.com/bitnami
+  version: 6.2.8
+digest: sha256:d5351e73d007f8315ac8747567b4244301f0a6dafc966af47c4c3ee63495568d
+generated: "2024-06-19T00:31:52.792527686Z"

@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-datachain-worker
+  labels:
+    {{- include "studio-datachain-worker.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.studioDatachainWorker.autoscaling.enabled }}
+  {{- if ((.Values.global.datachain).udfEnabled) }}
+  replicas: {{ .Values.studioDatachainWorker.replicaCount }}
+  {{- else }}
+  replicas: 0
+  {{- end }}
+  {{- end }}
+  {{- with .Values.studioDatachainWorker.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "studio-datachain-worker.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap-studio-datachain-worker: {{ include (print $.Template.BasePath "/configmap-studio-datachain-worker.yaml") . | sha256sum }}
+        {{- include "studio.checksum" . | indent 8 }}
+        {{- with .Values.studioDatachainWorker.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "studio-datachain-worker.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "studio-datachain-worker.serviceAccountName" . }}
+      terminationGracePeriodSeconds: {{ .Values.studioDatachainWorker.terminationGracePeriodSeconds | default 150 }}
+      securityContext:
+        fsGroup: 103
+        fsGroupChangePolicy: "OnRootMismatch"
+        {{- with .Values.studioDatachainWorker.podSecurityContext }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      containers:
+        - name: studio-datachain-worker
+          securityContext:
+            {{- toYaml .Values.studioDatachainWorker.securityContext | nindent 12 }}
+          image: "{{ .Values.studioDatachainWorker.image.repository }}:{{ .Values.studioDatachainWorker.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.studioDatachainWorker.image.pullPolicy }}
+          args: ["/app/bin/run_celery_worker_udf.sh"]
+          resources:
+            {{- toYaml .Values.studioDatachainWorker.resources | nindent 12 }}
+          env:
+            - name: "NO_MIGRATE_DB"
+              value: "1"
+            - name: "WAIT_FOR_MIGRATIONS"
+              value: "0"
+          envFrom:
+            - configMapRef:
+                name: studio
+            - configMapRef:
+                name: {{ .Release.Name }}-datachain-worker
+            - secretRef:
+                name: studio
+            {{- if .Values.global.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.global.envFromSecret }}
+            {{- end }}
+            {{- if .Values.studioDatachainWorker.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.studioDatachainWorker.envFromSecret }}
+            {{- end }}
+          volumeMounts:
+            - name: studio-ca-certificates
+              mountPath: /usr/local/share/ca-certificates
+      volumes:
+        - name: studio-ca-certificates
+          configMap:
+            name: studio-ca-certificates
+      {{- with .Values.studioDatachainWorker.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studioDatachainWorker.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studioDatachainWorker.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

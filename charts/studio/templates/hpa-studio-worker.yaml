@@ -2,9 +2,12 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: studio-worker
+  name: {{.Release.Name}}-studio-worker
   labels:
     {{- include "studio-worker.labels" . | nindent 4 }}
+  {{- with .Values.studioWorker.autoscaling.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -13,14 +16,6 @@ spec:
   minReplicas: {{ .Values.studioWorker.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.studioWorker.autoscaling.maxReplicas }}
   metrics:
-    {{- if .Values.studioWorker.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: {{ .Values.studioWorker.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
     {{- if .Values.studioWorker.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
@@ -29,4 +24,19 @@ spec:
           type: Utilization
           averageUtilization: {{ .Values.studioWorker.autoscaling.targetMemoryUtilizationPercentage }}
     {{- end }}
+    {{- if .Values.studioWorker.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.studioWorker.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- with .Values.studioWorker.autoscaling.template }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.studioWorker.autoscaling.behavior }}
+  behavior:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{- end }}

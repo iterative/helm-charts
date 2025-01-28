@@ -50,8 +50,17 @@ helm.sh/chart: {{ include "studio.chart" . }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-
 {{- end }}
+
+{{- define "studio-datachain-worker.labels" -}}
+helm.sh/chart: {{ include "studio.chart" . }}
+{{ include "studio-datachain-worker.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
 {{- define "studio-worker.labels" -}}
 helm.sh/chart: {{ include "studio.chart" . }}
 {{ include "studio-worker.selectorLabels" . }}
@@ -79,6 +88,24 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
+{{- define "studio-blobvault.labels" -}}
+helm.sh/chart: {{ include "studio.chart" . }}
+{{ include "studio-blobvault.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{- define "pgbouncer.labels" -}}
+helm.sh/chart: {{ include "studio.chart" . }}
+{{ include "pgbouncer.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
 {{/*
 Selector labels
 */}}
@@ -88,8 +115,8 @@ app.kubernetes.io/name: {{ include "studio.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "studio-ui.selectorLabels" -}}
-app.kubernetes.io/name: studio-ui
+{{- define "studio-blobvault.selectorLabels" -}}
+app.kubernetes.io/name: studio-blobvault
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
@@ -103,10 +130,26 @@ app.kubernetes.io/name: studio-beat
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
+{{- define "studio-datachain-worker.selectorLabels" -}}
+app.kubernetes.io/name: studio-datachain-worker
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{- define "studio-ui.selectorLabels" -}}
+app.kubernetes.io/name: studio-ui
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
 {{- define "studio-worker.selectorLabels" -}}
 app.kubernetes.io/name: studio-worker
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{- define "pgbouncer.selectorLabels" -}}
+app.kubernetes.io/name: pgbouncer
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
 
 {{/*
 Create the name of the service account to use
@@ -116,6 +159,30 @@ Create the name of the service account to use
 {{- default (include "studio.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{- define "studio-backend.serviceAccountName" -}}
+{{- if ((.Values.studioBackend).serviceAccount).create }}
+{{- default (printf "%s%s" (include "studio.fullname" .) "-backend") .Values.studioWorker.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.studioWorker.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{- define "studio-worker.serviceAccountName" -}}
+{{- if ((.Values.studioWorker).serviceAccount).create }}
+{{- default (printf "%s%s" (include "studio.fullname" .) "-worker") .Values.studioWorker.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.studioWorker.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{- define "studio-datachain-worker.serviceAccountName" -}}
+{{- if ((.Values.studioDatachainWorker).serviceAccount).create }}
+{{- default (printf "%s%s" (include "studio.fullname" .) "-datachain-worker") .Values.studioDatachainWorker.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.studioDatachainWorker.serviceAccount.name }}
 {{- end }}
 {{- end }}
 
@@ -134,18 +201,14 @@ checksum/secret-studio: {{ include (print $.Template.BasePath "/secret-studio.ya
 {{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" .Values.dockerServer (printf "%s:%s" .Values.dockerUsername .Values.dockerPassword | b64enc) }}
 {{- end }}
 
-{{- define "studio.dvcx.configMap" -}}
-{{- $dvcx := .Values.global.dvcx | default dict }}
-{{- $dvcxClickhouse := $dvcx.clickHouse | default dict }}
-DQL_ROOT_DIR: {{ $dvcx.rootDir | default "/tmp" | quote }}
-DQL_CH_HOST: {{ $dvcxClickhouse.host | default "" | quote }}
-DQL_CH_DATABASE: {{ $dvcxClickhouse.database | default "" | quote }}
-DVCX_ROOT_DIR: {{ $dvcx.rootDir | default "/tmp" | quote }}
-DVCX_CH_HOST: {{ $dvcxClickhouse.host | default "" | quote }}
-DVCX_CH_DATABASE: {{ $dvcxClickhouse.database | default "" | quote }}
+{{- define "scheme" -}}
+http{{- if $.Values.global.ingress.tlsEnabled }}s{{- end }}
 {{- end }}
 
-{{- define "ingress.protocol" -}}
-http{{- if $.Values.global.ingress.tlsEnabled }}s{{- end}}
+{{- define "webhookScheme" -}}
+{{- if $.Values.global.scmProviders.webhookHost -}}
+http{{- if $.Values.global.scmProviders.tlsEnabled }}s{{- end }}
+{{- else -}}
+http{{- if $.Values.global.ingress.tlsEnabled }}s{{- end }}
+{{- end -}}
 {{- end }}
-

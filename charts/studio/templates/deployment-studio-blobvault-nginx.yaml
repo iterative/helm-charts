@@ -1,0 +1,85 @@
+{{ if not .Values.global.blobvault.bucket }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-blobvault
+  labels:
+    {{- include "studio-blobvault.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      {{- include "studio-blobvault.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap-studio-nginx: {{ include (print $.Template.BasePath "/configmap-studio-nginx.yaml") . | sha256sum }}
+        {{- include "studio.checksum" . | indent 8 }}
+        {{- with .Values.studioBlobvault.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "studio-blobvault.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "studio.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.studioBlobvault.podSecurityContext | nindent 8 }}
+      containers:
+        - name: nginx
+          securityContext:
+            {{- toYaml .Values.studioBlobvault.securityContext | nindent 12 }}
+          image: "{{ .Values.studioBlobvault.image.repository }}:{{ .Values.studioBlobvault.image.tag }}"
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: blobvault.conf
+            - name: blobvault-pvc
+              mountPath: /blobvault
+              readOnly: true
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: {{.Release.Name}}-nginx
+        - name: blobvault-pvc
+          persistentVolumeClaim:
+            claimName: blobvault
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: "kubernetes.io/hostname"
+              labelSelector:
+                matchLabels:
+                  {{- include "studio-worker.selectorLabels" . | nindent 18 }}
+  {{- end }}

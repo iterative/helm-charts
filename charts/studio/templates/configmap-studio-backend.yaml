@@ -6,4 +6,3 @@ data:
 {{- with .Values.studioBackend.envVars}}
 {{-  toYaml . | nindent 2 }}
 {{- end }}
-{{- include "studio.dvcx.configMap" . | indent 2}}

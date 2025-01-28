@@ -3,7 +3,8 @@ kind: ConfigMap
 metadata:
   name: studio-worker
 data:
+  CELERY_LOG_LEVEL: "{{ .Values.studioWorker.logLevel | default "info" | lower }}"
+  LOG_JSON_FORMATTER: "True"
 {{- with .Values.studioWorker.envVars}}
 {{-  toYaml . | nindent 2 }}
 {{- end }}
-{{- include "studio.dvcx.configMap" . | indent 2}}

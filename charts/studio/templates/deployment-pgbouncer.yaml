@@ -1,0 +1,69 @@
+{{- if ((.Values.pgBouncer).enabled) -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-pgbouncer
+  labels:
+    {{- include "pgbouncer.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.pgBouncer.autoscaling.enabled }}
+  replicas: {{ .Values.pgBouncer.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "pgbouncer.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/secret-pgbouncer: {{ include (print $.Template.BasePath "/secret-pgbouncer.yaml") . | sha256sum }}
+        {{- include "studio.checksum" . | indent 8 }}
+        {{- with .Values.pgBouncer.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "pgbouncer.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ .Values.pgBouncer.serviceAccountName }}
+      securityContext:
+        {{- with .Values.pgBouncer.podSecurityContext }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      containers:
+        - name: pgbouncer
+          securityContext:
+            {{- toYaml .Values.pgBouncer.securityContext | nindent 12 }}
+          image: "{{ .Values.pgBouncer.image.repository }}:{{ .Values.pgBouncer.image.tag }}"
+          imagePullPolicy: {{ .Values.pgBouncer.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.pgBouncer.resources | nindent 12 }}
+          env:
+            - name: PGBOUNCER_PORT
+              value: "6432"
+          envFrom:
+            - secretRef:
+                name: pgbouncer
+            {{- if .Values.pgBouncer.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.pgBouncer.envFromSecret }}
+            {{- end }}
+          ports:
+            - name: pgbouncer
+              containerPort: 6432
+              protocol: TCP
+      {{- with .Values.pgBouncer.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.pgBouncer.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.pgBouncer.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

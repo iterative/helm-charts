@@ -1,0 +1,47 @@
+{{- if .Values.studioDatachainWorker.autoscaling.enabled }}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{.Release.Name}}-datachain-worker
+  labels:
+    {{- include "studio-datachain-worker.labels" . | nindent 4 }}
+  {{- with .Values.studioDatachainWorker.autoscaling.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{.Release.Name}}-datachain-worker
+  {{- if ((.Values.global.datachain).udfEnabled) }}
+  minReplicas: {{ .Values.studioDatachainWorker.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.studioDatachainWorker.autoscaling.maxReplicas }}
+  {{- else }}
+  minReplicas: 0
+  maxReplicas: 0
+  {{- end}}
+  metrics:
+    {{- if .Values.studioDatachainWorker.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.studioDatachainWorker.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.studioDatachainWorker.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.studioDatachainWorker.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- with .Values.studioDatachainWorker.autoscaling.template }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.studioDatachainWorker.autoscaling.behavior }}
+  behavior:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
