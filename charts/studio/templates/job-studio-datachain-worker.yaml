@@ -16,13 +16,13 @@ spec:
         metadata:
           annotations:
             {{- with (.Values.studioDatachainWorkerJobTemplate).podAnnotations }}
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
             {{- end }}
         spec:
           restartPolicy: Never
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets:
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           serviceAccountName: {{ include "studio-datachain-worker.serviceAccountName" . }}
           runtimeClassName: {{ (.Values.studioDatachainWorkerJobTemplate).runtimeClassName }}
@@ -30,17 +30,17 @@ spec:
             fsGroup: 103
             fsGroupChangePolicy: "OnRootMismatch"
             {{- with (.Values.studioDatachainWorkerJobTemplate).podSecurityContext }}
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
             {{- end }}
           containers:
             - name: studio-datachain-worker
               securityContext:
-                {{- toYaml (.Values.studioDatachainWorkerJobTemplate).securityContext | nindent 12 }}
+                {{- toYaml (.Values.studioDatachainWorkerJobTemplate).securityContext | nindent 16 }}
               image: "{{ (.Values.studioDatachainWorkerJobTemplate).image.repository }}:{{ (.Values.studioDatachainWorkerJobTemplate).image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ (.Values.studioDatachainWorkerJobTemplate).image.pullPolicy }}
               args: ["/app/bin/run_celery.sh", "datachain-worker"]
               resources:
-                {{- toYaml (.Values.studioDatachainWorkerJobTemplate).resources | nindent 12 }}
+                {{- toYaml (.Values.studioDatachainWorkerJobTemplate).resources | nindent 16 }}
               env:
                 - name: "NO_MIGRATE_DB"
                   value: "1"
@@ -129,13 +129,13 @@ spec:
             {{- end }}
           {{- with (.Values.studioDatachainWorkerJobTemplate).nodeSelector }}
           nodeSelector:
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with (.Values.studioDatachainWorkerJobTemplate).affinity }}
           affinity:
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with (.Values.studioDatachainWorkerJobTemplate).tolerations }}
           tolerations:
-            {{- toYaml . | nindent 8 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
