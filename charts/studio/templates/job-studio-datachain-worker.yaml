@@ -6,7 +6,7 @@ metadata:
     {{- include "studio-datachain-worker.labels" . | nindent 4 }}
 spec:
   suspend: true # this CronJob will never run; it's just a Job template
-  schedule: "0 0 0 0 0"
+  schedule: "* * * * *"
   jobTemplate:
     spec:
       activeDeadlineSeconds: {{ (.Values.studioDatachainWorkerJobTemplate).activeDeadlineSeconds }}
