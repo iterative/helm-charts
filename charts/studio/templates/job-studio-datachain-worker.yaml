@@ -1,36 +1,31 @@
 apiVersion: batch/v1
-kind: Job
+kind: CronJob
 metadata:
   name: studio-datachain-worker-template
   labels:
     {{- include "studio-datachain-worker.labels" . | nindent 4 }}
 spec:
-  suspend: true # this Job will never run; it's a template to create new Jobs
-  activeDeadlineSeconds: {{ (.Values.studioDatachainWorkerJobTemplate).activeDeadlineSeconds }}
-  ttlSecondsAfterFinished: {{ (.Values.studioDatachainWorkerJobTemplate).ttlSecondsAfterFinished }}
-  backoffLimit: {{ (.Values.studioDatachainWorkerJobTemplate).backoffLimit }}
-  template:
-    metadata:
-      annotations:
-        {{- with (.Values.studioDatachainWorkerJobTemplate).podAnnotations }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
+  suspend: true # this CronJob will never run; it's just a Job template
+  schedule: "0 0 0 0 0"
+  jobTemplate:
     spec:
-      restartPolicy: Never
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "studio-datachain-worker.serviceAccountName" . }}
-      runtimeClassName: {{ (.Values.studioDatachainWorkerJobTemplate).runtimeClassName }}
-      securityContext:
-        fsGroup: 103
-        fsGroupChangePolicy: "OnRootMismatch"
-        {{- with (.Values.studioDatachainWorkerJobTemplate).podSecurityContext }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
-      containers:
-        - name: studio-datachain-worker
+      activeDeadlineSeconds: {{ (.Values.studioDatachainWorkerJobTemplate).activeDeadlineSeconds }}
+      ttlSecondsAfterFinished: {{ (.Values.studioDatachainWorkerJobTemplate).ttlSecondsAfterFinished }}
+      backoffLimit: {{ (.Values.studioDatachainWorkerJobTemplate).backoffLimit }}
+      template:
+        metadata:
+          annotations:
+            {{- with (.Values.studioDatachainWorkerJobTemplate).podAnnotations }}
+            {{- toYaml . | nindent 8 }}
+            {{- end }}
+        spec:
+          restartPolicy: Never
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          serviceAccountName: {{ include "studio-datachain-worker.serviceAccountName" . }}
+          runtimeClassName: {{ (.Values.studioDatachainWorkerJobTemplate).runtimeClassName }}
           securityContext:
             {{- toYaml (.Values.studioDatachainWorkerJobTemplate).securityContext | nindent 12 }}
           image: "{{ (.Values.studioDatachainWorkerJobTemplate).image.repository }}:{{ (.Values.studioDatachainWorkerJobTemplate).image.tag | default .Chart.AppVersion }}"
@@ -47,77 +42,83 @@ spec:
               value: "True"
             - name: "CELERY_WORKER_IDLE_TIMEOUT"
               value: {{ (.Values.studioDatachainWorkerJobTemplate).idleTimeout | quote }}
+          envFrom:
+            - configMapRef:
+                name: studio
+            - configMapRef:
+                name: {{ .Release.Name }}-datachain-worker
+            - secretRef:
+                name: studio
+            {{- if .Values.global.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.global.envFromSecret }}
+            {{- end }}
+            {{- if .Values.studioDatachainWorker.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.studioDatachainWorker.envFromSecret }}
+            {{- end }}
           volumeMounts:
             - name: studio-ca-certificates
-              mountPath: /usr/local/share/ca-certificates
+              configMap:
+                name: studio-ca-certificates
             - name: tmp-ephemeral
-              mountPath: /tmp/shared
-            {{- if (.Values.studioDatachainWorkerJobTemplate).localStorage }}
+              {{- if eq (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.type "ephemeral" }}
+              ephemeral:
+                volumeClaimTemplate:
+                  metadata:
+                    labels:
+                      type: {{.Release.Name}}-{{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.persistentVolumeClaim.claimName }}
+                  spec:
+                    accessModes: [ "ReadWriteOnce" ]
+                    {{- if (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.persistentVolumeClaim.storageClass }}
+                    storageClassName: {{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.persistentVolumeClaim.storageClass }}
+                    {{- end }}
+                    resources:
+                      requests:
+                        storage: {{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.size }}
+              {{- else if eq (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.type "pvc" }}
+              persistentVolumeClaim:
+                  claimName: {{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.persistentVolumeClaim.claimName }}
+              {{- else if eq (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.type "pvcRWX" }}
+              persistentVolumeClaim:
+                  claimName: {{.Release.Name}}-studio-datachain-worker-ephemeral-rwx
+              {{- else if eq (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.type "emptyDir"}}
+              emptyDir:
+                sizeLimit: {{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.size }}
+              {{- end }}
+            {{- with (.Values.studioDatachainWorkerJobTemplate).localStorage }}
             - name: tmp-local
-              mountPath: /tmp/local
+              {{- if eq .type "ephemeral" }}
+              ephemeral:
+                volumeClaimTemplate:
+                  metadata:
+                    labels:
+                      type: {{ $.Release.Name }}-{{ .persistentVolumeClaim.claimName }}
+                  spec:
+                    accessModes: [ "ReadWriteOnce" ]
+                    {{- if .persistentVolumeClaim.storageClass }}
+                    storageClassName: {{ .persistentVolumeClaim.storageClass }}
+                    {{- end }}
+                    resources:
+                      requests:
+                        storage: {{ .size }}
+              {{- else if eq .type "pvc" }}
+              persistentVolumeClaim:
+                  claimName: {{ .persistentVolumeClaim.claimName }}
+              {{- else if eq .type "emptyDir"}}
+              emptyDir:
+                sizeLimit: {{ .size }}
+              {{- end }}
             {{- end }}
-      volumes:
-        - name: studio-ca-certificates
-          configMap:
-            name: studio-ca-certificates
-        - name: tmp-ephemeral
-          {{- if eq (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.type "ephemeral" }}
-          ephemeral:
-            volumeClaimTemplate:
-              metadata:
-                labels:
-                  type: {{.Release.Name}}-{{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.persistentVolumeClaim.claimName }}
-              spec:
-                accessModes: [ "ReadWriteOnce" ]
-                {{- if (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.persistentVolumeClaim.storageClass }}
-                storageClassName: {{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.persistentVolumeClaim.storageClass }}
-                {{- end }}
-                resources:
-                  requests:
-                    storage: {{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.size }}
-          {{- else if eq (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.type "pvc" }}
-          persistentVolumeClaim:
-              claimName: {{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.persistentVolumeClaim.claimName }}
-          {{- else if eq (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.type "pvcRWX" }}
-          persistentVolumeClaim:
-              claimName: {{.Release.Name}}-studio-datachain-worker-ephemeral-rwx
-          {{- else if eq (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.type "emptyDir"}}
-          emptyDir:
-            sizeLimit: {{ (.Values.studioDatachainWorkerJobTemplate).ephemeralStorage.size }}
+          {{- with (.Values.studioDatachainWorkerJobTemplate).nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 8 }}
           {{- end }}
-        {{- with (.Values.studioDatachainWorkerJobTemplate).localStorage }}
-        - name: tmp-local
-          {{- if eq .type "ephemeral" }}
-          ephemeral:
-            volumeClaimTemplate:
-              metadata:
-                labels:
-                  type: {{ $.Release.Name }}-{{ .persistentVolumeClaim.claimName }}
-              spec:
-                accessModes: [ "ReadWriteOnce" ]
-                {{- if .persistentVolumeClaim.storageClass }}
-                storageClassName: {{ .persistentVolumeClaim.storageClass }}
-                {{- end }}
-                resources:
-                  requests:
-                    storage: {{ .size }}
-          {{- else if eq .type "pvc" }}
-          persistentVolumeClaim:
-              claimName: {{ .persistentVolumeClaim.claimName }}
-          {{- else if eq .type "emptyDir"}}
-          emptyDir:
-            sizeLimit: {{ .size }}
+          {{- with (.Values.studioDatachainWorkerJobTemplate).affinity }}
+          affinity:
+            {{- toYaml . | nindent 8 }}
           {{- end }}
-        {{- end }}
-      {{- with (.Values.studioDatachainWorkerJobTemplate).nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with (.Values.studioDatachainWorkerJobTemplate).affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with (.Values.studioDatachainWorkerJobTemplate).tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+          {{- with (.Values.studioDatachainWorkerJobTemplate).tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
