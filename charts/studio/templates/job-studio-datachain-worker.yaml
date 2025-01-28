@@ -27,37 +27,54 @@ spec:
           serviceAccountName: {{ include "studio-datachain-worker.serviceAccountName" . }}
           runtimeClassName: {{ (.Values.studioDatachainWorkerJobTemplate).runtimeClassName }}
           securityContext:
-            {{- toYaml (.Values.studioDatachainWorkerJobTemplate).securityContext | nindent 12 }}
-          image: "{{ (.Values.studioDatachainWorkerJobTemplate).image.repository }}:{{ (.Values.studioDatachainWorkerJobTemplate).image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ (.Values.studioDatachainWorkerJobTemplate).image.pullPolicy }}
-          args: ["/app/bin/run_celery.sh", "datachain-worker"]
-          resources:
-            {{- toYaml (.Values.studioDatachainWorkerJobTemplate).resources | nindent 12 }}
-          env:
-            - name: "NO_MIGRATE_DB"
-              value: "1"
-            - name: "WAIT_FOR_MIGRATIONS"
-              value: "0"
-            - name: "CELERY_WORKER_SINGLE_TASK_MODE"
-              value: "True"
-            - name: "CELERY_WORKER_IDLE_TIMEOUT"
-              value: {{ (.Values.studioDatachainWorkerJobTemplate).idleTimeout | quote }}
-          envFrom:
-            - configMapRef:
-                name: studio
-            - configMapRef:
-                name: {{ .Release.Name }}-datachain-worker
-            - secretRef:
-                name: studio
-            {{- if .Values.global.envFromSecret }}
-            - secretRef:
-                name: {{ .Values.global.envFromSecret }}
+            fsGroup: 103
+            fsGroupChangePolicy: "OnRootMismatch"
+            {{- with (.Values.studioDatachainWorkerJobTemplate).podSecurityContext }}
+            {{- toYaml . | nindent 8 }}
             {{- end }}
-            {{- if .Values.studioDatachainWorker.envFromSecret }}
-            - secretRef:
-                name: {{ .Values.studioDatachainWorker.envFromSecret }}
-            {{- end }}
-          volumeMounts:
+          containers:
+            - name: studio-datachain-worker
+              securityContext:
+                {{- toYaml (.Values.studioDatachainWorkerJobTemplate).securityContext | nindent 12 }}
+              image: "{{ (.Values.studioDatachainWorkerJobTemplate).image.repository }}:{{ (.Values.studioDatachainWorkerJobTemplate).image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ (.Values.studioDatachainWorkerJobTemplate).image.pullPolicy }}
+              args: ["/app/bin/run_celery.sh", "datachain-worker"]
+              resources:
+                {{- toYaml (.Values.studioDatachainWorkerJobTemplate).resources | nindent 12 }}
+              env:
+                - name: "NO_MIGRATE_DB"
+                  value: "1"
+                - name: "WAIT_FOR_MIGRATIONS"
+                  value: "0"
+                - name: "CELERY_WORKER_SINGLE_TASK_MODE"
+                  value: "True"
+                - name: "CELERY_WORKER_IDLE_TIMEOUT"
+                  value: {{ (.Values.studioDatachainWorkerJobTemplate).idleTimeout | quote }}
+              envFrom:
+                - configMapRef:
+                    name: studio
+                - configMapRef:
+                    name: {{ .Release.Name }}-datachain-worker
+                - secretRef:
+                    name: studio
+                {{- if .Values.global.envFromSecret }}
+                - secretRef:
+                    name: {{ .Values.global.envFromSecret }}
+                {{- end }}
+                {{- if .Values.studioDatachainWorker.envFromSecret }}
+                - secretRef:
+                    name: {{ .Values.studioDatachainWorker.envFromSecret }}
+                {{- end }}
+              volumeMounts:
+                - name: studio-ca-certificates
+                  mountPath: /usr/local/share/ca-certificates
+                - name: tmp-ephemeral
+                  mountPath: /tmp/shared
+                {{- if (.Values.studioDatachainWorkerJobTemplate).localStorage }}
+                - name: tmp-local
+                  mountPath: /tmp/local
+                {{- end }}
+          volumes:
             - name: studio-ca-certificates
               configMap:
                 name: studio-ca-certificates
