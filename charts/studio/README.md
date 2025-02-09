@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.16.105](https://img.shields.io/badge/Version-0.16.105-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.159.0](https://img.shields.io/badge/AppVersion-v2.159.0-informational?style=flat-square)
+![Version: 0.16.106](https://img.shields.io/badge/Version-0.16.106-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.159.0](https://img.shields.io/badge/AppVersion-v2.159.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -139,7 +139,7 @@ A Helm chart for Kubernetes
 | studioBlobvault.image | object | `{"repository":"nginx","tag":"1.27.0-alpine"}` | Image to use for the blobvault service |
 | studioBlobvault.image.repository | string | `"nginx"` | Image repository |
 | studioBlobvault.image.tag | string | `"1.27.0-alpine"` | Image tag |
-| studioDatachainWorker | object | `{"affinity":{},"autoscaling":{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80,"template":[]},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-datachain-worker"},"logLevel":"info","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}},"securityContext":{},"serviceAccount":{"annotations":{},"create":false,"name":""},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":0}},"terminationGracePeriodSeconds":180,"tolerations":[]}` | Studio DataChain Worker settings group |
+| studioDatachainWorker | object | `{"affinity":{},"autoscaling":{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80,"template":[]},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-datachain-worker"},"logLevel":"info","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}},"securityContext":{},"serviceAccount":{"annotations":{},"create":true,"name":""},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":0}},"terminationGracePeriodSeconds":180,"tolerations":[]}` | Studio DataChain Worker settings group |
 | studioDatachainWorker.affinity | object | `{}` | DataChain worker pod affinity configuration |
 | studioDatachainWorker.autoscaling | object | `{"annotations":{},"behavior":{},"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80,"template":[]}` | DataChain worker autoscaling configuration |
 | studioDatachainWorker.autoscaling.annotations | object | `{}` | Worker autoscaling annotation |
