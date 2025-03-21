@@ -16,4 +16,8 @@ rules:
   - apiGroups: ["batch"]
     resources: ["jobs"]
     verbs: ["create", "get", "list", "watch"]
+  - apiGroups: [""]
+    resources:
+    - resourcequotas
+    verbs: ["get", "list", "watch"]
 {{- end }}
