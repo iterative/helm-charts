@@ -11,13 +11,13 @@ icon: "https://static.iterative.ai/logo/studio.svg"
 dependencies:
   - name: redis
     condition: redis.enabled
-    version: "19.5.5"
+    version: "19.6.4"
     repository: "https://charts.bitnami.com/bitnami"
   - name: postgresql
     condition: postgresql.enabled
-    version: "15.5.7"
+    version: "15.5.38"
     repository: "https://charts.bitnami.com/bitnami"
   - name: clickhouse
     condition: clickhouse.enabled
-    version: "6.2.8"
+    version: "6.3.3"
     repository: "https://charts.bitnami.com/bitnami"
