@@ -272,7 +272,7 @@ pgBouncer:
     # -- PgBouncer image pull policy
     pullPolicy: IfNotPresent
     # -- PgBouncer image tag
-    tag: "1.22.1"
+    tag: "1.24.1"
 
   service:
     type: ClusterIP
