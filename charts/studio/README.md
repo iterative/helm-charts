@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.16.150](https://img.shields.io/badge/Version-0.16.150-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.177.3](https://img.shields.io/badge/AppVersion-v2.177.3-informational?style=flat-square)
+![Version: 0.16.151](https://img.shields.io/badge/Version-0.16.151-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.177.3](https://img.shields.io/badge/AppVersion-v2.177.3-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -198,6 +198,17 @@ A Helm chart for Kubernetes
 | studioDatachainWorkerJobTemplate.securityContext | object | `{}` | DataChain worker Job security context configuration |
 | studioDatachainWorkerJobTemplate.tolerations | list | `[]` | DataChain worker Job pod tolerations configuration |
 | studioDatachainWorkerJobTemplate.ttlSecondsAfterFinished | int | `5` | DataChain worker Job TTL after finished (seconds) |
+| studioPypiCache | object | `{"affinity":{},"enabled":false,"image":{"repository":"nginx","tag":"1.27.4-alpine"},"nodeSelector":{},"podSecurityContext":{},"securityContext":{},"service":{"port":8080},"storage":{"persistentVolumeClaim":{"claimName":"pypi-cache","storageClass":""},"size":"100Gi","type":"pvcRWO"},"tolerations":[]}` | Studio: Additional service to cache PyPI packages |
+| studioPypiCache.enabled | bool | `false` | PiPI cache enabled |
+| studioPypiCache.image | object | `{"repository":"nginx","tag":"1.27.4-alpine"}` | Image to use for the pypi-cache service |
+| studioPypiCache.image.repository | string | `"nginx"` | Image repository |
+| studioPypiCache.image.tag | string | `"1.27.4-alpine"` | Image tag |
+| studioPypiCache.storage | object | `{"persistentVolumeClaim":{"claimName":"pypi-cache","storageClass":""},"size":"100Gi","type":"pvcRWO"}` | Storage configuration |
+| studioPypiCache.storage.persistentVolumeClaim | object | `{"claimName":"pypi-cache","storageClass":""}` | Persistent Volume Claim configuration for storage (if type is set `pvc`) |
+| studioPypiCache.storage.persistentVolumeClaim.claimName | string | `"pypi-cache"` | Persistent Volume Claim name, to mount externally managed PVC (`storage.type` has to be set to `pvc`) |
+| studioPypiCache.storage.persistentVolumeClaim.storageClass | string | `""` | Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type) |
+| studioPypiCache.storage.size | string | `"100Gi"` | Storage size |
+| studioPypiCache.storage.type | string | `"pvcRWO"` | Storage type; either `emptyDir`, `ephemeral`, `pvc` or `pvcRWO` |
 | studioUi | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-frontend"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"memory":"2Gi"},"requests":{"cpu":"500m","memory":"1Gi"}},"securityContext":{},"service":{"port":3000,"type":"ClusterIP"},"strategy":{"rollingUpdate":{"maxSurge":1,"maxUnavailable":0}},"tolerations":[]}` | Studio UI settings group |
 | studioUi.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables passed to UI pods. |
 | studioUi.envVars | object | `{}` | Additional environment variables for ui pods |
