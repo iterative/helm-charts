@@ -199,7 +199,7 @@ A Helm chart for Kubernetes
 | studioDatachainWorkerJobTemplate.tolerations | list | `[]` | DataChain worker Job pod tolerations configuration |
 | studioDatachainWorkerJobTemplate.ttlSecondsAfterFinished | int | `5` | DataChain worker Job TTL after finished (seconds) |
 | studioPypiCache | object | `{"affinity":{},"enabled":false,"image":{"repository":"nginx","tag":"1.27.4-alpine"},"nodeSelector":{},"podSecurityContext":{},"securityContext":{},"service":{"port":8080},"storage":{"persistentVolumeClaim":{"claimName":"pypi-cache","storageClass":""},"size":"100Gi","type":"pvcRWO"},"tolerations":[]}` | Studio: Additional service to cache PyPI packages |
-| studioPypiCache.enabled | bool | `false` | PiPI cache enabled |
+| studioPypiCache.enabled | bool | `false` | PyPI cache enabled |
 | studioPypiCache.image | object | `{"repository":"nginx","tag":"1.27.4-alpine"}` | Image to use for the pypi-cache service |
 | studioPypiCache.image.repository | string | `"nginx"` | Image repository |
 | studioPypiCache.image.tag | string | `"1.27.4-alpine"` | Image tag |
