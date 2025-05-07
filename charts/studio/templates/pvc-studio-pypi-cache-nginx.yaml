@@ -1,4 +1,4 @@
-{{- if .Values.studioPypiCache.enabled }}
+{{- if ((.Values.studioPypiCache).enabled) }}
 {{- if eq .Values.studioPypiCache.ephemeralStorage.type "pvcRWO" }}
 kind: PersistentVolumeClaim
 apiVersion: v1
