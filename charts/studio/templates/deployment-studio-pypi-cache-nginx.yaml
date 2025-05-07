@@ -1,0 +1,92 @@
+{{- if .Values.studioPypiCache.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-pypi-cache
+  labels:
+    {{- include "studio-pypi-cache.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      {{- include "studio-pypi-cache.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap-studio-pypi-cache-nginx: {{ include (print $.Template.BasePath "/configmap-studio-pypi-cache-nginx.yaml") . | sha256sum }}
+        {{- include "studio.checksum" . | indent 8 }}
+        {{- with .Values.studioPypiCache.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "studio-pypi-cache.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "studio.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.studioPypiCache.podSecurityContext | nindent 8 }}
+      containers:
+        - name: nginx
+          securityContext:
+            {{- toYaml .Values.studioPypiCache.securityContext | nindent 12 }}
+          image: "{{ .Values.studioPypiCache.image.repository }}:{{ .Values.studioPypiCache.image.tag }}"
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 2
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 10
+            periodSeconds: 10
+
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: pypi-cache.conf
+            - name: pypi-cache-pvc
+              mountPath: /var/lib/nginx/pypi
+          resources:
+            requests:
+              cpu: 200m
+              ephemeral-storage: 4Gi
+              memory: 1Gi
+            limits:
+              cpu: 2000m
+              ephemeral-storage: 4Gi
+              memory: 6Gi
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: {{.Release.Name}}-nginx
+        - name: pypi-cache-pvc
+          persistentVolumeClaim:
+            claimName: {{.Release.Name}}-studio-pypi-cache-ephemeral-rwo
+      {{- with .Values.studioWorker.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studioWorker.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studioWorker.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- end }}

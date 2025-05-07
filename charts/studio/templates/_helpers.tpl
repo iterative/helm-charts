@@ -97,6 +97,15 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
+{{- define "studio-pypi-proxy.labels" -}}
+helm.sh/chart: {{ include "studio.chart" . }}
+{{ include "studio-pypi-proxy.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
 {{- define "pgbouncer.labels" -}}
 helm.sh/chart: {{ include "studio.chart" . }}
 {{ include "pgbouncer.selectorLabels" . }}
@@ -117,6 +126,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 
 {{- define "studio-blobvault.selectorLabels" -}}
 app.kubernetes.io/name: studio-blobvault
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{- define "studio-pypi-proxy.selectorLabels" -}}
+app.kubernetes.io/name: studio-pypi-proxy
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
