@@ -2,8 +2,8 @@ apiVersion: v2
 name: studio
 description: A Helm chart for Kubernetes
 type: application
-version: 0.16.149
-appVersion: "v2.177.2"
+version: 0.16.150
+appVersion: "v2.177.3"
 maintainers:
   - name: iterative
     email: support@iterative.ai
