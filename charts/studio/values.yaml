@@ -942,7 +942,7 @@ studioBlobvault:
 
 # -- Studio: Additional service to cache PyPI packages
 studioPypiCache:
-  # -- PiPI cache enabled
+  # -- PyPI cache enabled
   enabled: false
 
   # -- Image to use for the pypi-cache service
