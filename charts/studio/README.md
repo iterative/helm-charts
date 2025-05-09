@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.16.150](https://img.shields.io/badge/Version-0.16.150-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.177.3](https://img.shields.io/badge/AppVersion-v2.177.3-informational?style=flat-square)
+![Version: 0.16.151](https://img.shields.io/badge/Version-0.16.151-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.177.3](https://img.shields.io/badge/AppVersion-v2.177.3-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -165,7 +165,7 @@ A Helm chart for Kubernetes
 | studioDatachainWorker.strategy | object | `{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":0}}` | DataChain worker deployment strategy |
 | studioDatachainWorker.terminationGracePeriodSeconds | int | `180` | DataChain worker termination grace period |
 | studioDatachainWorker.tolerations | list | `[]` | DataChain worker pod tolerations configuration |
-| studioDatachainWorkerJobTemplate | object | `{"activeDeadlineSeconds":86400,"affinity":{},"backoffLimit":0,"envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"claimName":"datachain-worker","storageClass":""},"size":"20Gi","type":"ephemeral"},"idleTimeout":1800,"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-datachain-worker"},"jobQuota":10,"localStorage":{"persistentVolumeClaim":{"claimName":"datachain-worker-local","storageClass":""},"size":"50Gi","type":"ephemeral"},"logLevel":"info","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"resources":{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}},"runtimeClassName":null,"securityContext":{},"serviceAccount":{"annotations":{},"create":false,"name":""},"tolerations":[],"ttlSecondsAfterFinished":5}` | Studio DataChain Worker Job template settings group |
+| studioDatachainWorkerJobTemplate | object | `{"activeDeadlineSeconds":86400,"affinity":{},"backoffLimit":0,"envVars":{},"ephemeralStorage":{"persistentVolumeClaim":{"claimName":"datachain-worker","storageClass":""},"size":"20Gi","type":"ephemeral"},"idleTimeout":1800,"image":{"pullPolicy":"IfNotPresent","repository":"docker.iterative.ai/studio-datachain-worker"},"jobQuota":10,"localStorage":{"persistentVolumeClaim":{"claimName":"datachain-worker-local","storageClass":""},"size":"50Gi","type":"ephemeral"},"logLevel":"info","nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"resources":{"limits":{"ephemeral-storage":"20Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}},"runtimeClassName":null,"securityContext":{},"serviceAccount":{"annotations":{},"create":false,"name":""},"tolerations":[],"ttlSecondsAfterFinished":5}` | Studio DataChain Worker Job template settings group |
 | studioDatachainWorkerJobTemplate.activeDeadlineSeconds | int | `86400` | DataChain worker Job active deadline (seconds) |
 | studioDatachainWorkerJobTemplate.affinity | object | `{}` | DataChain worker Job pod affinity configuration |
 | studioDatachainWorkerJobTemplate.backoffLimit | int | `0` | DataChain worker Job backoff limit |
@@ -191,8 +191,8 @@ A Helm chart for Kubernetes
 | studioDatachainWorkerJobTemplate.nodeSelector | object | `{}` | DataChain worker Job pod node selector configuration |
 | studioDatachainWorkerJobTemplate.podAnnotations | object | `{}` | Additional DataChain worker Job pod annotations |
 | studioDatachainWorkerJobTemplate.podSecurityContext | object | `{}` | DataChain worker Job pod security context configuration |
-| studioDatachainWorkerJobTemplate.resources | object | `{"limits":{"ephemeral-storage":"20Gi","memory":"16Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}}` | DataChain worker Job resources configuration |
-| studioDatachainWorkerJobTemplate.resources.limits | object | `{"ephemeral-storage":"20Gi","memory":"16Gi"}` | DataChain worker Job limits configuration |
+| studioDatachainWorkerJobTemplate.resources | object | `{"limits":{"ephemeral-storage":"20Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}}` | DataChain worker Job resources configuration |
+| studioDatachainWorkerJobTemplate.resources.limits | object | `{"ephemeral-storage":"20Gi"}` | DataChain worker Job limits configuration |
 | studioDatachainWorkerJobTemplate.resources.requests | object | `{"cpu":"1000m","ephemeral-storage":"10Gi","memory":"3Gi"}` | DataChain worker Job requests configuration |
 | studioDatachainWorkerJobTemplate.runtimeClassName | string | `nil` | DataChain worker Job security context configuration |
 | studioDatachainWorkerJobTemplate.securityContext | object | `{}` | DataChain worker Job security context configuration |
