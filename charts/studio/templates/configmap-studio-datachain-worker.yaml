@@ -6,6 +6,8 @@ data:
   CELERY_LOG_LEVEL: "{{ .Values.studioDatachainWorker.logLevel | default "info" | lower }}"
   LOG_JSON_FORMATTER: "True"
   DATACHAIN_K8S_JOB_AUTOSCALER: "True"
+  XDG_CACHE_HOME: "/tmp/local/cache"
+  TMPDIR: "/tmp/local"
 {{- with .Values.studioDatachainWorker.envVars}}
 {{-  toYaml . | nindent 2 }}
 {{- end }}
