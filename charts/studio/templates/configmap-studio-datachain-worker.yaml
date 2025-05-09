@@ -9,6 +9,8 @@ data:
   {{ if ((.Values.studioPypiCache).enabled) }}
   DATACHAIN_PYPI_PROXY_URL: "http://{{ .Release.Name }}-pypi-cache:{{ .Values.studioPypiCache.service.port }}"
   {{ end }}
+  XDG_CACHE_HOME: "/tmp/local/cache"
+  TMPDIR: "/tmp/local"
 {{- with .Values.studioDatachainWorker.envVars}}
 {{-  toYaml . | nindent 2 }}
 {{- end }}

@@ -832,7 +832,6 @@ studioDatachainWorkerJobTemplate:
       ephemeral-storage: 10Gi
     # -- DataChain worker Job limits configuration
     limits:
-      memory: 16Gi
       ephemeral-storage: 20Gi
 
   # -- Ephemeral storage configuration
