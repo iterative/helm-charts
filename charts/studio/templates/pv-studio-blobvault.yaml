@@ -1,4 +1,3 @@
----
 {{ if not .Values.global.blobvault.bucket }}
 apiVersion: v1
 kind: PersistentVolumeClaim
