@@ -6,9 +6,9 @@ metadata:
   labels:
     {{- include "studio-pypi-cache.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.studioPypiCache.service.type }}
+  type: {{ (((.Values.studioPypiCache).service).type) }}
   ports:
-    - port: {{ .Values.studioPypiCache.service.port | default 80 }}
+    - port: {{ (((.Values.studioPypiCache).service).port) | default 80 }}
       targetPort: http
       protocol: TCP
       name: http
