@@ -272,7 +272,7 @@ pgBouncer:
     # -- PgBouncer image pull policy
     pullPolicy: IfNotPresent
     # -- PgBouncer image tag
-    tag: "1.22.1"
+    tag: "1.24.1"
 
   service:
     type: ClusterIP
@@ -926,7 +926,7 @@ studioBlobvault:
     # -- Image repository
     repository: nginx
     # -- Image tag
-    tag: 1.27.4-alpine
+    tag: 1.28.0-alpine
 
   service:
     port: 80
