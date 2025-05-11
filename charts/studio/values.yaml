@@ -880,6 +880,9 @@ studioDatachainWorkerJobTemplate:
   # -- Additional DataChain worker Job pod annotations
   podAnnotations: {}
 
+  # -- Additional DataChain worker Job pod labels
+  podLabels: {}
+
   # -- DataChain worker Job pod security context configuration
   podSecurityContext: {}
     # fsGroup: 2000
