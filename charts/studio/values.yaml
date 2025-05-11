@@ -272,7 +272,7 @@ pgBouncer:
     # -- PgBouncer image pull policy
     pullPolicy: IfNotPresent
     # -- PgBouncer image tag
-    tag: "1.22.1"
+    tag: "1.24.1"
 
   service:
     type: ClusterIP
@@ -789,7 +789,7 @@ studioDatachainWorker:
 
   serviceAccount:
     # Specifies whether a service account should be created
-    create: false
+    create: true
     # Annotations to add to the service account
     annotations: {}
     # The name of the service account to use.
@@ -832,7 +832,6 @@ studioDatachainWorkerJobTemplate:
       ephemeral-storage: 10Gi
     # -- DataChain worker Job limits configuration
     limits:
-      memory: 16Gi
       ephemeral-storage: 20Gi
 
   # -- Ephemeral storage configuration
@@ -881,6 +880,9 @@ studioDatachainWorkerJobTemplate:
   # -- Additional DataChain worker Job pod annotations
   podAnnotations: {}
 
+  # -- Additional DataChain worker Job pod labels
+  podLabels: {}
+
   # -- DataChain worker Job pod security context configuration
   podSecurityContext: {}
     # fsGroup: 2000
@@ -924,7 +926,7 @@ studioBlobvault:
     # -- Image repository
     repository: nginx
     # -- Image tag
-    tag: 1.27.0-alpine
+    tag: 1.28.0-alpine
 
   service:
     port: 80
