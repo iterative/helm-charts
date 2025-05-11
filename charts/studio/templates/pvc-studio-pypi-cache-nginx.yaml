@@ -1,0 +1,17 @@
+{{- if ((.Values.studioPypiCache).enabled) }}
+{{- if eq .Values.studioPypiCache.storage.type "pvcRWO" }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{.Release.Name}}-studio-pypi-cache-ephemeral-rwo
+  labels:
+    {{- include "studio-pypi-cache.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ .Values.studioPypiCache.storage.persistentVolumeClaim.storageClass }}
+  resources:
+    requests:
+      storage:  {{ .Values.studioPypiCache.storage.size }}
+{{- end }}
+{{- end }}

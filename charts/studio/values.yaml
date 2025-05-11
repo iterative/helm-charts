@@ -942,6 +942,51 @@ studioBlobvault:
     # runAsNonRoot: true
     # runAsUser: 1000
 
+# -- Studio: Additional service to cache PyPI packages
+studioPypiCache:
+  # -- PyPI cache enabled
+  enabled: false
+
+  # -- Image to use for the pypi-cache service
+  image:
+    # -- Image repository
+    repository: nginx
+    # -- Image tag
+    tag: 1.27.4-alpine
+
+  service:
+    port: 8080
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  # -- Storage configuration
+  storage:
+    # -- Storage type; either `emptyDir`, `ephemeral`, `pvc` or `pvcRWO`
+    type: pvcRWO
+    # -- Storage size
+    size: 100Gi
+    # -- Persistent Volume Claim configuration for storage (if type is set `pvc`)
+    persistentVolumeClaim:
+      # -- Persistent Volume Claim name, to mount externally managed PVC (`storage.type` has to be set to `pvc`)
+      claimName: "pypi-cache"
+      # -- Persistent Volume Claim `storageClass` name, by default it will use the default `storageClass`(not used when `pvc` is set as type)
+      storageClass: ""
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: false

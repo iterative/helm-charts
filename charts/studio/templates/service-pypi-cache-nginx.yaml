@@ -1,0 +1,17 @@
+{{- if ((.Values.studioPypiCache).enabled) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-pypi-cache
+  labels:
+    {{- include "studio-pypi-cache.labels" . | nindent 4 }}
+spec:
+  type: {{ (((.Values.studioPypiCache).service).type) }}
+  ports:
+    - port: {{ (((.Values.studioPypiCache).service).port) | default 80 }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "studio-pypi-cache.selectorLabels" . | nindent 4 }}
+{{- end }}
