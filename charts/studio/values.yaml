@@ -880,6 +880,9 @@ studioDatachainWorkerJobTemplate:
   # -- Additional DataChain worker Job pod annotations
   podAnnotations: {}
 
+  # -- Additional DataChain worker Job pod labels
+  podLabels: {}
+
   # -- DataChain worker Job pod security context configuration
   podSecurityContext: {}
     # fsGroup: 2000
@@ -923,7 +926,7 @@ studioBlobvault:
     # -- Image repository
     repository: nginx
     # -- Image tag
-    tag: 1.27.4-alpine
+    tag: 1.28.0-alpine
 
   service:
     port: 80

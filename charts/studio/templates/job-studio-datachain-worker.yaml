@@ -18,6 +18,10 @@ spec:
             {{- with (.Values.studioDatachainWorkerJobTemplate).podAnnotations }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+          labels:
+            {{- with (.Values.studioDatachainWorkerJobTemplate).podLabels }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
         spec:
           restartPolicy: Never
           {{- with .Values.imagePullSecrets }}
