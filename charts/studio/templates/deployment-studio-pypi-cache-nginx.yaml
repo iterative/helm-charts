@@ -19,7 +19,7 @@ spec:
       annotations:
         checksum/configmap-studio-nginx: {{ include (print $.Template.BasePath "/configmap-studio-nginx.yaml") . | sha256sum }}
         {{- include "studio.checksum" . | indent 8 }}
-        {{- with .Values.studioPypiCache.podAnnotations }}
+        {{- with (((.Values).studioPypiCache).podAnnotations) }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
       labels:
@@ -31,12 +31,12 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "studio.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.studioPypiCache.podSecurityContext | nindent 8 }}
+        {{- toYaml (((.Values).studioPypiCache).podSecurityContext) | nindent 8 }}
       containers:
         - name: nginx
           securityContext:
-            {{- toYaml .Values.studioPypiCache.securityContext | nindent 12 }}
-          image: "{{ .Values.studioPypiCache.image.repository }}:{{ .Values.studioPypiCache.image.tag }}"
+            {{- toYaml (((.Values).studioPypiCache).securityContext) | nindent 12 }}
+          image: "{{ ((((.Values).studioPypiCache).image).repository) }}:{{ ((((.Values).studioPypiCache).image).tag) }}"
           imagePullPolicy: "IfNotPresent"
           ports:
             - name: http
@@ -77,15 +77,15 @@ spec:
         - name: pypi-cache-pvc
           persistentVolumeClaim:
             claimName: {{.Release.Name}}-studio-pypi-cache-ephemeral-rwo
-      {{- with .Values.studioWorker.nodeSelector }}
+      {{- with (((.Values).studioPypiCache).nodeSelector) }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.studioWorker.affinity }}
+      {{- with (((.Values).studioPypiCache).affinity) }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.studioWorker.tolerations }}
+      {{- with (((.Values).studioPypiCache).tolerations) }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
