@@ -1,0 +1,168 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: studio-datachain-api
+  labels:
+    {{- include "studio-datachain-api.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.studioBackend.datachainApi.enabled }}
+  replicas: 0
+  {{- else if not .Values.studioBackend.datachainApi.autoscaling.enabled }}
+  replicas: {{ .Values.studioBackend.datachainApi.replicaCount }}
+  {{- end }}
+  {{- with .Values.studioBackend.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "studio-datachain-api.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap-studio-backend: {{ include (print $.Template.BasePath "/configmap-studio-backend.yaml") . | sha256sum }}
+        checksum/configmap-studio-nginx: {{ include (print $.Template.BasePath "/configmap-studio-nginx.yaml") . | sha256sum }}
+        {{- include "studio.checksum" . | indent 8 }}
+
+        {{- with .Values.studioBackend.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "studio-datachain-api.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "studio-backend.serviceAccountName" . }}
+      securityContext:
+        fsGroup: 103
+        fsGroupChangePolicy: "OnRootMismatch"
+        {{- with .Values.studioWorker.podSecurityContext }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      containers:
+        - name: studio-datachain-api
+          securityContext:
+            {{- toYaml .Values.studioBackend.securityContext | nindent 12 }}
+          image: "{{ .Values.studioBackend.image.repository }}:{{ .Values.studioBackend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.studioBackend.image.pullPolicy }}
+          args: [ "/app/bin/run_studio.sh", "prod", "8000"]
+          ports:
+            - name: studio-http
+              containerPort: 8000
+              protocol: TCP
+          startupProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 30
+            successThreshold: 1
+            timeoutSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health?format=json
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
+            timeoutSeconds: 60
+          livenessProbe:
+            httpGet:
+              path: /health?format=json
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 5
+            timeoutSeconds: 60
+          volumeMounts:
+            {{ if not .Values.global.blobvault.bucket }}
+            - name: blobvault
+              mountPath: /blobvault
+            {{- end }}
+            - name: studio-ca-certificates
+              mountPath: /usr/local/share/ca-certificates
+          resources:
+            {{- toYaml .Values.studioBackend.datachainApi.resources | nindent 12 }}
+          env:
+            - name: "NO_MIGRATE_DB"
+              value: "1"
+            - name: "WAIT_FOR_MIGRATIONS"
+              value: "1"
+          envFrom:
+            - configMapRef:
+                name: studio
+            - configMapRef:
+                name: studio-backend
+            - secretRef:
+                name: studio
+            {{- if .Values.global.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.global.envFromSecret }}
+            {{- end }}
+            {{- if .Values.studioBackend.envFromSecret }}
+            - secretRef:
+                name: {{ .Values.studioBackend.envFromSecret }}
+            {{- end }}
+        {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
+        - name: nginx-sidecar
+          image: "{{ .Values.studioBlobvault.image.repository }}:{{ .Values.studioBlobvault.image.tag }}"
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - name: nginx-http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: nginx-sidecar
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: backend-sidecar.conf
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
+          {{- end }}
+      volumes:
+        {{ if not .Values.global.blobvault.bucket }}
+        - name: blobvault
+          persistentVolumeClaim:
+            claimName: blobvault
+        {{- end }}
+        - name: studio-ca-certificates
+          configMap:
+            name: studio-ca-certificates
+        {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
+        - name: nginx-config
+          configMap:
+            name: {{ .Release.Name }}-nginx
+        - name: nginx-sidecar
+          configMap:
+            name: {{ .Release.Name }}-nginx
+        {{- end }}
+      {{- with .Values.studioBackend.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studioBackend.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studioBackend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

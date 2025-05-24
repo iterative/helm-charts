@@ -38,14 +38,34 @@ spec:
   rules:
     - http:
         paths:
+          {{- if .Values.studioBackend.datachainApi.enabled }}
+          {{- $paths := list "management" "metastore" "jobs" }}
+          {{- range $p := $paths }}
+          {{- if and $.Values.global.basePath (not (eq $.Values.global.basePath "/")) }}
+          - path: /{{ include "studio.basePath" . }}/api/{{ $p }}
+          {{- else }}
+          - path: /api/{{ $p }}
+          {{- end }}
+            pathType: Prefix
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: studio-datachain-api
+                port:
+                  number: {{ $.Values.studioBackend.service.port }}
+              {{- else }}
+              serviceName: studio-datachain-api
+              servicePort: {{ $.Values.studioBackend.service.port }}
+              {{- end }}
+          {{- end }}
+          {{- end }}
+
           {{- if and .Values.global.basePath (not (eq .Values.global.basePath "/")) }}
           - path: /{{ include "studio.basePath" . }}/api
           {{- else }}
           - path: /api
           {{- end }}
-            {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
-            pathType: ImplementationSpecific
-            {{- end }}
+            pathType: Prefix
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:

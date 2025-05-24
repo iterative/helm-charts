@@ -79,6 +79,15 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
+{{- define "studio-datachain-api.labels" -}}
+helm.sh/chart: {{ include "studio.chart" . }}
+{{ include "studio-datachain-api.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
 {{- define "studio-ui.labels" -}}
 helm.sh/chart: {{ include "studio.chart" . }}
 {{ include "studio-ui.selectorLabels" . }}
@@ -136,6 +145,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 
 {{- define "studio-backend.selectorLabels" -}}
 app.kubernetes.io/name: studio-backend
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{- define "studio-datachain-api.selectorLabels" -}}
+app.kubernetes.io/name: studio-datachain-api
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
