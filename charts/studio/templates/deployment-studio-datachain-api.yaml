@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "studio-datachain-api.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.studioBackend.datachainApi.enabled }}
+  {{- if not (default false .Values.studioBackend.datachainApi.enabled) }}
   replicas: 0
   {{- else if not .Values.studioBackend.datachainApi.autoscaling.enabled }}
   replicas: {{ .Values.studioBackend.datachainApi.replicaCount }}

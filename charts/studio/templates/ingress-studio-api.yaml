@@ -38,7 +38,7 @@ spec:
   rules:
     - http:
         paths:
-          {{- if .Values.studioBackend.datachainApi.enabled }}
+          {{- if (default false .Values.studioBackend.datachainApi.enabled) }}
           {{- $paths := list "management" "metastore" "jobs" }}
           {{- range $p := $paths }}
           {{- if and $.Values.global.basePath (not (eq $.Values.global.basePath "/")) }}
