@@ -465,6 +465,27 @@ studioBackend:
 
   affinity: {}
 
+  datachainApi:
+    enabled: false
+
+    # -- Number of replicas of Datachain API backend pods
+    replicaCount: 1
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 5
+      targetCPUUtilizationPercentage: 80
+      # targetMemoryUtilizationPercentage: 80
+
 # -- Studio Beat settings group
 studioBeat:
   # -- Additional environment variables for beat pods
