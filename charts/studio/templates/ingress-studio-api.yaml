@@ -65,7 +65,9 @@ spec:
           {{- else }}
           - path: /api
           {{- end }}
-            pathType: Prefix
+            {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
+            pathType: ImplementationSpecific
+            {{- end }}
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
