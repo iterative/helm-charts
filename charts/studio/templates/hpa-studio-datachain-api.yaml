@@ -10,23 +10,23 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: studio-datachain-api
-  minReplicas: {{ .Values.studioBackend.datachainApi.autoscaling.minReplicas }}
-  maxReplicas: {{ .Values.studioBackend.datachainApi.autoscaling.maxReplicas }}
+  minReplicas: {{ ((.Values.studioBackend.datachainApi).autoscaling.minReplicas) }}
+  maxReplicas: {{ ((.Values.studioBackend.datachainApi).autoscaling.maxReplicas) }}
   metrics:
-    {{- if .Values.studioBackend.datachainApi.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- if ((.Values.studioBackend.datachainApi).autoscaling.targetMemoryUtilizationPercentage) }}
     - type: Resource
       resource:
         name: memory
         target:
           type: Utilization
-          averageUtilization: {{ .Values.studioBackend.datachainApi.autoscaling.targetMemoryUtilizationPercentage }}
+          averageUtilization: {{ ((.Values.studioBackend.datachainApi).autoscaling.targetMemoryUtilizationPercentage) }}
     {{- end }}
-    {{- if .Values.studioBackend.datachainApi.autoscaling.targetCPUUtilizationPercentage }}
+    {{- if ((.Values.studioBackend.datachainApi).autoscaling.targetCPUUtilizationPercentage) }}
     - type: Resource
       resource:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: {{ .Values.studioBackend.datachainApi.autoscaling.targetCPUUtilizationPercentage }}
+          averageUtilization: {{ ((.Values.studioBackend.datachainApi).autoscaling.targetCPUUtilizationPercentage) }}
     {{- end }}
 {{- end }}

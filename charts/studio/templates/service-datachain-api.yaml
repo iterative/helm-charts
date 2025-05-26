@@ -1,4 +1,4 @@
-{{- if (default false .Values.studioBackend.datachainApi.enabled) }}
+{{- if ((.Values.studioBackend.datachainApi).enabled) }}
 apiVersion: v1
 kind: Service
 metadata:
