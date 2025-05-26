@@ -1,4 +1,4 @@
-{{- if .Values.studioBackend.datachainApi.autoscaling.enabled }}
+{{- if ((.Values.studioBackend.datachainApi).autoscaling.enabled) }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
