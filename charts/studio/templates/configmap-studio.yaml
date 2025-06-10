@@ -117,6 +117,7 @@ data:
   SCM_PROVIDERS: {{ $scmProviders | join "," | quote }}
 
   SOCIAL_AUTH_REDIRECT_IS_HTTPS: "False"
+  DATACHAIN_NO_ANALYTICS: "True"
 
   {{- if .Values.global.host }}
   SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS: "studio-ui.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioUi.service.port }},studio-backend.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.studioBackend.service.port }},{{ .Values.global.host }}"
