@@ -893,7 +893,7 @@ studioDatachainWorkerJobTemplate:
   activeDeadlineSeconds: 86400
 
   # -- DataChain worker Job TTL after finished (seconds)
-  ttlSecondsAfterFinished: 5
+  ttlSecondsAfterFinished: 30
 
   # -- DataChain worker Job backoff limit
   backoffLimit: 0
