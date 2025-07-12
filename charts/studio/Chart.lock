@@ -1,12 +1,12 @@
 dependencies:
 - name: redis
   repository: https://charts.bitnami.com/bitnami
-  version: 21.0.2
+  version: 21.2.10
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 16.7.2
+  version: 16.7.18
 - name: clickhouse
   repository: https://charts.bitnami.com/bitnami
-  version: 9.2.2
-digest: sha256:d86442027fdeecf48ae3e1df3b660cececd2faf2d6ca0e2d36b3e0a9c1ceb2ef
-generated: "2025-05-09T22:14:24.213857777Z"
+  version: 9.3.9
+digest: sha256:661dc4bda30e0cd7b39c7da20cc1d92997096d691f61c5285086e8e5aa742caa
+generated: "2025-07-12T16:55:30.383211093Z"
