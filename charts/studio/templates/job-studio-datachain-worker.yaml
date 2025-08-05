@@ -54,6 +54,8 @@ spec:
                   value: "True"
                 - name: "CELERY_WORKER_IDLE_TIMEOUT"
                   value: {{ (.Values.studioDatachainWorkerJobTemplate).idleTimeout | quote }}
+                - name: WATCHDOG_KEEPALIVE_FILE
+                  value: "/tmp/watchdog-keepalive"
               envFrom:
                 - configMapRef:
                     name: studio
@@ -69,6 +71,17 @@ spec:
                 - secretRef:
                     name: {{ .Values.studioDatachainWorker.envFromSecret }}
                 {{- end }}
+              readinessProbe:
+                exec:
+                  command: ["/app/bin/healthcheck/datachain-worker.sh"]
+                initialDelaySeconds: 5
+                periodSeconds: 1
+              livenessProbe:
+                exec:
+                  command: ["/app/bin/healthcheck/datachain-worker.sh"]
+                initialDelaySeconds: 60
+                periodSeconds: 5
+                failureThreshold: 1
               volumeMounts:
                 - name: studio-ca-certificates
                   mountPath: /usr/local/share/ca-certificates
