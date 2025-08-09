@@ -71,17 +71,18 @@ spec:
                 - secretRef:
                     name: {{ .Values.studioDatachainWorker.envFromSecret }}
                 {{- end }}
-              readinessProbe:
+              startupProbe:
                 exec:
-                  command: ["/app/bin/healthcheck/datachain-worker.sh"]
-                initialDelaySeconds: 5
-                periodSeconds: 1
+                  command: ["/app/bin/healthcheck/datachain-worker-startup.sh"]
+                initialDelaySeconds: 3
+                periodSeconds: 3
+                failureThreshold: 100
               livenessProbe:
                 exec:
-                  command: ["/app/bin/healthcheck/datachain-worker.sh"]
-                initialDelaySeconds: 60
+                  command: ["/app/bin/healthcheck/datachain-worker-liveness.sh"]
+                initialDelaySeconds: 3
                 periodSeconds: 5
-                failureThreshold: 1
+                failureThreshold: 3
               volumeMounts:
                 - name: studio-ca-certificates
                   mountPath: /usr/local/share/ca-certificates
