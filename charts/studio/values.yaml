@@ -1016,3 +1016,243 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
+
+# -- Fluent Bit configuration for log collection
+fluent-bit:
+  # -- Fluent Bit enabled
+  enabled: true
+  # -- Fluent Bit name override
+  fullnameOverride: studio-fluent-bit
+
+  # -- Fluent Bit service account
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  # -- Fluent Bit RBAC configuration
+  rbac:
+    create: true
+    nodeAccess: true
+
+  # -- Fluent Bit pod security context
+  podSecurityContext:
+    fsGroup: 2000
+
+  # -- Fluent Bit security context
+  securityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+    capabilities:
+      drop:
+        - ALL
+
+  # -- Fluent Bit resources
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 150m
+      memory: 256Mi
+
+  # -- Fluent Bit node selector
+  nodeSelector: {}
+
+  # -- Fluent Bit tolerations to run on all nodes
+  tolerations:
+    - key: node-role.kubernetes.io/control-plane
+      operator: Exists
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/master
+      operator: Exists
+      effect: NoSchedule
+
+  # -- Fluent Bit affinity
+  affinity: {}
+
+  # -- Fluent Bit configuration
+  config:
+    service: |
+      [SERVICE]
+          Daemon Off
+          Flush 1
+          Log_Level info
+          Parsers_File /fluent-bit/etc/parsers.conf
+          Parsers_File /fluent-bit/etc/conf/custom_parsers.conf
+          HTTP_Server Off
+          Health_Check On
+
+    inputs: |
+      [INPUT]
+          Name tail
+          Path /var/log/containers/*.log
+          multiline.parser docker, cri
+          Tag kube.*
+          Mem_Buf_Limit 50MB
+          Skip_Long_Lines On
+
+      [INPUT]
+          Name systemd
+          Tag host.*
+          Systemd_Filter _SYSTEMD_UNIT=kubelet.service
+          Read_From_Tail On
+
+    filters: |
+      [FILTER]
+          Name kubernetes
+          Match kube.*
+          Kube_URL https://kubernetes.default.svc:443
+          Kube_CA_File /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          Kube_Token_File /var/run/secrets/kubernetes.io/serviceaccount/token
+          Kube_Tag_Prefix kube.var.log.containers.
+          Merge_Log On
+          Keep_Log Off
+          K8S-Logging.Parser On
+          K8S-Logging.Exclude On
+
+    outputs: |
+      [OUTPUT]
+          Name forward
+          Match *
+          Host studio-fluentd
+          Port 24224
+          Require_ack_response true
+
+    customParsers: |
+      [PARSER]
+          Name docker_no_time
+          Format json
+          Time_Keep Off
+          Time_Key time
+          Time_Format %Y-%m-%dT%H:%M:%S.%L
+
+  # -- Fluent Bit volume mounts
+  volumeMounts:
+    - name: config
+      mountPath: /fluent-bit/etc/conf
+    - name: varlog
+      mountPath: /var/log
+      readOnly: true
+
+  # -- Fluent Bit volumes
+  daemonSetVolumes:
+    - name: varlog
+      hostPath:
+        path: /var/log
+
+# -- Fluentd configuration for log aggregation
+fluentd:
+  # -- Fluentd enabled
+  enabled: true
+
+  # -- Fluentd kind (DaemonSet, Deployment, or StatefulSet)
+  kind: "StatefulSet"
+
+  # -- Fluentd replica count (only for Deployment/StatefulSet)
+  replicaCount: 1
+
+  # -- Disable mounting of /var/log directory
+  mountVarLogDirectory: false
+
+  # -- Disable mounting of /var/lib/docker/containers directory
+  mountDockerContainersDirectory: false
+
+  # -- Fluentd service account
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: null
+
+  # -- Fluentd pod security context
+  podSecurityContext: {}
+
+  # -- Fluentd security context
+  securityContext: {}
+
+  # -- Fluentd resources
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+
+  # -- Fluentd node selector
+  nodeSelector: {}
+
+  # -- Fluentd tolerations
+  tolerations: []
+
+  # -- Fluentd affinity
+  affinity: {}
+
+  # -- Fluentd service configuration
+  service:
+    enabled: true
+    type: ClusterIP
+    annotations: {}
+    ports:
+      - name: "forwarder"
+        protocol: TCP
+        containerPort: 24224
+
+  # -- Fluentd persistence configuration
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 64Gi
+
+  # -- Fluentd configuration files
+  fileConfigs:
+    01_sources.conf: |-
+      <source>
+        @type forward
+        port 24224
+        bind 0.0.0.0
+      </source>
+      <source>
+        @type prometheus
+        bind 0.0.0.0
+        port 24231
+        metrics_path /metrics
+      </source>
+
+    02_filters.conf: |-
+      <filter **>
+        @type record_transformer
+        <record>
+          hostname "#{Socket.gethostname}"
+          timestamp ${time.strftime('%Y-%m-%dT%H:%M:%S')}
+          source_type kubernetes
+        </record>
+      </filter>
+
+    03_outputs.conf: |-
+      <match **>
+        @type copy
+        <store>
+          @type file
+          path /var/log/fluent/output
+          time_slice_format %Y-%m-%d
+          time_slice_wait 10m
+          time_format %Y%m%dT%H%M%S%z
+          compress gzip
+          format json
+          <buffer>
+            timekey 1d
+            timekey_wait 10m
+            timekey_use_utc true
+            flush_mode interval
+            flush_interval 10s
+          </buffer>
+          remove_old_logs true
+          max_log_file_age 3d
+        </store>
+        <store>
+          @type stdout
+          format json
+        </store>
+      </match>

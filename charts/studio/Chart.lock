@@ -8,5 +8,11 @@ dependencies:
 - name: clickhouse
   repository: https://charts.bitnami.com/bitnami
   version: 9.2.2
-digest: sha256:d86442027fdeecf48ae3e1df3b660cececd2faf2d6ca0e2d36b3e0a9c1ceb2ef
-generated: "2025-05-09T22:14:24.213857777Z"
+- name: fluentd
+  repository: https://fluent.github.io/helm-charts
+  version: 0.5.3
+- name: fluent-bit
+  repository: https://fluent.github.io/helm-charts
+  version: 0.52.0
+digest: sha256:4f2776498cac1cd1815709d53c5aa2065837c95e9cec164d0446ed2d47dbc7a9
+generated: "2025-09-04T22:58:21.478052+02:00"

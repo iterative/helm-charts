@@ -21,3 +21,11 @@ dependencies:
     condition: clickhouse.enabled
     version: "9.2.2"
     repository: "https://charts.bitnami.com/bitnami"
+  - name: fluentd
+    condition: fluentd.enabled
+    version: "0.5.3"
+    repository: "https://fluent.github.io/helm-charts"
+  - name: fluent-bit
+    condition: fluent-bit.enabled
+    version: "0.52.0"
+    repository: "https://fluent.github.io/helm-charts"
