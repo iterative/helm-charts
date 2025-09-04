@@ -1236,7 +1236,7 @@ fluentd:
         <store>
           @type file
           path /var/log/fluent/output
-          time_slice_format %Y-%m-%d
+          time_slice_format %Y%m%dT%H%M%S%z
           time_slice_wait 10m
           time_format %Y%m%dT%H%M%S%z
           compress gzip
