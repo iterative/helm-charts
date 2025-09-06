@@ -1249,7 +1249,7 @@ fluentd:
             flush_interval 10s
           </buffer>
           remove_old_logs true
-          max_log_file_age 3d
+          max_log_file_age 7d
         </store>
         <store>
           @type stdout
