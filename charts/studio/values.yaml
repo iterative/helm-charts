@@ -1242,8 +1242,8 @@ fluentd:
           compress gzip
           format json
           <buffer>
-            timekey 1d
-            timekey_wait 10m
+            timekey 1h
+            timekey_wait 1m
             timekey_use_utc true
             flush_mode interval
             flush_interval 10s
