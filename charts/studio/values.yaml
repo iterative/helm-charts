@@ -1230,7 +1230,7 @@ fluentd:
         </record>
       </filter>
 
-    03_outputs.conf: |-
+    04_outputs.conf: |-
       <match **>
         @type copy
         <store>
