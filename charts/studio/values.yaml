@@ -1203,7 +1203,7 @@ fluentd:
     enabled: true
     storageClass: ""
     accessMode: ReadWriteOnce
-    size: 64Gi
+    size: 128Gi
 
   # -- Fluentd configuration files
   fileConfigs:
