@@ -1,8 +1,8 @@
 {{- if ((.Values.studioDatachainWorker).serviceAccount).create -}}
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
-  name: {{ include "studio-datachain-worker.serviceAccountName" . }}
+  name: {{ include "studio-datachain-worker.serviceAccountName" . }}-events
   labels:
     {{- include "studio-datachain-worker.labels" . | nindent 4 }}
   {{- with .Values.studioDatachainWorker.serviceAccount.annotations }}
@@ -14,8 +14,9 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ include "studio-datachain-worker.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: {{ include "studio-datachain-worker.serviceAccountName" . }}
+  kind: ClusterRole
+  name: {{ include "studio-datachain-worker.serviceAccountName" . }}-events
 {{- end }}
