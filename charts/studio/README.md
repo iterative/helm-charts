@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.18.101](https://img.shields.io/badge/Version-0.18.101-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.207.2](https://img.shields.io/badge/AppVersion-v2.207.2-informational?style=flat-square)
+![Version: 0.18.102](https://img.shields.io/badge/Version-0.18.102-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.207.2](https://img.shields.io/badge/AppVersion-v2.207.2-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -17,6 +17,8 @@ A Helm chart for Kubernetes
 | https://charts.bitnami.com/bitnami | clickhouse | 9.2.2 |
 | https://charts.bitnami.com/bitnami | postgresql | 16.7.2 |
 | https://charts.bitnami.com/bitnami | redis | 21.0.2 |
+| https://fluent.github.io/helm-charts | fluent-bit | 0.52.0 |
+| https://fluent.github.io/helm-charts | fluentd | 0.5.3 |
 
 ## Values
 
@@ -27,6 +29,36 @@ A Helm chart for Kubernetes
 | clickhouse.fullnameOverride | string | `"studio-clickhouse"` | ClickHouse name override |
 | clickhouse.replicaCount | int | `1` |  |
 | clickhouse.shards | int | `1` |  |
+| fluent-bit | object | `{"affinity":{},"config":{"customParsers":"[PARSER]\n    Name docker_no_time\n    Format json\n    Time_Keep Off\n    Time_Key time\n    Time_Format %Y-%m-%dT%H:%M:%S.%L\n","filters":"[FILTER]\n    Name kubernetes\n    Match kube.*\n    Kube_URL https://kubernetes.default.svc:443\n    Kube_CA_File /var/run/secrets/kubernetes.io/serviceaccount/ca.crt\n    Kube_Token_File /var/run/secrets/kubernetes.io/serviceaccount/token\n    Kube_Tag_Prefix kube.var.log.containers.\n    Merge_Log On\n    Keep_Log Off\n    K8S-Logging.Parser On\n    K8S-Logging.Exclude On\n","inputs":"[INPUT]\n    Name tail\n    Path /var/log/containers/*.log\n    multiline.parser docker, cri\n    Tag kube.*\n    Mem_Buf_Limit 50MB\n    Skip_Long_Lines On\n\n[INPUT]\n    Name systemd\n    Tag host.*\n    Systemd_Filter _SYSTEMD_UNIT=kubelet.service\n    Read_From_Tail On\n","outputs":"[OUTPUT]\n    Name forward\n    Match *\n    Host studio-fluentd\n    Port 24224\n    Require_ack_response true\n","service":"[SERVICE]\n    Daemon Off\n    Flush 1\n    Log_Level info\n    Parsers_File /fluent-bit/etc/parsers.conf\n    Parsers_File /fluent-bit/etc/conf/custom_parsers.conf\n    HTTP_Server Off\n    Health_Check On\n"},"daemonSetVolumes":[{"hostPath":{"path":"/var/log"},"name":"varlog"}],"enabled":false,"fullnameOverride":"studio-fluent-bit","nodeSelector":{},"podSecurityContext":{"fsGroup":2000},"rbac":{"create":true,"nodeAccess":true},"resources":{"limits":{"memory":"256Mi"},"requests":{"cpu":"150m","memory":"256Mi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsNonRoot":true,"runAsUser":1000},"serviceAccount":{"annotations":{},"create":true,"name":""},"tolerations":[{"effect":"NoSchedule","key":"node-role.kubernetes.io/control-plane","operator":"Exists"},{"effect":"NoSchedule","key":"node-role.kubernetes.io/master","operator":"Exists"}],"volumeMounts":[{"mountPath":"/fluent-bit/etc/conf","name":"config"},{"mountPath":"/var/log","name":"varlog","readOnly":true}]}` | Fluent Bit configuration for log collection |
+| fluent-bit.affinity | object | `{}` | Fluent Bit affinity |
+| fluent-bit.config | object | `{"customParsers":"[PARSER]\n    Name docker_no_time\n    Format json\n    Time_Keep Off\n    Time_Key time\n    Time_Format %Y-%m-%dT%H:%M:%S.%L\n","filters":"[FILTER]\n    Name kubernetes\n    Match kube.*\n    Kube_URL https://kubernetes.default.svc:443\n    Kube_CA_File /var/run/secrets/kubernetes.io/serviceaccount/ca.crt\n    Kube_Token_File /var/run/secrets/kubernetes.io/serviceaccount/token\n    Kube_Tag_Prefix kube.var.log.containers.\n    Merge_Log On\n    Keep_Log Off\n    K8S-Logging.Parser On\n    K8S-Logging.Exclude On\n","inputs":"[INPUT]\n    Name tail\n    Path /var/log/containers/*.log\n    multiline.parser docker, cri\n    Tag kube.*\n    Mem_Buf_Limit 50MB\n    Skip_Long_Lines On\n\n[INPUT]\n    Name systemd\n    Tag host.*\n    Systemd_Filter _SYSTEMD_UNIT=kubelet.service\n    Read_From_Tail On\n","outputs":"[OUTPUT]\n    Name forward\n    Match *\n    Host studio-fluentd\n    Port 24224\n    Require_ack_response true\n","service":"[SERVICE]\n    Daemon Off\n    Flush 1\n    Log_Level info\n    Parsers_File /fluent-bit/etc/parsers.conf\n    Parsers_File /fluent-bit/etc/conf/custom_parsers.conf\n    HTTP_Server Off\n    Health_Check On\n"}` | Fluent Bit configuration |
+| fluent-bit.daemonSetVolumes | list | `[{"hostPath":{"path":"/var/log"},"name":"varlog"}]` | Fluent Bit volumes |
+| fluent-bit.enabled | bool | `false` | Fluent Bit enabled |
+| fluent-bit.fullnameOverride | string | `"studio-fluent-bit"` | Fluent Bit name override |
+| fluent-bit.nodeSelector | object | `{}` | Fluent Bit node selector |
+| fluent-bit.podSecurityContext | object | `{"fsGroup":2000}` | Fluent Bit pod security context |
+| fluent-bit.rbac | object | `{"create":true,"nodeAccess":true}` | Fluent Bit RBAC configuration |
+| fluent-bit.resources | object | `{"limits":{"memory":"256Mi"},"requests":{"cpu":"150m","memory":"256Mi"}}` | Fluent Bit resources |
+| fluent-bit.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsNonRoot":true,"runAsUser":1000}` | Fluent Bit security context |
+| fluent-bit.serviceAccount | object | `{"annotations":{},"create":true,"name":""}` | Fluent Bit service account |
+| fluent-bit.tolerations | list | `[{"effect":"NoSchedule","key":"node-role.kubernetes.io/control-plane","operator":"Exists"},{"effect":"NoSchedule","key":"node-role.kubernetes.io/master","operator":"Exists"}]` | Fluent Bit tolerations to run on all nodes |
+| fluent-bit.volumeMounts | list | `[{"mountPath":"/fluent-bit/etc/conf","name":"config"},{"mountPath":"/var/log","name":"varlog","readOnly":true}]` | Fluent Bit volume mounts |
+| fluentd | object | `{"affinity":{},"enabled":false,"fileConfigs":{"01_sources.conf":"<source>\n  @type forward\n  port 24224\n  bind 0.0.0.0\n</source>\n<source>\n  @type prometheus\n  bind 0.0.0.0\n  port 24231\n  metrics_path /metrics\n</source>","02_filters.conf":"<filter **>\n  @type record_transformer\n  <record>\n    hostname \"#{Socket.gethostname}\"\n    timestamp ${time.strftime('%Y-%m-%dT%H:%M:%S')}\n    source_type kubernetes\n  </record>\n</filter>","03_outputs.conf":"<match **>\n  @type copy\n  <store>\n    @type file\n    path /var/log/fluent/output\n    time_slice_format %Y%m%dT%H%M%S%z\n    time_slice_wait 10m\n    time_format %Y%m%dT%H%M%S%z\n    compress gzip\n    format json\n    <buffer>\n      timekey 1h\n      timekey_wait 1m\n      timekey_use_utc true\n      flush_mode interval\n      flush_interval 10s\n    </buffer>\n    remove_old_logs true\n    max_log_file_age 7d\n  </store>\n  <store>\n    @type stdout\n    format json\n  </store>\n</match>"},"kind":"StatefulSet","mountDockerContainersDirectory":false,"mountVarLogDirectory":false,"nodeSelector":{},"persistence":{"accessMode":"ReadWriteOnce","enabled":true,"size":"128Gi","storageClass":""},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"200m","memory":"256Mi"}},"securityContext":{},"service":{"annotations":{},"enabled":true,"ports":[{"containerPort":24224,"name":"forwarder","protocol":"TCP"}],"type":"ClusterIP"},"serviceAccount":{"annotations":{},"create":true,"name":null},"tolerations":[]}` | Fluentd configuration for log aggregation |
+| fluentd.affinity | object | `{}` | Fluentd affinity |
+| fluentd.enabled | bool | `false` | Fluentd enabled |
+| fluentd.fileConfigs | object | `{"01_sources.conf":"<source>\n  @type forward\n  port 24224\n  bind 0.0.0.0\n</source>\n<source>\n  @type prometheus\n  bind 0.0.0.0\n  port 24231\n  metrics_path /metrics\n</source>","02_filters.conf":"<filter **>\n  @type record_transformer\n  <record>\n    hostname \"#{Socket.gethostname}\"\n    timestamp ${time.strftime('%Y-%m-%dT%H:%M:%S')}\n    source_type kubernetes\n  </record>\n</filter>","03_outputs.conf":"<match **>\n  @type copy\n  <store>\n    @type file\n    path /var/log/fluent/output\n    time_slice_format %Y%m%dT%H%M%S%z\n    time_slice_wait 10m\n    time_format %Y%m%dT%H%M%S%z\n    compress gzip\n    format json\n    <buffer>\n      timekey 1h\n      timekey_wait 1m\n      timekey_use_utc true\n      flush_mode interval\n      flush_interval 10s\n    </buffer>\n    remove_old_logs true\n    max_log_file_age 7d\n  </store>\n  <store>\n    @type stdout\n    format json\n  </store>\n</match>"}` | Fluentd configuration files |
+| fluentd.kind | string | `"StatefulSet"` | Fluentd kind (DaemonSet, Deployment, or StatefulSet) |
+| fluentd.mountDockerContainersDirectory | bool | `false` | Disable mounting of /var/lib/docker/containers directory |
+| fluentd.mountVarLogDirectory | bool | `false` | Disable mounting of /var/log directory |
+| fluentd.nodeSelector | object | `{}` | Fluentd node selector |
+| fluentd.persistence | object | `{"accessMode":"ReadWriteOnce","enabled":true,"size":"128Gi","storageClass":""}` | Fluentd persistence configuration |
+| fluentd.podSecurityContext | object | `{}` | Fluentd pod security context |
+| fluentd.replicaCount | int | `1` | Fluentd replica count (only for Deployment/StatefulSet) |
+| fluentd.resources | object | `{"limits":{"memory":"512Mi"},"requests":{"cpu":"200m","memory":"256Mi"}}` | Fluentd resources |
+| fluentd.securityContext | object | `{}` | Fluentd security context |
+| fluentd.service | object | `{"annotations":{},"enabled":true,"ports":[{"containerPort":24224,"name":"forwarder","protocol":"TCP"}],"type":"ClusterIP"}` | Fluentd service configuration |
+| fluentd.serviceAccount | object | `{"annotations":{},"create":true,"name":null}` | Fluentd service account |
+| fluentd.tolerations | list | `[]` | Fluentd tolerations |
 | global.basePath | string | `""` | Studio: Base path (prefix) |
 | global.blobvault.accessKeyId | string | `""` | Blobvault S3 access key ID |
 | global.blobvault.bucket | string | `""` | Blobvault S3 bucket name |
