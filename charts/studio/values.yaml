@@ -1145,7 +1145,7 @@ fluent-bit:
 # -- Fluentd configuration for log aggregation
 fluentd:
   # -- Fluentd enabled
-  enabled: true
+  enabled: false
 
   # -- Fluentd kind (DaemonSet, Deployment, or StatefulSet)
   kind: "StatefulSet"
