@@ -1020,7 +1020,7 @@ serviceAccount:
 # -- Fluent Bit configuration for log collection
 fluent-bit:
   # -- Fluent Bit enabled
-  enabled: true
+  enabled: false
   # -- Fluent Bit name override
   fullnameOverride: studio-fluent-bit
 
