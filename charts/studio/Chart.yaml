@@ -21,11 +21,13 @@ dependencies:
     condition: clickhouse.enabled
     version: "9.2.2"
     repository: "https://charts.bitnami.com/bitnami"
-  - name: fluentd
-    condition: fluentd.enabled
-    version: "0.5.3"
-    repository: "https://fluent.github.io/helm-charts"
-  - name: fluent-bit
-    condition: fluent-bit.enabled
-    version: "0.52.0"
-    repository: "https://fluent.github.io/helm-charts"
+  - name: vector
+    condition: vector-agent.enabled
+    version: "0.45.0"
+    repository: "https://helm.vector.dev"
+    alias: vector-agent
+  - name: vector
+    condition: vector-aggregator.enabled
+    version: "0.45.0"
+    repository: "https://helm.vector.dev"
+    alias: vector-aggregator

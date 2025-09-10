@@ -8,11 +8,11 @@ dependencies:
 - name: clickhouse
   repository: https://charts.bitnami.com/bitnami
   version: 9.2.2
-- name: fluentd
-  repository: https://fluent.github.io/helm-charts
-  version: 0.5.3
-- name: fluent-bit
-  repository: https://fluent.github.io/helm-charts
-  version: 0.52.0
-digest: sha256:4f2776498cac1cd1815709d53c5aa2065837c95e9cec164d0446ed2d47dbc7a9
-generated: "2025-09-04T22:58:21.478052+02:00"
+- name: vector
+  repository: https://helm.vector.dev
+  version: 0.45.0
+- name: vector
+  repository: https://helm.vector.dev
+  version: 0.45.0
+digest: sha256:971a3d5864e123dad05c065bd32b04f1a3ece329c41aa0c08ddd256c2cbc12f7
+generated: "2025-09-09T22:38:17.455796+02:00"
