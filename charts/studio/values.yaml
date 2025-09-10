@@ -1029,7 +1029,7 @@ vector-agent:
 
   # -- Vector Agent tolerations
   tolerations:
-    - operator: "Exists" # tolerate all taints
+    - operator: "Exists"  # tolerate all taints
 
   image:
     # -- The base to use for Vector's image.
@@ -1140,7 +1140,7 @@ vector-agent:
       subjects:
         - kind: ServiceAccount
           name: studio-vector-agent
-          namespace: default # FIXME: should be configurable
+          namespace: default  # FIXME: should be configurable
       roleRef:
         kind: ClusterRole
         name: studio-vector-agent-extended
@@ -1207,7 +1207,7 @@ vector-aggregator:
         targetPort: 8686
         protocol: TCP
 
-  # -- Vector Aggregator persistence configuration 
+  # -- Vector Aggregator persistence configuration
   persistence:
     enabled: true
     storageClass: ""
@@ -1253,12 +1253,12 @@ vector-aggregator:
     transforms:
       kubernetes_events_unnested:
         type: remap
-        inputs: [ kubernetes_events ]
+        inputs: [kubernetes_events]
         source: |
           . = unnest!(.items)
       kubernetes_events_normalized:
         type: remap
-        inputs: [ kubernetes_events_unnested ]
+        inputs: [kubernetes_events_unnested]
         source: |
           . = {
             "run_id": null,
@@ -1272,7 +1272,7 @@ vector-aggregator:
         inputs:
           - kubernetes_events_normalized
         fields:
-          match: ["node_name", "object_name", "message", "timestamp" ]
+          match: ["node_name", "object_name", "message", "timestamp"]
       vector_agent_route:
         type: route
         inputs: [vector_agent]
@@ -1341,7 +1341,7 @@ vector-aggregator:
       subjects:
         - kind: ServiceAccount
           name: studio-vector-aggregator
-          namespace: default # FIXME: should be configurable
+          namespace: default  # FIXME: should be configurable
       roleRef:
         kind: ClusterRole
         name: studio-vector-aggregator-extended
