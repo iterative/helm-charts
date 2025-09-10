@@ -262,7 +262,7 @@ A Helm chart for Kubernetes
 | vector-aggregator.enabled | bool | `false` | Vector Aggregator enabled |
 | vector-aggregator.fullnameOverride | string | `"studio-vector-aggregator"` | Vector Aggregator name override |
 | vector-aggregator.image.base | string | `"alpine"` | The base to use for Vector's image. |
-| vector-aggregator.persistence | object | `{"accessModes":["ReadWriteOnce"],"enabled":true,"size":"64Gi","storageClass":""}` | Vector Aggregator persistence configuration  |
+| vector-aggregator.persistence | object | `{"accessModes":["ReadWriteOnce"],"enabled":true,"size":"64Gi","storageClass":""}` | Vector Aggregator persistence configuration |
 | vector-aggregator.replicaCount | int | `1` | Vector Aggregator replica count |
 | vector-aggregator.resources | object | `{"limits":{"memory":"512Mi"},"requests":{"cpu":"200m","memory":"256Mi"}}` | Vector Aggregator resources |
 | vector-aggregator.role | string | `"Aggregator"` | Deploy as StatefulSet for aggregation and persistence |
