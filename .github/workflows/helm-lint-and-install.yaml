@@ -37,7 +37,7 @@ jobs:
       - name: Add external repositories
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
-          helm repo add fluent https://fluent.github.io/helm-charts
+          helm repo add vector https://helm.vector.dev
 
       - name: Run chart-testing (list-changed)
         id: list-changed
