@@ -1157,15 +1157,9 @@ vector-agent:
     - name: var-log
       hostPath:
         path: "/var/log/"
-    - name: var-lib
-      hostPath:
-        path: "/var/lib/"
   defaultVolumeMounts:
     - name: var-log
       mountPath: "/var/log/"
-      readOnly: true
-    - name: var-lib
-      mountPath: "/var/lib/"
       readOnly: true
 
   persistence:
