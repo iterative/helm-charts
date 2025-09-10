@@ -8,5 +8,11 @@ dependencies:
 - name: clickhouse
   repository: https://charts.bitnami.com/bitnami
   version: 9.2.2
-digest: sha256:d86442027fdeecf48ae3e1df3b660cececd2faf2d6ca0e2d36b3e0a9c1ceb2ef
-generated: "2025-05-09T22:14:24.213857777Z"
+- name: vector
+  repository: https://helm.vector.dev
+  version: 0.45.0
+- name: vector
+  repository: https://helm.vector.dev
+  version: 0.45.0
+digest: sha256:971a3d5864e123dad05c065bd32b04f1a3ece329c41aa0c08ddd256c2cbc12f7
+generated: "2025-09-09T22:38:17.455796+02:00"
