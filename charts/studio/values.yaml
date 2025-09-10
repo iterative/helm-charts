@@ -1118,7 +1118,7 @@ vector-agent:
       metadata:
         name: studio-vector-agent-extended
         annotations:
-          helm.sh/hook: pre-install
+          helm.sh/hook: pre-install, pre-upgrade
           helm.sh/hook-delete-policy: hook-failed, before-hook-creation
 
       rules:
@@ -1135,7 +1135,7 @@ vector-agent:
       metadata:
         name: studio-vector-agent-extended
         annotations:
-          helm.sh/hook: pre-install
+          helm.sh/hook: pre-install, pre-upgrade
           helm.sh/hook-delete-policy: hook-failed, before-hook-creation
       subjects:
         - kind: ServiceAccount
@@ -1153,15 +1153,24 @@ vector-agent:
           kubernetes.io/service-account.name: studio-vector-agent
       type: kubernetes.io/service-account-token
 
-  # defaultVolumes:
-  #   - name: var-log
-  #     hostPath:
-  #       path: "/var/log/"
+  defaultVolumes:
+    - name: var-log
+      hostPath:
+        path: "/var/log/"
+    - name: var-lib
+      hostPath:
+        path: "/var/lib/"
+  defaultVolumeMounts:
+    - name: var-log
+      mountPath: "/var/log/"
+      readOnly: true
+    - name: var-lib
+      mountPath: "/var/lib/"
+      readOnly: true
 
-  # defaultVolumeMounts:
-  #   - name: var-log
-  #     mountPath: "/var/log/"
-  #     readOnly: true
+  persistence:
+    hostPath:
+      enabled: false
 
 # -- Vector Aggregator configuration for log aggregation and processing
 vector-aggregator:
@@ -1300,11 +1309,6 @@ vector-aggregator:
         encoding:
           codec: json
         path: /data/vector/metrics/%Y-%m-%d.log
-      # console:
-      #   type: console
-      #   inputs: [kubernetes_vector_agent.logs, kubernetes_vector_agent.metrics, kubernetes_events_deduped]
-      #   encoding:
-      #     codec: json
 
   env:
     - name: KUBERNETES_SERVICE_ACCOUNT_TOKEN
@@ -1319,7 +1323,7 @@ vector-aggregator:
       metadata:
         name: studio-vector-aggregator-extended
         annotations:
-          helm.sh/hook: pre-install
+          helm.sh/hook: pre-install, pre-upgrade
           helm.sh/hook-delete-policy: hook-failed, before-hook-creation
 
       rules:
@@ -1336,7 +1340,7 @@ vector-aggregator:
       metadata:
         name: studio-vector-aggregator-extended
         annotations:
-          helm.sh/hook: pre-install
+          helm.sh/hook: pre-install, pre-upgrade
           helm.sh/hook-delete-policy: hook-failed, before-hook-creation
       subjects:
         - kind: ServiceAccount
