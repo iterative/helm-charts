@@ -1269,6 +1269,7 @@ vector-aggregator:
             "object_name": .items.involvedObject.name,
             "timestamp": .items.lastTimestamp,
             "message": .items.message,
+            "raw": .
           }
       kubernetes_events_deduped:
         type: dedupe
