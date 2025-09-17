@@ -1040,6 +1040,17 @@ vector-agent:
     create: true
     name: studio-vector-agent
 
+  # -- Vector Agent ClusterRole configuration
+  rbac:
+    extraRules:
+      - apiGroups:
+          - ""
+        resources:
+          - nodes/metrics
+          - nodes/stats
+        verbs:
+          - get
+
   # -- Vector Agent configuration
   customConfig:
     data_dir: /data/vector
@@ -1113,38 +1124,6 @@ vector-agent:
           fieldPath: status.hostIP
 
   extraObjects:
-    - apiVersion: rbac.authorization.k8s.io/v1
-      kind: ClusterRole
-      metadata:
-        name: studio-vector-agent-extended
-        annotations:
-          helm.sh/hook: pre-install, pre-upgrade
-          helm.sh/hook-delete-policy: hook-failed, before-hook-creation
-
-      rules:
-        - apiGroups:
-            - ""
-          resources:
-            - nodes/metrics
-            - nodes/stats
-          verbs:
-            - get
-
-    - apiVersion: rbac.authorization.k8s.io/v1
-      kind: ClusterRoleBinding
-      metadata:
-        name: studio-vector-agent-extended
-        annotations:
-          helm.sh/hook: pre-install, pre-upgrade
-          helm.sh/hook-delete-policy: hook-failed, before-hook-creation
-      subjects:
-        - kind: ServiceAccount
-          name: studio-vector-agent
-          namespace: default  # FIXME: should be configurable
-      roleRef:
-        kind: ClusterRole
-        name: studio-vector-agent-extended
-
     - apiVersion: v1
       kind: Secret
       metadata:
@@ -1187,6 +1166,17 @@ vector-aggregator:
   serviceAccount:
     create: true
     name: studio-vector-aggregator
+
+  # -- Vector Aggregator ClusterRole configuration
+  rbac:
+    extraRules:
+      - apiGroups:
+          - ""
+        resources:
+          - events
+        verbs:
+          - get
+          - list
 
   # -- Vector Aggregator resources
   resources:
@@ -1313,38 +1303,6 @@ vector-aggregator:
           key: token
 
   extraObjects:
-    - apiVersion: rbac.authorization.k8s.io/v1
-      kind: ClusterRole
-      metadata:
-        name: studio-vector-aggregator-extended
-        annotations:
-          helm.sh/hook: pre-install, pre-upgrade
-          helm.sh/hook-delete-policy: hook-failed, before-hook-creation
-
-      rules:
-        - apiGroups:
-            - ""
-          resources:
-            - events
-          verbs:
-            - get
-            - list
-
-    - apiVersion: rbac.authorization.k8s.io/v1
-      kind: ClusterRoleBinding
-      metadata:
-        name: studio-vector-aggregator-extended
-        annotations:
-          helm.sh/hook: pre-install, pre-upgrade
-          helm.sh/hook-delete-policy: hook-failed, before-hook-creation
-      subjects:
-        - kind: ServiceAccount
-          name: studio-vector-aggregator
-          namespace: default  # FIXME: should be configurable
-      roleRef:
-        kind: ClusterRole
-        name: studio-vector-aggregator-extended
-
     - apiVersion: v1
       kind: Secret
       metadata:
