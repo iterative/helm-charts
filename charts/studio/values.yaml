@@ -244,9 +244,12 @@ postgresql:
   # -- Postgres name override
   fullnameOverride: studio-postgresql
 
+  # -- Postgres image configuration
   image:
-    repository: docker.io/bitnamilegacy/postgresql
+    registry: docker.io
+    repository: bitnamilegacy/postgresql
     tag: 14.5.0-debian-11-r35
+
   # Change this before deploying
   global:
     postgresql:
