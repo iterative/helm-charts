@@ -200,7 +200,7 @@ redis:
 
   # -- Redis image configuration
   image:
-    repository: docker.io/bitnamilegacy/redis
+    repository: bitnamilegacy/redis
 
   # -- Redis master configuration
   master:
@@ -246,7 +246,7 @@ postgresql:
 
   # -- Postgres image configuration
   image:
-    repository: docker.io/bitnamilegacy/postgresql
+    repository: bitnamilegacy/postgresql
     tag: 14.5.0-debian-11-r35
 
   # Change this before deploying
@@ -266,7 +266,7 @@ clickhouse:
 
   # -- ClickHouse image configuration
   image:
-    repository: docker.io/bitnamilegacy/clickhouse
+    repository: bitnamilegacy/clickhouse
 
   # Shards / replicas configuration
   replicaCount: 1
@@ -284,7 +284,7 @@ pgBouncer:
   # -- PgBouncer image settings
   image:
     # -- PgBouncer image repository
-    repository: docker.io/bitnamilegacy/pgbouncer
+    repository: bitnamilegacy/pgbouncer
     # -- PgBouncer image pull policy
     pullPolicy: IfNotPresent
     # -- PgBouncer image tag
