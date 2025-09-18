@@ -26,7 +26,9 @@ jobs:
         run: |
           docker run --pull always --rm --volume "$(pwd):/helm-docs" -u $(id -u) jnorwood/helm-docs:latest
 
-      - uses: iterative/setup-cml@v1
+      - uses: iterative/setup-cml@v3
+        with:
+          vega: false
       - run: >
           cml pr create .
           --{title,body,message}="Studio: bump to $STUDIO_VERSION"
