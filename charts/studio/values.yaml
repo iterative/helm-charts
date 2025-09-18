@@ -246,8 +246,7 @@ postgresql:
 
   # -- Postgres image configuration
   image:
-    registry: docker.io
-    repository: bitnamilegacy/postgresql
+    repository: docker.io/bitnamilegacy/postgresql
     tag: 14.5.0-debian-11-r35
 
   # Change this before deploying
