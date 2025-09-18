@@ -27,7 +27,7 @@ A Helm chart for Kubernetes
 | clickhouse.auth.password | string | `"clickhouse"` | ClickHouse password |
 | clickhouse.enabled | bool | `false` | ClickHouse enabled |
 | clickhouse.fullnameOverride | string | `"studio-clickhouse"` | ClickHouse name override |
-| clickhouse.image | object | `{"repository":"docker.io/bitnamilegacy/clickhouse"}` | ClickHouse image configuration |
+| clickhouse.image | object | `{"repository":"bitnamilegacy/clickhouse"}` | ClickHouse image configuration |
 | clickhouse.replicaCount | int | `1` |  |
 | clickhouse.shards | int | `1` |  |
 | global.basePath | string | `""` | Studio: Base path (prefix) |
@@ -91,7 +91,7 @@ A Helm chart for Kubernetes
 | global.security | object | `{"allowInsecureImages":true}` | Security settings for Bitnami Legacy images |
 | global.security.allowInsecureImages | bool | `true` | Allow insecure images from bitnamilegacy repository |
 | imagePullSecrets | list | `[]` | Secret containing Docker registry credentials |
-| pgBouncer | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"enabled":false,"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"docker.io/bitnamilegacy/pgbouncer","tag":"1.24.1"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"memory":"1024Mi"},"requests":{"cpu":"500m","memory":"512Mi"}},"securityContext":{},"service":{"port":6432,"type":"ClusterIP"},"serviceAccountName":"","tolerations":[]}` | PgBouncer settings group |
+| pgBouncer | object | `{"affinity":{},"autoscaling":{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80},"enabled":false,"envFromSecret":"","envVars":{},"image":{"pullPolicy":"IfNotPresent","repository":"bitnamilegacy/pgbouncer","tag":"1.24.1"},"nodeSelector":{},"podAnnotations":{},"podSecurityContext":{},"replicaCount":1,"resources":{"limits":{"memory":"1024Mi"},"requests":{"cpu":"500m","memory":"512Mi"}},"securityContext":{},"service":{"port":6432,"type":"ClusterIP"},"serviceAccountName":"","tolerations":[]}` | PgBouncer settings group |
 | pgBouncer.affinity | object | `{}` | PgBouncer pod affinity configuration |
 | pgBouncer.autoscaling | object | `{"enabled":false,"maxReplicas":5,"minReplicas":1,"targetCPUUtilizationPercentage":80}` | PgBouncer autoscaling configuration |
 | pgBouncer.autoscaling.enabled | bool | `false` | PgBouncer autoscaling enabled flag |
@@ -100,9 +100,9 @@ A Helm chart for Kubernetes
 | pgBouncer.autoscaling.targetCPUUtilizationPercentage | int | `80` | PgBouncer autoscaling target CPU utilization percentage |
 | pgBouncer.envFromSecret | string | `""` | The name of an existing Secret that contains sensitive environment variables. |
 | pgBouncer.envVars | object | `{}` | Additional environment variables for PgBouncer pods |
-| pgBouncer.image | object | `{"pullPolicy":"IfNotPresent","repository":"docker.io/bitnamilegacy/pgbouncer","tag":"1.24.1"}` | PgBouncer image settings |
+| pgBouncer.image | object | `{"pullPolicy":"IfNotPresent","repository":"bitnamilegacy/pgbouncer","tag":"1.24.1"}` | PgBouncer image settings |
 | pgBouncer.image.pullPolicy | string | `"IfNotPresent"` | PgBouncer image pull policy |
-| pgBouncer.image.repository | string | `"docker.io/bitnamilegacy/pgbouncer"` | PgBouncer image repository |
+| pgBouncer.image.repository | string | `"bitnamilegacy/pgbouncer"` | PgBouncer image repository |
 | pgBouncer.image.tag | string | `"1.24.1"` | PgBouncer image tag |
 | pgBouncer.nodeSelector | object | `{}` | PgBouncer pod node selector configuration |
 | pgBouncer.podAnnotations | object | `{}` | Additional PgBouncer pod annotations |
@@ -117,13 +117,13 @@ A Helm chart for Kubernetes
 | postgresql.fullnameOverride | string | `"studio-postgresql"` | Postgres name override |
 | postgresql.global.postgresql.auth.database | string | `"iterativeai"` | Postgres database |
 | postgresql.global.postgresql.auth.postgresPassword | string | `"postgres"` | Postgres password |
-| postgresql.image | object | `{"repository":"docker.io/bitnamilegacy/postgresql","tag":"14.5.0-debian-11-r35"}` | Postgres image configuration |
+| postgresql.image | object | `{"repository":"bitnamilegacy/postgresql","tag":"14.5.0-debian-11-r35"}` | Postgres image configuration |
 | redis.auth | object | `{"enabled":false}` | Redis authentication settings |
 | redis.auth.enabled | bool | `false` | Redis authentication disabled |
 | redis.commonConfiguration | string | `"timeout 20"` | Redis common configuration to be added into the ConfigMap |
 | redis.enabled | bool | `true` | Redis enabled |
 | redis.fullnameOverride | string | `"studio-redis"` | Redis name override |
-| redis.image | object | `{"repository":"docker.io/bitnamilegacy/redis"}` | Redis image configuration |
+| redis.image | object | `{"repository":"bitnamilegacy/redis"}` | Redis image configuration |
 | redis.master | object | `{"persistence":{"enabled":false},"resources":{"limits":{"cpu":"1000m","memory":"2Gi"},"requests":{"cpu":"200m","memory":"512Mi"}}}` | Redis master configuration |
 | redis.master.persistence | object | `{"enabled":false}` | Redis master persistence configuration |
 | redis.master.persistence.enabled | bool | `false` | Redis master persistence is disabled |
