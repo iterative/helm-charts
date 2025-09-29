@@ -1242,15 +1242,15 @@ vector-aggregator:
       STORAGE=/data/vector
       MAXIMUM_SIZE_PERCENT=80
       OLDEST_MODIFICATION_DAYS=5
-      
+
       while sleep 60; do
         find "$STORAGE" -type f -mtime +"$OLDEST_MODIFICATION_DAYS" -delete
         until test $(df "$STORAGE" | awk 'NR==2{print $5}' | tr -d %) -lt "$MAXIMUM_SIZE_PERCENT"; do
           # HACK: assumes directory structure (single level nesting) and all files prefixed with timestamp
-          rm -f "$(find "$STORAGE" -type f | sort -t/ -k5 | tail -n1)" 
+          rm -f "$(find "$STORAGE" -type f | sort -t/ -k5 | tail -n1)"
         done
       done &
-      
+
       exec /usr/local/bin/vector --config-dir /etc/vector/
 
   # -- Vector Aggregator configuration
