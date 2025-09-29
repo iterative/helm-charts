@@ -1245,8 +1245,9 @@ vector-aggregator:
       
       while sleep 60; do
         find "$STORAGE" -type f -mtime +"$OLDEST_MODIFICATION_DAYS" -delete
-        until test "$MAXIMUM_SIZE_PERCENT" -gt $(df "$STORAGE" | awk 'NR==2{print $5}' | tr -d %); do
-          rm -f "$(find "$STORAGE" -type f | sort -t/ -k5 | tail -n1)"
+        until test $(df "$STORAGE" | awk 'NR==2{print $5}' | tr -d %) -lt "$MAXIMUM_SIZE_PERCENT"; do
+          # HACK: assumes directory structure (single level nesting) and all files prefixed with timestamp
+          rm -f "$(find "$STORAGE" -type f | sort -t/ -k5 | tail -n1)" 
         done
       done &
       
