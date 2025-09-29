@@ -6,6 +6,11 @@
 imagePullSecrets: []
 
 global:
+  # -- Security settings for Bitnami Legacy images
+  security:
+    # -- Allow insecure images from bitnamilegacy repository
+    allowInsecureImages: true
+
   # -- Studio: Hostname for accessing Studio (no http(s) scheme)
   host: "studio.example.com"
   # -- Studio: Base path (prefix)
@@ -193,6 +198,10 @@ redis:
   # -- Redis name override
   fullnameOverride: studio-redis
 
+  # -- Redis image configuration
+  image:
+    repository: bitnamilegacy/redis
+
   # -- Redis master configuration
   master:
     ## Redis&reg; master resource requests and limits
@@ -235,8 +244,11 @@ postgresql:
   # -- Postgres name override
   fullnameOverride: studio-postgresql
 
+  # -- Postgres image configuration
   image:
+    repository: bitnamilegacy/postgresql
     tag: 14.5.0-debian-11-r35
+
   # Change this before deploying
   global:
     postgresql:
@@ -251,6 +263,10 @@ clickhouse:
   enabled: false
   # -- ClickHouse name override
   fullnameOverride: studio-clickhouse
+
+  # -- ClickHouse image configuration
+  image:
+    repository: bitnamilegacy/clickhouse
 
   # Shards / replicas configuration
   replicaCount: 1
@@ -268,7 +284,7 @@ pgBouncer:
   # -- PgBouncer image settings
   image:
     # -- PgBouncer image repository
-    repository: docker.io/bitnami/pgbouncer
+    repository: bitnamilegacy/pgbouncer
     # -- PgBouncer image pull policy
     pullPolicy: IfNotPresent
     # -- PgBouncer image tag
