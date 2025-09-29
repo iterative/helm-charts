@@ -1234,7 +1234,7 @@ vector-aggregator:
     size: 128Gi
 
   # -- Vector command.
-  command: [/bin/sh, -c]
+  command: [/bin/ash, -euc]
 
   # -- Vector arguments.
   args:
@@ -1255,7 +1255,7 @@ vector-aggregator:
           until test "$(df "$STORAGE" | awk "NR==2{print \$5}" | tr -d %)" -lt "$MAXIMUM_SIZE_PERCENT"; do
             oldest_file=$(find "$STORAGE" -type f -print0 | xargs -0 -n 128 stat -c "%Y %n" | sort -n | cut -d" " -f2- | head -n1)
             echo "Deleting file because is the oldest and storage is more than $MAXIMUM_SIZE_PERCENT% full: $oldest_file"
-            rm -f "$oldest_file"
+            rm "$oldest_file"
           done
         done
       }
