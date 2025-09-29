@@ -1231,7 +1231,7 @@ vector-aggregator:
     enabled: true
     storageClass: ""
     accessModes: ["ReadWriteOnce"]
-    size: 64Gi
+    size: 128Gi
 
   # -- Vector command.
   command: [/bin/sh, -c]
@@ -1239,7 +1239,7 @@ vector-aggregator:
   # -- Vector arguments.
   args:
     - |-
-      while sleep 60; do find /data/vector/logs -type f -mtime +7 -delete; done &
+      while sleep 60; do find /data/vector -type f -mtime +7 -delete; done &
       exec /usr/local/bin/vector --config-dir /etc/vector/
 
   # -- Vector Aggregator configuration
