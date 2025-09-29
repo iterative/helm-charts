@@ -1239,19 +1239,31 @@ vector-aggregator:
   # -- Vector arguments.
   args:
     - |-
-      STORAGE=/data/vector
-      MAXIMUM_SIZE_PERCENT=80
-      OLDEST_MODIFICATION_DAYS=5
+      garbagecollect() {
+        STORAGE=/data/vector
+        MAXIMUM_SIZE_PERCENT=90
+        OLDEST_MODIFICATION_DAYS=7
 
-      while sleep 60; do
-        find "$STORAGE" -type f -mtime +"$OLDEST_MODIFICATION_DAYS" -delete
-        until test $(df "$STORAGE" | awk 'NR==2{print $5}' | tr -d %) -lt "$MAXIMUM_SIZE_PERCENT"; do
-          # HACK: assumes directory structure (single level nesting) and all files prefixed with timestamp
-          rm -f "$(find "$STORAGE" -type f | sort -t/ -k5 | tail -n1)"
+        while sleep 60; do
+          echo "Running garbage collection in $STORAGE"
+
+          find "$STORAGE" -type f -mtime +"$OLDEST_MODIFICATION_DAYS" -delete -print |
+          while read file; do
+            echo "Deleting file because is older than $OLDEST_MODIFICATION_DAYS days: $file"
+          done
+
+          until test "$(df "$STORAGE" | awk "NR==2{print \$5}" | tr -d %)" -lt "$MAXIMUM_SIZE_PERCENT"; do
+            oldest_file=$(find "$STORAGE" -type f -print0 | xargs -0 -n 128 stat -c "%Y %n" | sort -n | cut -d" " -f2- | head -n1)
+            echo "Deleting file because is the oldest and storage is more than $MAXIMUM_SIZE_PERCENT% full: $oldest_file"
+            rm -f "$oldest_file"
+          done
         done
-      done &
+      }
 
-      exec /usr/local/bin/vector --config-dir /etc/vector/
+      garbagecollect & GARBAGECOLLECT=$!
+      /usr/local/bin/vector --config-dir /etc/vector/ & VECTOR=$!
+
+      wait -n "$GARBAGECOLLECT" "$VECTOR"
 
   # -- Vector Aggregator configuration
   customConfig:
