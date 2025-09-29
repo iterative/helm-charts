@@ -1239,7 +1239,7 @@ vector-aggregator:
   # -- Vector arguments.
   args:
     - |-
-      garbagecollect() {
+      ash -euc '
         STORAGE=/data/vector
         MAXIMUM_SIZE_PERCENT=90
         OLDEST_MODIFICATION_DAYS=7
@@ -1258,12 +1258,11 @@ vector-aggregator:
             rm "$oldest_file"
           done
         done
-      }
+      ' & GARBAGECOLLECT=$!
 
-      garbagecollect & GARBAGECOLLECT=$!
       /usr/local/bin/vector --config-dir /etc/vector/ & VECTOR=$!
 
-      wait -n "$GARBAGECOLLECT" "$VECTOR"
+      wait -n $VECTOR $GARBAGECOLLECT
 
   # -- Vector Aggregator configuration
   customConfig:
