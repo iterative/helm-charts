@@ -1247,7 +1247,7 @@ vector-aggregator:
         while sleep 60; do
           echo "Running garbage collection in $STORAGE"
 
-          find "$STORAGE" -type f -mtime +"$OLDEST_MODIFICATION_DAYS" -delete -print |
+          find "$STORAGE" -type f -mtime +"$OLDEST_MODIFICATION_DAYS" -print -delete |
           while read file; do
             echo "Deleting file because is older than $OLDEST_MODIFICATION_DAYS days: $file"
           done
