@@ -1231,7 +1231,7 @@ vector-aggregator:
     enabled: true
     storageClass: ""
     accessModes: ["ReadWriteOnce"]
-    size: 64Gi
+    size: 128Gi
 
   # -- Vector command.
   command: [/bin/sh, -c]
