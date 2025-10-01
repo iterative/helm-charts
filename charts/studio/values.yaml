@@ -1239,33 +1239,27 @@ vector-aggregator:
   # -- Vector arguments.
   args:
     - |-
-      ash -euc '
-        STORAGE=/data/vector
-        MAXIMUM_SIZE_PERCENT=90
-        OLDEST_MODIFICATION_DAYS=7
+      STORAGE=/data/vector
 
-        while sleep 60; do
-          echo "Running garbage collection in $STORAGE"
+      MAXIMUM_SIZE_PERCENT=90
+      OLDEST_MODIFICATION_DAYS=7
 
-          find "$STORAGE" -type f -mtime +"$OLDEST_MODIFICATION_DAYS" -print -delete |
-          while read file; do
-            echo "Deleting file because is older than $OLDEST_MODIFICATION_DAYS days: $file"
-          done
+      while sleep 300; do
+        echo "cleanup: running for $STORAGE"
 
-          until test "$(df "$STORAGE" | awk "NR==2{print \$5}" | tr -d %)" -lt "$MAXIMUM_SIZE_PERCENT"; do
-            oldest_file=$(find "$STORAGE" -type f -print0 | xargs -0 -n 128 stat -c "%Y %n" | sort -n | cut -d" " -f2- | head -n1)
-            echo "Deleting file because is the oldest and storage is more than $MAXIMUM_SIZE_PERCENT% full: $oldest_file"
-            rm "$oldest_file"
-          done
+        find "$STORAGE" -type f -mtime +"$OLDEST_MODIFICATION_DAYS" -print -delete |
+        while read file; do
+          echo "cleanup: deleting file older than $OLDEST_MODIFICATION_DAYS days: $file"
         done
-      ' & GARBAGECOLLECT=$!
 
-      /usr/local/bin/vector --config-dir /etc/vector/ & VECTOR=$!
+        until test "$(df "$STORAGE" | awk 'NR==2{print $5+0}')" -lt "$MAXIMUM_SIZE_PERCENT"; do
+          oldest_file=$(find "$STORAGE" -type f -print0 | xargs -0 -n 128 stat -c "%Y %n" | sort -n | cut -d" " -f2- | head -n1)
+          echo "cleanup: deleting oldest file because storage is more than $MAXIMUM_SIZE_PERCENT% full: $oldest_file"
+          rm "$oldest_file"
+        done
+      done &
 
-      while sleep 1; do
-        kill -0 $VECTOR || exit 0
-        kill -0 $GARBAGECOLLECT || exit 1
-      done
+      exec /usr/local/bin/vector --config-dir /etc/vector/
 
   # -- Vector Aggregator configuration
   customConfig:
