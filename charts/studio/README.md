@@ -28,6 +28,7 @@ A Helm chart for Kubernetes
 | clickhouse.enabled | bool | `false` | ClickHouse enabled |
 | clickhouse.fullnameOverride | string | `"studio-clickhouse"` | ClickHouse name override |
 | clickhouse.image | object | `{"repository":"bitnamilegacy/clickhouse"}` | ClickHouse image configuration |
+| clickhouse.keeper.image.repository | string | `"bitnamilegacy/clickhouse-keeper"` |  |
 | clickhouse.replicaCount | int | `1` |  |
 | clickhouse.shards | int | `1` |  |
 | global.basePath | string | `""` | Studio: Base path (prefix) |
