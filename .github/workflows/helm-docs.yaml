@@ -33,7 +33,7 @@ jobs:
         run: |
           docker run --pull always --rm --volume "$(pwd):/helm-docs" -u $(id -u) jnorwood/helm-docs:latest
 
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Helm-Docs update
           file_pattern: charts/studio/README.md
