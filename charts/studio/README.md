@@ -1,6 +1,6 @@
 # studio
 
-![Version: 0.18.116](https://img.shields.io/badge/Version-0.18.116-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.212.0](https://img.shields.io/badge/AppVersion-v2.212.0-informational?style=flat-square)
+![Version: 0.18.121](https://img.shields.io/badge/Version-0.18.121-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v2.216.0](https://img.shields.io/badge/AppVersion-v2.216.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -28,6 +28,7 @@ A Helm chart for Kubernetes
 | clickhouse.enabled | bool | `false` | ClickHouse enabled |
 | clickhouse.fullnameOverride | string | `"studio-clickhouse"` | ClickHouse name override |
 | clickhouse.image | object | `{"repository":"bitnamilegacy/clickhouse"}` | ClickHouse image configuration |
+| clickhouse.keeper.image.repository | string | `"bitnamilegacy/clickhouse-keeper"` |  |
 | clickhouse.replicaCount | int | `1` |  |
 | clickhouse.shards | int | `1` |  |
 | global.basePath | string | `""` | Studio: Base path (prefix) |
