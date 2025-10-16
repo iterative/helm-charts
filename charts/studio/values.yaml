@@ -1211,10 +1211,10 @@ vector-aggregator:
   # -- Vector Aggregator resources
   resources:
     limits:
-      memory: 512Mi
+      memory: 2Gi
     requests:
-      cpu: 200m
-      memory: 256Mi
+      cpu: 1000m
+      memory: 2Gi
 
   # -- Vector Aggregator service configuration
   service:
