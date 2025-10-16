@@ -1211,10 +1211,10 @@ vector-aggregator:
   # -- Vector Aggregator resources
   resources:
     limits:
-      memory: 512Mi
+      memory: 2Gi
     requests:
-      cpu: 200m
-      memory: 256Mi
+      cpu: 1000m
+      memory: 2Gi
 
   # -- Vector Aggregator service configuration
   service:
@@ -1235,15 +1235,34 @@ vector-aggregator:
     enabled: true
     storageClass: ""
     accessModes: ["ReadWriteOnce"]
-    size: 64Gi
+    size: 128Gi
 
   # -- Vector command.
-  command: [/bin/sh, -c]
+  command: [/bin/ash, -euc]
 
   # -- Vector arguments.
   args:
     - |-
-      while sleep 60; do find /data/vector/logs -type f -mtime +7 -delete; done &
+      STORAGE=/data/vector
+
+      MAXIMUM_SIZE_PERCENT=90
+      OLDEST_MODIFICATION_DAYS=7
+
+      while sleep 300; do
+        echo "cleanup: running for $STORAGE"
+
+        find "$STORAGE" -type f -mtime +"$OLDEST_MODIFICATION_DAYS" -print -delete |
+        while read file; do
+          echo "cleanup: deleting file older than $OLDEST_MODIFICATION_DAYS days: $file"
+        done
+
+        until test "$(df "$STORAGE" | awk 'NR==2{print $5+0}')" -lt "$MAXIMUM_SIZE_PERCENT"; do
+          oldest_file=$(find "$STORAGE" -type f -print0 | xargs -0 -n 128 stat -c "%Y %n" | sort -n | cut -d" " -f2- | head -n1)
+          echo "cleanup: deleting oldest file because storage is more than $MAXIMUM_SIZE_PERCENT% full: $oldest_file"
+          rm "$oldest_file"
+        done
+      done &
+
       exec /usr/local/bin/vector --config-dir /etc/vector/
 
   # -- Vector Aggregator configuration
