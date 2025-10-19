@@ -967,7 +967,7 @@ studioBlobvault:
     # -- Image repository
     repository: nginx
     # -- Image tag
-    tag: 1.28.0-alpine
+    tag: 1.29.2-alpine
 
   service:
     port: 80
@@ -993,7 +993,7 @@ studioPypiCache:
     # -- Image repository
     repository: nginx
     # -- Image tag
-    tag: 1.27.4-alpine
+    tag: 1.29.2-alpine
 
   service:
     port: 8080
