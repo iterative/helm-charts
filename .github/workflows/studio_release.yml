@@ -12,7 +12,7 @@ jobs:
     env:
       STUDIO_VERSION: ${{ github.event.client_payload.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: |
           for expression in \
             '.version |= (split(".") | .[-1] |= ((. type = "!!int") + 1) | join("."))' \

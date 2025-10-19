@@ -24,7 +24,7 @@ jobs:
           private_key: ${{ secrets.PROJECT_ACTIONS_MANAGEMENT_APP_PEM }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ steps.generate_token.outputs.token }}
 
