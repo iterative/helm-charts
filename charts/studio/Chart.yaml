@@ -23,11 +23,11 @@ dependencies:
     repository: "https://charts.bitnami.com/bitnami"
   - name: vector
     condition: vector-agent.enabled
-    version: "0.45.0"
+    version: "0.46.0"
     repository: "https://helm.vector.dev"
     alias: vector-agent
   - name: vector
     condition: vector-aggregator.enabled
-    version: "0.45.0"
+    version: "0.46.0"
     repository: "https://helm.vector.dev"
     alias: vector-aggregator
