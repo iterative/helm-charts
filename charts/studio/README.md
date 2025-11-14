@@ -17,8 +17,8 @@ A Helm chart for Kubernetes
 | https://charts.bitnami.com/bitnami | clickhouse | 9.4.4 |
 | https://charts.bitnami.com/bitnami | postgresql | 18.0.17 |
 | https://charts.bitnami.com/bitnami | redis | 23.1.3 |
-| https://helm.vector.dev | vector-agent(vector) | 0.46.0 |
-| https://helm.vector.dev | vector-aggregator(vector) | 0.46.0 |
+| https://helm.vector.dev | vector-agent(vector) | 0.48.0 |
+| https://helm.vector.dev | vector-aggregator(vector) | 0.48.0 |
 
 ## Values
 
