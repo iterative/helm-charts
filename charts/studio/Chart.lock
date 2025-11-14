@@ -10,9 +10,9 @@ dependencies:
   version: 9.4.4
 - name: vector
   repository: https://helm.vector.dev
-  version: 0.46.0
+  version: 0.48.0
 - name: vector
   repository: https://helm.vector.dev
-  version: 0.46.0
-digest: sha256:f107844ec12be7d35f936bc955caca8da6fa0996c7d85fa062261ba925fee62b
-generated: "2025-10-19T23:57:25.245901+02:00"
+  version: 0.48.0
+digest: sha256:f250687b985c408e1aae83d6f16c9d2fa266148b2454152847957b39be9448b6
+generated: "2025-11-14T00:57:45.726038899Z"
