@@ -16,17 +16,10 @@ jobs:
   helm-docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate token
-        id: generate_token
-        uses: actions/create-github-app-token@v2
-        with:
-          app-id: ${{ secrets.PROJECT_ACTIONS_MANAGEMENT_APP_ID }}
-          private-key: ${{ secrets.PROJECT_ACTIONS_MANAGEMENT_APP_PEM }}
-
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          token: ${{ steps.generate_token.outputs.token }}
+          token: ${{ secrets.OLIVAW_GITHUB_PERSONAL_ACCESS_TOKEN }}
 
       - name: Run helm-docs
         working-directory: charts/studio/
