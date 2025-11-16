@@ -20,7 +20,7 @@ jobs:
       pull-requests: read
     runs-on: ubuntu-latest
     if: |
-      (github.repository == 'iterative/helm-charts')
+      (github.repository == 'datachain-ai/helm-charts')
     outputs:
       charts: ${{ steps.filter.outputs.charts }}
 
@@ -47,7 +47,7 @@ jobs:
     needs:
       - changes
     if: |
-      (github.repository == 'iterative/helm-charts') &&
+      (github.repository == 'datachain-ai/helm-charts') &&
       (needs.changes.outputs.charts == 'true')
 
     steps:
